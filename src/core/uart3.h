@@ -23,7 +23,7 @@
  * Microcontroller Resource Allocation
  *
  * The following microcontroller resources are used in this module.
- *   - Pins: G8 (RP19 : TX), G7 (RP26 : RX)
+ *   - Pins: D3 (RP22 : TX), D1 (RP24 : RX)
  *   - Peripherals: UART 3
  */
 
