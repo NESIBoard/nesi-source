@@ -21,6 +21,8 @@
  *
  * 09/24/2013 - Dakotah Karrer
  *   Migrated from solenoid software module.
+ * 11/27/2013 - Mickie Byrd
+ *   Added isOk() to make consistant with other NESI modules.
  */
 
 #include "system.h"
@@ -76,6 +78,11 @@ static boolean failureA(void)
     return error;       /* If error = 0 then nothing is wrong. If error = 1 then something is wrong*/
 }
 
+static boolean isOkA (void)
+{
+    return !failureA();
+}
+
 
 
 /******************************************************
@@ -120,9 +127,10 @@ static boolean failureB (void)
     return error;       /* Note: Assumption that powerDriverB is working */
 }
 
+static boolean isOkB (void)
+{
+    return !failureB();
+}
 
-
-
-
-const PowerDriver powerDriverA = {set:setOutputA, isFailure:failureA, status:readInputA, init:initializeA, on:setOnA, off:setOffA},
-                  powerDriverB = {set:setOutputB, isFailure:failureB, status:readInputB, init:initializeB, on:setOnB, off:setOffB};
+const PowerDriver powerDriverA = {set:setOutputA, isFailure:failureA, status:readInputA, init:initializeA, on:setOnA, off:setOffA, isOk:isOkA},
+                  powerDriverB = {set:setOutputB, isFailure:failureB, status:readInputB, init:initializeB, on:setOnB, off:setOffB, isOk:isOkB};

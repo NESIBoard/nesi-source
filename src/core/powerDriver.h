@@ -21,6 +21,8 @@
  *
  * 09/24/2013 - Dakotah Karrer
  *   Migrated from solenoid software module.
+ * 11/27/2013 - Mickie Byrd
+ *   Added isOk() to make consistant with other NESI modules.
  */
 
 #ifndef POWERDRIVER_H
@@ -45,7 +47,11 @@ typedef struct {
      * @return whether or not a hardware failure has occured
      */
     boolean (*isFailure)(void);
-
+    /**
+     * Checks if the powerDriver hardware is ok.
+     * @return whether or not a hardware failure has occured
+     */
+    boolean (*isOk)(void);
     /**
      * Checks status level of powerDriver
      * @return tells you voltage level on low side of Power A's load

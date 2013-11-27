@@ -21,8 +21,6 @@
 #include <nesi.h>
 #include <string.h>
 
-#define MIN_MOISTURE_VALUE (1024/3.3*2.8) //threshold voltage
-
 void print(String message)
 {
     dataLog.add(message, 0);
@@ -32,11 +30,11 @@ void print(String message)
 boolean checkSystems(void)
 {
     // check solenoid
-    if(!powerDriverA.isFailure())
+    if(!powerDriverA.isOk())
     {
         print("Error with Solenoid.");
         powerDriverA.init();
-        if(!powerDriverA.isFailure())
+        if(!powerDriverA.isOk())
             return TRUE;
     }
 
@@ -67,6 +65,9 @@ void closeSolenoid(void)
     powerDriverA.off();
 }
 
+#define THRESHOLD_VOLTAGE  2.8
+const Uint MIN_MOISTURE_VALUE = (1024/3.3) * THRESHOLD_VOLTAGE;
+
 // Samples moisture in environment, adds appropriate water, takes data readings
 void checkWater(void)
 {
@@ -89,12 +90,12 @@ void checkWater(void)
 
         usb.disconnect();
         wait(500);
-        char message[32] = {0};
+        char message[64] = {0};
         sprintf(message, "Watered at %s ", dateTime.getStamp());
         dataLog.add(message, 0x1234);
         usb.connect();
 
-		// prevents loop from running indefinitely
+        // prevents loop from running indefinitely
         if(time > 8){
             return;}
         time++;
@@ -191,7 +192,7 @@ int main(void)
             }
         }
         else
-            taken = NO; // reset image flag after picture is taken
+            taken = NO; // reset image flag after 4 hour period has passed
 
         // cycle lights every 12 hours
         if(timeTemp.hour < 12)

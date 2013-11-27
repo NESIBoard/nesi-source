@@ -6,10 +6,11 @@
       <itemPath>../../src/LICENSE</itemPath>
       <itemPath>../../src/TODO</itemPath>
       <itemPath>../../src/doc/PIC24 Data Sheet.pdf</itemPath>
-      <itemPath>doc/Microcontroller EDD revised.pptx</itemPath>
       <itemPath>../../src/doc/MDDFS Library Help.pdf</itemPath>
       <itemPath>../../src/doc/C329 user manual.pdf</itemPath>
       <itemPath>../../src/doc/C329 data sheet.pdf</itemPath>
+      <itemPath>doc/Storyboard.pdf</itemPath>
+      <itemPath>doc/Storyboard.pptx</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -85,6 +86,7 @@
       </logicalFolder>
       <itemPath>main-iss.c</itemPath>
       <itemPath>main-zeroG.c</itemPath>
+      <itemPath>example_main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -247,6 +249,16 @@
       </C30Global>
       <PICkit3PlatformTool>
       </PICkit3PlatformTool>
+      <item path="example_main.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <item path="main-iss.c" ex="false" overriding="false">
         <C30>
         </C30>
