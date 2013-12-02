@@ -25,6 +25,8 @@
  * 09/26/2013 - Dakotah Karrer
  *   Added readTest() to determine if a hardware failure has occurred with the
  *   heater.
+ * 12/02/13 - Dakotah Karrer
+ *   Modified initialize() to turn on heater power instead of being turned off.
  */
 
 #include "system.h"
@@ -140,12 +142,16 @@ static void initialize(void)
     _RE3 = 0;    // set the output low (turn off power driver)
 
     /**
-     * Disable Power
+     * Enable Power - DK
      *
-     * To be sure that the sensor is disabled, the power is turned off.
+     * Previously the power was disabled by default for power saving purposes.
+     * This has been changed since most users intend to use the power when
+     * initializing. SInce the sensor is on it will be able to warm up and take
+     * acurate readings.
      */
-    system.off6volt(); // disable 6V power - DK
-    setHeaterOutput(OFF);
+
+    turnOn(); // enable 6V power - DK
+   
 }
 
 /**
