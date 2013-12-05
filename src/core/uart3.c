@@ -86,7 +86,7 @@ static void initUart(void)
 
     /* map modules to pins */
     __builtin_write_OSCCONL(OSCCON & 0xBF); // unlock peripheral pin select registers
-    _RP22R = 3;                             // Remmapable pin 22 is UART3 transmit
+    _RP22R = 28;                            // Remmapable pin 22 is UART3 transmit
     _U3RXR = 24;                            // UART3 receive mapped to remmapable pin 24
     __builtin_write_OSCCONL(OSCCON | 0x40); // lock peripheral pin select registers
 

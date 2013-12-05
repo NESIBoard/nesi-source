@@ -86,7 +86,7 @@ static void initUart(void)
 
     /* map modules to pins */
     __builtin_write_OSCCONL(OSCCON & 0xBF); // unlock peripheral pin select registers
-    _RP20R = 3;                             // Remmapable pin 20 is UART2 transmit
+    _RP20R = 5;                             // Remmapable pin 20 is UART2 transmit
     _U2RXR = 25;                            // UART2 receive mapped to remmapable pin 25
     __builtin_write_OSCCONL(OSCCON | 0x40); // lock peripheral pin select registers
 
