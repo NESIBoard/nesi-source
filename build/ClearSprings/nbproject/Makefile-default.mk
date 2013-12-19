@@ -76,266 +76,266 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/_ext/1639979382/button.o: ../../src/core/button.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/button.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/button.c  -o ${OBJECTDIR}/_ext/1639979382/button.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/button.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/button.c  -o ${OBJECTDIR}/_ext/1639979382/button.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/button.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/button.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/camera.o: ../../src/core/camera.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/camera.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/camera.c  -o ${OBJECTDIR}/_ext/1639979382/camera.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/camera.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/camera.c  -o ${OBJECTDIR}/_ext/1639979382/camera.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/camera.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/camera.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/co2.o: ../../src/core/co2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/co2.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/co2.c  -o ${OBJECTDIR}/_ext/1639979382/co2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/co2.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/co2.c  -o ${OBJECTDIR}/_ext/1639979382/co2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/co2.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/co2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/datalog.o: ../../src/core/datalog.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/datalog.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/datalog.c  -o ${OBJECTDIR}/_ext/1639979382/datalog.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/datalog.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/datalog.c  -o ${OBJECTDIR}/_ext/1639979382/datalog.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/datalog.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/datalog.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/file.o: ../../src/core/file.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/file.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/file.c  -o ${OBJECTDIR}/_ext/1639979382/file.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/file.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/file.c  -o ${OBJECTDIR}/_ext/1639979382/file.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/file.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/file.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/led.o: ../../src/core/led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/led.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/led.c  -o ${OBJECTDIR}/_ext/1639979382/led.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/led.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/led.c  -o ${OBJECTDIR}/_ext/1639979382/led.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/led.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/led.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/nesi.o: ../../src/core/nesi.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/nesi.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/nesi.c  -o ${OBJECTDIR}/_ext/1639979382/nesi.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/nesi.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/nesi.c  -o ${OBJECTDIR}/_ext/1639979382/nesi.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/nesi.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/nesi.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/powerDriver.o: ../../src/core/powerDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/powerDriver.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/powerDriver.c  -o ${OBJECTDIR}/_ext/1639979382/powerDriver.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/powerDriver.c  -o ${OBJECTDIR}/_ext/1639979382/powerDriver.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o: ../../src/core/resistiveSensors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/resistiveSensors.c  -o ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/resistiveSensors.c  -o ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/sdcard.o: ../../src/core/sdcard.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/sdcard.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/sdcard.c  -o ${OBJECTDIR}/_ext/1639979382/sdcard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/sdcard.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/sdcard.c  -o ${OBJECTDIR}/_ext/1639979382/sdcard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/sdcard.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/sdcard.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/system.o: ../../src/core/system.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/system.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/system.c  -o ${OBJECTDIR}/_ext/1639979382/system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/system.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/system.c  -o ${OBJECTDIR}/_ext/1639979382/system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/system.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/system.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/usb.o: ../../src/core/usb.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/usb.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/usb.c  -o ${OBJECTDIR}/_ext/1639979382/usb.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/usb.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/usb.c  -o ${OBJECTDIR}/_ext/1639979382/usb.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/usb.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/usb.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/dateTime.o: ../../src/core/dateTime.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/dateTime.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/dateTime.c  -o ${OBJECTDIR}/_ext/1639979382/dateTime.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/dateTime.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/dateTime.c  -o ${OBJECTDIR}/_ext/1639979382/dateTime.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/dateTime.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/dateTime.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart1.o: ../../src/core/uart1.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart1.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart1.c  -o ${OBJECTDIR}/_ext/1639979382/uart1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart1.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart1.c  -o ${OBJECTDIR}/_ext/1639979382/uart1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart1.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart2.o: ../../src/core/uart2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart2.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart2.c  -o ${OBJECTDIR}/_ext/1639979382/uart2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart2.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart2.c  -o ${OBJECTDIR}/_ext/1639979382/uart2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart2.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart3.o: ../../src/core/uart3.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart3.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart3.c  -o ${OBJECTDIR}/_ext/1639979382/uart3.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart3.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart3.c  -o ${OBJECTDIR}/_ext/1639979382/uart3.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart3.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart3.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161271966/FSIO.o: ../../src/mdd/FSIO.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161271966 
 	@${RM} ${OBJECTDIR}/_ext/1161271966/FSIO.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/FSIO.c  -o ${OBJECTDIR}/_ext/1161271966/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/FSIO.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/FSIO.c  -o ${OBJECTDIR}/_ext/1161271966/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/FSIO.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161271966/FSIO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161271966/SD-SPI.o: ../../src/mdd/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161271966 
 	@${RM} ${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/SD-SPI.c  -o ${OBJECTDIR}/_ext/1161271966/SD-SPI.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/SD-SPI.c  -o ${OBJECTDIR}/_ext/1161271966/SD-SPI.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o: ../../src/usb/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_descriptors.c  -o ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_descriptors.c  -o ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_device.o: ../../src/usb/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_device.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_device.c  -o ${OBJECTDIR}/_ext/1161263815/usb_device.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_device.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_device.c  -o ${OBJECTDIR}/_ext/1161263815/usb_device.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_device.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_device.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o: ../../src/usb/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_function_msd.c  -o ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_function_msd.c  -o ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/main-iss.o: main-iss.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/main-iss.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  main-iss.c  -o ${OBJECTDIR}/main-iss.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main-iss.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  main-iss.c  -o ${OBJECTDIR}/main-iss.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main-iss.o.d"        -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/main-iss.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 else
 ${OBJECTDIR}/_ext/1639979382/button.o: ../../src/core/button.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/button.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/button.c  -o ${OBJECTDIR}/_ext/1639979382/button.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/button.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/button.c  -o ${OBJECTDIR}/_ext/1639979382/button.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/button.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/button.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/camera.o: ../../src/core/camera.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/camera.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/camera.c  -o ${OBJECTDIR}/_ext/1639979382/camera.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/camera.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/camera.c  -o ${OBJECTDIR}/_ext/1639979382/camera.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/camera.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/camera.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/co2.o: ../../src/core/co2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/co2.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/co2.c  -o ${OBJECTDIR}/_ext/1639979382/co2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/co2.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/co2.c  -o ${OBJECTDIR}/_ext/1639979382/co2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/co2.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/co2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/datalog.o: ../../src/core/datalog.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/datalog.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/datalog.c  -o ${OBJECTDIR}/_ext/1639979382/datalog.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/datalog.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/datalog.c  -o ${OBJECTDIR}/_ext/1639979382/datalog.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/datalog.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/datalog.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/file.o: ../../src/core/file.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/file.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/file.c  -o ${OBJECTDIR}/_ext/1639979382/file.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/file.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/file.c  -o ${OBJECTDIR}/_ext/1639979382/file.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/file.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/file.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/led.o: ../../src/core/led.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/led.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/led.c  -o ${OBJECTDIR}/_ext/1639979382/led.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/led.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/led.c  -o ${OBJECTDIR}/_ext/1639979382/led.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/led.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/led.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/nesi.o: ../../src/core/nesi.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/nesi.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/nesi.c  -o ${OBJECTDIR}/_ext/1639979382/nesi.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/nesi.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/nesi.c  -o ${OBJECTDIR}/_ext/1639979382/nesi.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/nesi.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/nesi.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/powerDriver.o: ../../src/core/powerDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/powerDriver.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/powerDriver.c  -o ${OBJECTDIR}/_ext/1639979382/powerDriver.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/powerDriver.c  -o ${OBJECTDIR}/_ext/1639979382/powerDriver.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/powerDriver.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o: ../../src/core/resistiveSensors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/resistiveSensors.c  -o ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/resistiveSensors.c  -o ${OBJECTDIR}/_ext/1639979382/resistiveSensors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/resistiveSensors.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/sdcard.o: ../../src/core/sdcard.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/sdcard.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/sdcard.c  -o ${OBJECTDIR}/_ext/1639979382/sdcard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/sdcard.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/sdcard.c  -o ${OBJECTDIR}/_ext/1639979382/sdcard.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/sdcard.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/sdcard.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/system.o: ../../src/core/system.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/system.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/system.c  -o ${OBJECTDIR}/_ext/1639979382/system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/system.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/system.c  -o ${OBJECTDIR}/_ext/1639979382/system.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/system.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/system.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/usb.o: ../../src/core/usb.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/usb.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/usb.c  -o ${OBJECTDIR}/_ext/1639979382/usb.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/usb.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/usb.c  -o ${OBJECTDIR}/_ext/1639979382/usb.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/usb.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/usb.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/dateTime.o: ../../src/core/dateTime.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/dateTime.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/dateTime.c  -o ${OBJECTDIR}/_ext/1639979382/dateTime.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/dateTime.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/dateTime.c  -o ${OBJECTDIR}/_ext/1639979382/dateTime.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/dateTime.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/dateTime.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart1.o: ../../src/core/uart1.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart1.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart1.c  -o ${OBJECTDIR}/_ext/1639979382/uart1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart1.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart1.c  -o ${OBJECTDIR}/_ext/1639979382/uart1.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart1.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart1.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart2.o: ../../src/core/uart2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart2.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart2.c  -o ${OBJECTDIR}/_ext/1639979382/uart2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart2.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart2.c  -o ${OBJECTDIR}/_ext/1639979382/uart2.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart2.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart2.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1639979382/uart3.o: ../../src/core/uart3.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1639979382 
 	@${RM} ${OBJECTDIR}/_ext/1639979382/uart3.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart3.c  -o ${OBJECTDIR}/_ext/1639979382/uart3.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart3.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/core/uart3.c  -o ${OBJECTDIR}/_ext/1639979382/uart3.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1639979382/uart3.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1639979382/uart3.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161271966/FSIO.o: ../../src/mdd/FSIO.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161271966 
 	@${RM} ${OBJECTDIR}/_ext/1161271966/FSIO.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/FSIO.c  -o ${OBJECTDIR}/_ext/1161271966/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/FSIO.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/FSIO.c  -o ${OBJECTDIR}/_ext/1161271966/FSIO.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/FSIO.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161271966/FSIO.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161271966/SD-SPI.o: ../../src/mdd/SD-SPI.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161271966 
 	@${RM} ${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/SD-SPI.c  -o ${OBJECTDIR}/_ext/1161271966/SD-SPI.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/mdd/SD-SPI.c  -o ${OBJECTDIR}/_ext/1161271966/SD-SPI.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161271966/SD-SPI.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o: ../../src/usb/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_descriptors.c  -o ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_descriptors.c  -o ${OBJECTDIR}/_ext/1161263815/usb_descriptors.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_descriptors.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_device.o: ../../src/usb/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_device.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_device.c  -o ${OBJECTDIR}/_ext/1161263815/usb_device.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_device.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_device.c  -o ${OBJECTDIR}/_ext/1161263815/usb_device.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_device.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_device.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o: ../../src/usb/usb_function_msd.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1161263815 
 	@${RM} ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_function_msd.c  -o ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  ../../src/usb/usb_function_msd.c  -o ${OBJECTDIR}/_ext/1161263815/usb_function_msd.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1161263815/usb_function_msd.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 ${OBJECTDIR}/main-iss.o: main-iss.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/main-iss.o.d 
-	${MP_CC} $(MP_EXTRA_CC_PRE)  main-iss.c  -o ${OBJECTDIR}/main-iss.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main-iss.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../NESI/src/usb" -msmart-io=1 -Wall -msfr-warn=off
+	${MP_CC} $(MP_EXTRA_CC_PRE)  main-iss.c  -o ${OBJECTDIR}/main-iss.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/main-iss.o.d"        -g -omf=elf -mlarge-code -mlarge-data -mlarge-scalar -O0 -I"../../src/core" -I"../../src/dev" -I"../../src/mdd" -I"../../src/usb" -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/main-iss.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif

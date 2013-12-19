@@ -159,7 +159,7 @@
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="extra-include-directories"
-                  value="..\..\src\core;..\..\src\dev;..\..\src\mdd;..\..\NESI\src\usb"/>
+                  value="..\..\src\core;..\..\src\dev;..\..\src\mdd;..\..\src\usb"/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
