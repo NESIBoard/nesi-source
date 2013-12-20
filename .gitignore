@@ -1,2 +1,10 @@
 build/*/build/
 build/*/dist/
+*.o
+*.o.d
+Makefile-default.mk
+Makefile-genesis.properties
+Makefile-impl.mk
+Makefile-local-default.mk
+Makefile-variables.mk
+Package-default.bash
