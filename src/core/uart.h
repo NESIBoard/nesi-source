@@ -69,10 +69,10 @@ typedef struct {
      *      connected peripheral.
      * @param startOfData - pointer to string of bytes to send
      * @param bytesToSend - number of bytes to send from the byte array
-     * @return <code>boolean</code> indicating weather or not bytes were sent to
+     * @return <code>Boolean</code> indicating weather or not bytes were sent to
      *       the connected peripheral.
      */
-    boolean (*send)(const Byte* startOfData, Uint16 bytesToSend);
+    Boolean (*send)(const Byte* startOfData, Uint16 bytesToSend);
     /**
      * Pulls the specified number of bytes from the UART port's receive buffer
      *      and stores them at the pointed to memory location.

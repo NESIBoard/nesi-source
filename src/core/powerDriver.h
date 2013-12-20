@@ -46,22 +46,22 @@ typedef struct {
      * Check if a hardware failure has occured with the powerDriver
      * @return whether or not a hardware failure has occured
      */
-    boolean (*isFailure)(void);
+    Boolean (*isFailure)(void);
     /**
      * Checks if the powerDriver hardware is ok.
      * @return whether or not a hardware failure has occured
      */
-    boolean (*isOk)(void);
+    Boolean (*isOk)(void);
     /**
      * Checks status level of powerDriver
      * @return tells you voltage level on low side of Power A's load
      */
-    boolean (*status)(void);
+    Boolean (*status)(void);
     /**
      * Sets the logic value present at the output
      * @param desiredOutputState the digital state to output on the pin (<code>OPEN</code> or <code>CLOSE</code>)
      */
-    void (*set)(boolean desiredOutputState);
+    void (*set)(Boolean desiredOutputState);
     /**
      * Turns the powerDriver on
      */

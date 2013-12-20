@@ -98,16 +98,16 @@
 #define round(x)    ((int)((x) + 0.5))
 
 /**
- * boolean Type Information
+ * Boolean Type Information
  *
- * A boolean is defined to be either 0 (FALSE) or 1 (TRUE). This enumeration
+ * A Boolean is defined to be either 0 (FALSE) or 1 (TRUE). This enumeration
  * offers several boolean alternatives.
  */
 typedef enum {
     OFF    = 0b0,   ON      = 0b1,  // True != 0xFFFF
     FALSE  = OFF,   TRUE    = ON,
     NO     = OFF,   YES     = ON
-} boolean;
+} Boolean;
 
 /**
  * IntX Information

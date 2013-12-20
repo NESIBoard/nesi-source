@@ -133,7 +133,7 @@ static Int32 bytesToGet = 0;
 static Int32 picsize = 0;
 static CameraPacket toCam, fromCam;
 
-static boolean getPicture(void)
+static Boolean getPicture(void)
 {
     toCam = newCameraPacket(),
     fromCam = newCameraPacket();
@@ -241,7 +241,7 @@ static boolean getPicture(void)
 
 }
 
-static void setPowerOutput(boolean desiredOutputState)
+static void setPowerOutput(Boolean desiredOutputState)
 {
     _TRISE1 = 0;    /* configure port as output */
     _RE1 = desiredOutputState; /* set the output (active high) */
@@ -288,7 +288,7 @@ static int retrievePic(String imgName)
     return error;
 }
 
-boolean getStatus(void)
+Boolean getStatus(void)
 {
     return TRUE;
 }

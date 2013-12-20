@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   example_main.c
  * Author: MISLmen
  *
@@ -25,7 +25,7 @@ void check_systems(void)
     }
 }
 
-void light_cycle(boolean redOn)
+void light_cycle(Boolean redOn)
 {
     if(redOn == TRUE)
     {
@@ -60,7 +60,7 @@ void water_plant(void)
         Uint valQ2 = resistiveSensors.readQ2();
         Uint valQ3 = resistiveSensors.readQ3();
         Uint valQ4 = resistiveSensors.readQ4();
-        
+
         // check water level
         Uint average = (valQ1 + valQ2 + valQ3 + valQ4) / 4;
 
@@ -69,7 +69,7 @@ void water_plant(void)
         {
             return;
         }
-           
+
         // else add water
         else
         {
@@ -84,7 +84,7 @@ void water_plant(void)
         sprintf(message, "Watered the plants at: %s", dateTime.getStamp());
         dataLog.add(message, 48);
         usb.connect();
-        
+
     }
 }
 

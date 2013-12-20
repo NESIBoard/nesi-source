@@ -47,7 +47,7 @@ typedef struct {
      * Check if a hardware failure has occurred with the CO2 power driver
      * @return whether or not a hardware failure has occurred
      */
-    boolean (*status)(void);
+    Boolean (*status)(void);
     /**
      * Read CO2 sensor
      * @return unconverted CO2 voltage
@@ -64,7 +64,7 @@ typedef struct {
      * Controls the operation of the CO2 sensor heating element
      * @param desiredState <code>ON</code>/<code>OFF</code> (enable/disable)
      */
-    void (*setHeater)(boolean desiredState);
+    void (*setHeater)(Boolean desiredState);
     /**
      * Initializes the CO2 sensor software module
      */

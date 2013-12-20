@@ -55,7 +55,7 @@ struct Sdcard {
      * Checks SD card for issues.
      * @return whether or not the SD card was successfully initialized
      */
-    boolean (*isOk)(void);
+    Boolean (*isOk)(void);
 };
 
 extern const Sdcard sdcard;

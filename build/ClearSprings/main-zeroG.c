@@ -1,20 +1,20 @@
 #include <nesi.h>
 
-void greenStatus(boolean state)
+void greenStatus(Boolean state)
 {
     _TRISF3 = 0;
     _RF3 = !state;
 }
-void redStatus(boolean state)
+void redStatus(Boolean state)
 {
     _TRISG9 = 0;
     _RG9 = !state;
 }
-void longNotifier(boolean state)
+void longNotifier(Boolean state)
 {
     redStatus(state);
 }
-void shortNotifier(boolean state)
+void shortNotifier(Boolean state)
 {
     greenStatus(state);
 }

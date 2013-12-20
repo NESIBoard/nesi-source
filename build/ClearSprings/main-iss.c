@@ -27,7 +27,7 @@ void print(String message)
 }
 
 // returns FALSE if all systems are ok
-boolean checkSystems(void)
+Boolean checkSystems(void)
 {
     // check solenoid
     if(!powerDriverA.isOk())
@@ -103,7 +103,7 @@ void checkWater(void)
 }
 
 // stores timestamped picture
-boolean takePicture(void)
+Boolean takePicture(void)
 {
     char filename[32] = {0};
     sprintf(filename, "%s.jpg", dateTime.getStamp());
@@ -159,7 +159,7 @@ int main(void)
 
     dateTime.set(timeTemp);
 
-    boolean taken = NO;
+    Boolean taken = NO;
 
     //checkSystems();
 

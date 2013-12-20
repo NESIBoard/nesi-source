@@ -52,7 +52,7 @@ typedef struct {
      * Checks data log for issues.
      * @return whether or not the data log file is ok.
      */
-    boolean (*isOk)(void);
+    Boolean (*isOk)(void);
 
     FileStream* file;
 

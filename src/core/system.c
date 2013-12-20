@@ -174,7 +174,7 @@ static void initialize(void)
  *
  * This function turns the 6V power off.
  */
-static void setPowerOutput(boolean desiredOutputState)
+static void setPowerOutput(Boolean desiredOutputState)
 {
     _TRISE6 = 0;               // configure port as output
     _RE6 = desiredOutputState; // set the output (active high)

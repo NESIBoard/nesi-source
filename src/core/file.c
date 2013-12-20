@@ -43,7 +43,7 @@ static int close1(void)
  *
  * This function checks if file1 is open.
  */
-static boolean isOpen1(void)
+static Boolean isOpen1(void)
 {
     /* file pointer is null until opened */
     return NullPtr != fileptr1;
@@ -91,7 +91,7 @@ static int read1(Byte* storageBuffer, int bytesToRead)
  *
  * used1 is the "in use" flag for file1.
  */
-static boolean used1 = NO;
+static Boolean used1 = NO;
 
 /**
  * free1() Information
@@ -119,7 +119,7 @@ static void use1(void)
  *
  * This function checks if file1 is in use.
  */
-static boolean isUsed1(void)
+static Boolean isUsed1(void)
 {
     return used1;
 }
@@ -157,7 +157,7 @@ static int close2(void)
  *
  * This function checks if file2 is open.
  */
-static boolean isOpen2(void)
+static Boolean isOpen2(void)
 {
     /* file pointer is null until opened */
     return NullPtr != fileptr2;
@@ -205,7 +205,7 @@ static int read2(Byte* storageBuffer, int bytesToRead)
  *
  * used2 is the "in use" flag for file2.
  */
-static boolean used2 = NO;
+static Boolean used2 = NO;
 
 /**
  * free2() Information
@@ -233,7 +233,7 @@ static void use2(void)
  *
  * This function checks if file2 is in use.
  */
-static boolean isUsed2(void)
+static Boolean isUsed2(void)
 {
     return used2;
 }
@@ -271,7 +271,7 @@ static int close3(void)
  *
  * This function checks if file3 is open.
  */
-static boolean isOpen3(void)
+static Boolean isOpen3(void)
 {
     /* file pointer is null until opened */
     return NullPtr != fileptr3;
@@ -319,7 +319,7 @@ static int read3(Byte* storageBuffer, int bytesToRead)
  *
  * used3 is the "in use" flag for file3.
  */
-static boolean used3 = NO;
+static Boolean used3 = NO;
 
 /**
  * used3 Information
@@ -347,7 +347,7 @@ static void use3(void)
  * This function flags file3 as being used so that it cannot be allocated to
  * someone else.
  */
-static boolean isUsed3(void)
+static Boolean isUsed3(void)
 {
     return used3;
 }

@@ -36,7 +36,7 @@ static void initialize(void)
  *
  * This function checks if the data logger module has been properly initialized.
  */
-static boolean isInitialized(void)
+static Boolean isInitialized(void)
 {
     return !!dataFile.open;
 }

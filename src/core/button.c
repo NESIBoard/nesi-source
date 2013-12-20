@@ -24,7 +24,7 @@
  *
  * This function returns true when the button is pressed.
  */
-static boolean readInput(void)
+static Boolean readInput(void)
 {
     _TRISE4 = 1;  // configure port as input
     return !_RE4; // return the inverse value on the pin (active low)

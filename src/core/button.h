@@ -45,7 +45,7 @@ typedef struct {
      * Check if the button is pressed down
      * @return digital state of the button
      */
-    boolean (*isPressed)(void);
+    Boolean (*isPressed)(void);
     /**
      * Initializes the button software module
      */

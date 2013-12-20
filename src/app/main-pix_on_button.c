@@ -2,7 +2,7 @@
 #include <string.h>
 
 // stores timestamped picture
-boolean takePicture(void)
+Boolean takePicture(void)
 {
     char filename[32] = {0};
     sprintf(filename, "%s.jpg", dateTime.getStamp());

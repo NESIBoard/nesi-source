@@ -204,7 +204,7 @@ _ISR_ _U1TXInterrupt (void)
  *     Boolean indicating weather or not bytes were sent to the connected
  *     peripheral.
  */
-static boolean sendFrom(const Byte* startOfData, Uint16 bytesToSend)
+static Boolean sendFrom(const Byte* startOfData, Uint16 bytesToSend)
 {
     /* can't send nonexistent data or no data */
     if (!startOfData || !bytesToSend)

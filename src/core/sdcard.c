@@ -24,7 +24,7 @@
  * initialized is a flag used to keep track of whether or not the SD card module
  * has been initialized.
  */
-static boolean initialized = FALSE;
+static Boolean initialized = FALSE;
 
 /**
  * initialize() Information
@@ -74,7 +74,7 @@ static void initialize(void)
  *
  * This function checks if the SD card is initialized.
  */
-static boolean isInitialized(void)
+static Boolean isInitialized(void)
 {
     return initialized;
 }

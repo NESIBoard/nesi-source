@@ -34,7 +34,7 @@
  *
  ******************************************************/
 
-static void setOutputA(boolean desiredOutputState)
+static void setOutputA(Boolean desiredOutputState)
 {
     _TRISE7 = 0;    /* configure port as output */
     _RE7 = desiredOutputState; /* set the output */
@@ -54,15 +54,15 @@ static void initializeA(void)
     /* no itialization needed*/
 }
 
-static boolean readInputA(void)
+static Boolean readInputA(void)
 {
     _TRISG6 = 1; /* configure port as input */
     return _RG6; /* return the value on the pin */
 }
 
-static boolean failureA(void)
+static Boolean failureA(void)
 {
-    boolean error = 0;      /* Initialize variable error  to 0 */
+    Boolean error = 0;      /* Initialize variable error  to 0 */
     powerDriverA.on();      /* Turns powerDriverA on */
     if( powerDriverA.status()== 1 )
     {                    /* Error if powerDriverA  is on and status = 1 */
@@ -78,7 +78,7 @@ static boolean failureA(void)
     return error;       /* If error = 0 then nothing is wrong. If error = 1 then something is wrong*/
 }
 
-static boolean isOkA (void)
+static Boolean isOkA (void)
 {
     return !failureA();
 }
@@ -92,7 +92,7 @@ static boolean isOkA (void)
  ******************************************************/
 
 
-static void setOutputB(boolean desiredOutputState)
+static void setOutputB(Boolean desiredOutputState)
 {
     _TRISE0 = 0;    /* configure port as output */
     _RE0 = desiredOutputState; /* set the output */
@@ -116,18 +116,18 @@ static void initializeB(void)
    Warning:
       Not an actual test of InputB
  */
-static boolean readInputB(void)
+static Boolean readInputB(void)
 {
     return 1; /* Assumption that powerDriverB is working */
 }
 
-static boolean failureB (void)
+static Boolean failureB (void)
 {
-    boolean error = 0;      /* No way of testing error so set error = 0 */
+    Boolean error = 0;      /* No way of testing error so set error = 0 */
     return error;       /* Note: Assumption that powerDriverB is working */
 }
 
-static boolean isOkB (void)
+static Boolean isOkB (void)
 {
     return !failureB();
 }

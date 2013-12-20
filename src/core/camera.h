@@ -64,7 +64,7 @@ typedef struct {
     /**
      * Checks status of camera
      */
-    boolean (*isOk)(void);
+    Boolean (*isOk)(void);
 
 } Camera;
 

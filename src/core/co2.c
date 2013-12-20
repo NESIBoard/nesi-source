@@ -57,7 +57,7 @@ static Uint16 readValue(void)
  *
  * This function is used to control the heater switch (power driver).
  */
-static void setHeaterOutput(boolean desiredOutputState)
+static void setHeaterOutput(Boolean desiredOutputState)
 {
     _TRISE3 = 0;    // configure port as output
     _RE3 = desiredOutputState; // set the output
@@ -112,7 +112,7 @@ static Uint16 getReading(int samplesToTake, int interval)
  *
  * This function checks if a hardware failure has occurred.
  */
-static boolean readTest(void)
+static Boolean readTest(void)
 {
     _TRISE2 = 1; // configure port as input
     return _RE2; // return the value on the pin
@@ -151,7 +151,7 @@ static void initialize(void)
      */
 
     turnOn(); // enable 6V power - DK
-   
+
 }
 
 /**
