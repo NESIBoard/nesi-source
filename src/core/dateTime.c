@@ -16,8 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 12/19/2013 - Mickie Byrd
+ *   Added .toStamp() and .parseStamp() to handle time stamp string processing.
+ *   Added .new() member to be used for initializing DateAndTime variables.
+ * 12/20/2013 - Mickie Byrd
+ *   Modified .toStamp() to take DateAndTime instead of CalendarAndClock.
+ * 12/24/2013 - Mickie Byrd
+ *   Added .compare() to be used for comparing two DateAndTime objects.
+ */
+
 #include "system.h"
 #include "dateTime.h"
+#include <stdio.h>
 
 /**
  * getSystemHalfSeconds() Information
@@ -936,52 +949,7 @@ static inline CalendarAndClock getSystemCalendarAndClock(void)
                                            temp.days,    temp.tensOfDays,
                                            temp.months,  temp.tensOfMonths,
                                            temp.years,   temp.tensOfYears}}};
-
     return calendarAndClock;
-}
-
-static String getTimeStamp(void)
-{
-    static char stamp[] = {"00.01.01-00:00:00"};
-
-    CalendarAndClock timeStamp = getSystemCalendarAndClock();
-
-    stamp[0]  = '0' + timeStamp.tensOfYears;
-    stamp[1]  = '0' + timeStamp.years;
-    stamp[3]  = '0' + timeStamp.tensOfMonths;
-    stamp[4]  = '0' + timeStamp.months;
-    stamp[6]  = '0' + timeStamp.tensOfDays;
-    stamp[7]  = '0' + timeStamp.days;
-    stamp[9]  = '0' + timeStamp.tensOfHours;
-    stamp[10] = '0' + timeStamp.hours;
-    stamp[12] = '0' + timeStamp.tensOfMinutes;
-    stamp[13] = '0' + timeStamp.minutes;
-    stamp[15] = '0' + timeStamp.tensOfSeconds;
-    stamp[16] = '0' + timeStamp.seconds;
-
-    return stamp;
-}
-
-static String toTimeStamp(CalendarAndClock cc)
-{
-    static char stamp[] = {"00.01.01-00:00:00"};
-
-   cc = simplifyCalendarAndClock(cc);
-
-    stamp[0]  = '0' + cc.tensOfYears;
-    stamp[1]  = '0' + cc.years;
-    stamp[3]  = '0' + cc.tensOfMonths;
-    stamp[4]  = '0' + cc.months;
-    stamp[6]  = '0' + cc.tensOfDays;
-    stamp[7]  = '0' + cc.days;
-    stamp[9]  = '0' + cc.tensOfHours;
-    stamp[10] = '0' + cc.hours;
-    stamp[12] = '0' + cc.tensOfMinutes;
-    stamp[13] = '0' + cc.minutes;
-    stamp[15] = '0' + cc.tensOfSeconds;
-    stamp[16] = '0' + cc.seconds;
-
-    return stamp;
 }
 
 static volatile Uint64 milisecondCount = 0;
@@ -1100,6 +1068,89 @@ static DateAndTime newDateAndTime(void)
     return dt;
 }
 
+static String getTimeStamp(void)
+{
+    static char stamp[] = {"00.01.01-00:00:00"};
+
+    CalendarAndClock timeStamp = getSystemCalendarAndClock();
+
+    stamp[0]  = '0' + timeStamp.tensOfYears;
+    stamp[1]  = '0' + timeStamp.years;
+    stamp[3]  = '0' + timeStamp.tensOfMonths;
+    stamp[4]  = '0' + timeStamp.months;
+    stamp[6]  = '0' + timeStamp.tensOfDays;
+    stamp[7]  = '0' + timeStamp.days;
+    stamp[9]  = '0' + timeStamp.tensOfHours;
+    stamp[10] = '0' + timeStamp.hours;
+    stamp[12] = '0' + timeStamp.tensOfMinutes;
+    stamp[13] = '0' + timeStamp.minutes;
+    stamp[15] = '0' + timeStamp.tensOfSeconds;
+    stamp[16] = '0' + timeStamp.seconds;
+
+    return stamp;
+}
+
+static String toTimeStamp(CalendarAndClock cc)
+{
+    static char stamp[] = {"00.01.01-00:00:00"};
+
+    cc = simplifyCalendarAndClock(cc);
+
+    stamp[0]  = '0' + cc.tensOfYears;
+    stamp[1]  = '0' + cc.years;
+    stamp[3]  = '0' + cc.tensOfMonths;
+    stamp[4]  = '0' + cc.months;
+    stamp[6]  = '0' + cc.tensOfDays;
+    stamp[7]  = '0' + cc.days;
+    stamp[9]  = '0' + cc.tensOfHours;
+    stamp[10] = '0' + cc.hours;
+    stamp[12] = '0' + cc.tensOfMinutes;
+    stamp[13] = '0' + cc.minutes;
+    stamp[15] = '0' + cc.tensOfSeconds;
+    stamp[16] = '0' + cc.seconds;
+
+    return stamp;
+}
+
+static CalendarAndClock toCalendarAndClock(DateAndTime dt)
+{
+    CalendarAndClock cc = newCalendarAndClock();
+
+    cc.tensOfYears   = dt.year / 10;
+    cc.years         = dt.year % 10;
+    cc.tensOfMonths  = dt.month / 10;
+    cc.months        = dt.month % 10;
+    cc.tensOfDays    = dt.day / 10;
+    cc.days          = dt.day % 10;
+    cc.tensOfHours   = dt.hour / 10;
+    cc.hours         = dt.hour % 10;
+    cc.tensOfMinutes = dt.minute / 10;
+    cc.minutes       = dt.minute % 10;
+    cc.tensOfSeconds = dt.second / 10;
+    cc.seconds       = dt.second % 10;
+
+    return simplifyCalendarAndClock(cc);
+}
+
+static String dateAndTimeToTimeStamp(DateAndTime dt)
+{
+    return toTimeStamp(toCalendarAndClock(dt));
+}
+
+static DateAndTime parseTimeStamp(String stamp)
+{
+    DateAndTime dt = newDateAndTime();
+
+    Uint count = sscanf(stamp, "%d.%d.%d-%d:%d:%d",
+        &dt.year, &dt.month,   &dt.day,
+        &dt.hour, &dt. minute, &dt.second);
+
+    if(count != 6) // error parsing timestamp
+        return newDateAndTime();
+
+    return dt;
+}
+
 static DateAndTime getDateAndTime(void)
 {
     DateAndTime dt = newDateAndTime();
@@ -1129,9 +1180,26 @@ static void setDateAndTime(DateAndTime dt)
     setSystemCalendarAndClock(cc);
 }
 
+// is time a after time b
+Sint compareDateAndTime(DateAndTime a, DateAndTime b)
+{
+    Sint diff = 0;
+    if(!(diff = (a.year - b.year)))
+        if(!(diff = (a.month - b.month)))
+            if(!(diff = (a.day - b.day)))
+                if(!(diff = (a.hour - b.hour)))
+                    if(!(diff = (a.minute - b.minute)))
+                        diff = a.second - b.second;
+    return diff;
+}
+
 const DateTime dateTime = {
     .init = initialize,
     .get = getDateAndTime,
     .set = setDateAndTime,
-    .getStamp = getTimeStamp
+    .new = newDateAndTime,
+    .toStamp = dateAndTimeToTimeStamp,
+    .getStamp = getTimeStamp,
+    .parseStamp = parseTimeStamp,
+    .compare = compareDateAndTime
 };

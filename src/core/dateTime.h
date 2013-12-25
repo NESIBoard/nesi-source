@@ -23,9 +23,19 @@
  * Microcontroller Resource Allocation
  *
  * The following microcontroller resources are used in this module.
- *   - Pins: C12 (Clock Input), C15 (Clock oOt)
+ *   - Pins: C12 (Clock Input), C15 (Clock Out)
  *   - Peripherals: RTCC (Real Time Clock and Calendar),
  *                  Timer 4 (millisecond count- currently unused)
+ */
+
+/**
+ * Change Log
+ *
+ * 12/19/2013 - Mickie Byrd
+ *   Added .toStamp() and .parseStamp() to handle time stamp string processing.
+ *   Added .new() member to be used for initializing DateAndTime variables.
+ * 12/24/2013 - Mickie Byrd
+ *   Added .compare() to be used for comparing two DateAndTime objects.
  */
 
 /**
@@ -85,7 +95,15 @@ typedef struct {
     void (*init)(void);
     DateAndTime (*get)(void);
     void (*set)(DateAndTime);
+    DateAndTime (*new)(void);
+    String (*toStamp)(DateAndTime);
     String (*getStamp)(void);
+    DateAndTime (*parseStamp)(String);
+    /**
+     * Checks if time a is after time b
+     * @return negative if b is after a, zero if same, positive if a is after b
+     */
+    Sint (*compare)(DateAndTime a, DateAndTime b);
 } DateTime;
 
 extern const DateTime dateTime;

@@ -16,14 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Change Log
- *
- * 09/26/2013 - Dakotah Karrer
- *   Added .status() to determine if a hardware failure has occurred with the
- *   heater control.
- */
-
 #ifndef CO2_H
 #define CO2_H
 
@@ -35,6 +27,13 @@
  *   - Peripherals: Analog to Digital Converter
  */
 
+/**
+ * Change Log
+ *
+ * 09/26/2013 - Dakotah Karrer
+ *   Added .status() to determine if a hardware failure has occurred with the
+ *   heater control.
+ */
 #include "system.h"
 
 /**

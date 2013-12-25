@@ -21,6 +21,8 @@
  *
  * 09/25/2013 - Dakotah Karrer
  *   Moved 6volt control to system module.
+ * 12/20/2013 - Mickie Byrd
+ *   Refactored "boolean" to "Boolean" for consistency.
  */
 
 #ifndef SYSTEM_H

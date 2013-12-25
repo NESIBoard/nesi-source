@@ -8,3 +8,4 @@ Makefile-impl.mk
 Makefile-local-default.mk
 Makefile-variables.mk
 Package-default.bash
+_SYNCAPP/
