@@ -21,6 +21,9 @@
  *
  * 11/17/2013 - Mickie Byrd
  *   Refactored CameraComPort to Uart module.
+ * 12/27/2013
+ *   Changed error code that results if retrievePic() cannot open file.
+ *   Added wait after camera is powered down.
  */
 
 #include "camera.h"
@@ -272,7 +275,7 @@ static int retrievePic(String imgName)
     cameraComPort.init();
     cameraComPort.baudrate(14400);
     imageFile = getFileStream();
-    int error = 0;
+    int error = 2;
 
     if(imageFile.open)
     {
@@ -283,7 +286,9 @@ static int retrievePic(String imgName)
     }
 
     imageFile.free();
+
     setPowerOutput(OFF);
+    wait(1000);
 
     return error;
 }
