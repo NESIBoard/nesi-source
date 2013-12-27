@@ -26,6 +26,13 @@
  *   Modified .toStamp() to take DateAndTime instead of CalendarAndClock.
  * 12/24/2013 - Mickie Byrd
  *   Added .compare() to be used for comparing two DateAndTime objects.
+ * 12/26/2013 - Mickie Byrd
+ *   Modified parseStamp() to return invalid DateAndTime if error occurs.
+ *   Reassigned .new() to toDateAndTime() so that parameters can be used to
+ *       initialize returned DateAndTime object.
+ *   Added .add() and .sub() to be used to add and subtract DateAndTime
+ *       objects.
+ *   Refactored .compare() to .cmp() for consistency.
  */
 
 #include "system.h"
@@ -915,8 +922,8 @@ static inline Clock getSystemClock(void)
     temp.minuteSecondRegister = RTC_VALUE_REGISTER;
 
     Clock clock = {temp.seconds, temp.tensOfSeconds,
-                 temp.minutes, temp.tensOfMinutes,
-                 temp.hours,   temp.tensOfHours};
+                   temp.minutes, temp.tensOfMinutes,
+                   temp.hours,   temp.tensOfHours};
 
     return clock;
 
@@ -1068,6 +1075,172 @@ static DateAndTime newDateAndTime(void)
     return dt;
 }
 
+/* Converts the passed values to a simplified, correct DateAndTime variable from 2000 to 2099 */
+static DateAndTime numbersToDateAndTime(signed years, signed months,  signed days,
+                                        signed hours, signed minutes, signed seconds)
+{
+    /* variable used to store values temporarily during calculations */
+    signed extra;
+
+    if (seconds > 59)
+    {
+        extra = seconds / 60;
+        minutes += extra;
+        seconds = seconds - extra * 60;
+    }
+    else if (seconds < 0)
+    {
+        extra = seconds / 60 - 1;
+        minutes += extra;
+        seconds = seconds - extra * 60;
+    }
+
+    if (minutes > 59)
+    {
+        extra = minutes / 60;
+        hours += extra;
+        minutes = minutes - extra * 60;
+    }
+    else if (minutes < 0)
+    {
+        extra = minutes / 60 - 1;
+        hours += extra;
+        minutes = minutes - extra * 60;
+    }
+
+    if (hours >= 0)
+    {
+        extra = hours / 24;
+        days += extra;
+        hours = hours - extra * 24;
+    }
+    else if (hours < 0)
+    {
+        extra = hours / 24 - 1;
+        days += extra;
+        hours = hours - extra * 24;
+    }
+
+    if (months > 12)
+    {
+        extra = months / 12;
+        years += extra;
+        months = months - extra * 12;
+    }
+    else if (months <= 0)
+    {
+        extra = months / 12 - 1;
+        years += extra;
+        months = months - extra * 12;
+    }
+
+    if (years > 99)
+    {
+        extra = years / 100;
+        years = years - extra * 100;
+    }
+    else if (years < 0)
+    {
+        extra = years / 100 - 1;
+        years = years - extra * 100;
+    }
+
+    if (days > 1460)
+    {
+        extra = days / 1461;
+        years += extra << 2;
+        days = days - extra * 1461;
+    }
+    else if (days < 0)
+    {
+        extra = days / 1461 - 1;
+        years += extra * 4;
+        days = days - extra * 1461;
+    }
+
+    while (days > 366)
+    {
+        extra = years & 0b11;
+        if (extra == 3 && months > FEBUARY)
+            days -= 366;
+        else if (extra == 0 && months < MARCH)
+            days -= 366;
+        else
+            days -= 365;
+        ++years;
+
+    }
+
+    while (days <= 0)
+    {
+        if (years == 0)
+            years = 99;
+        else
+            --years;
+
+        extra = years & 0b11;
+
+        if (extra == 3 && months > FEBUARY)
+            days += 366;
+        else if (extra == 0 && months < MARCH)
+            days += 366;
+        else
+            days += 365;
+    }
+
+    while (days > getDaysInMonth(months,years))
+    {
+        days -= getDaysInMonth(months,years);
+        ++months;
+
+        if (months > 12)
+        {
+            months -= 12;
+            ++years;
+        }
+    }
+
+    years %= 100;
+
+    DateAndTime dt;
+    dt.second  = seconds;
+    dt.minute  = minutes;
+    dt.hour    = hours;
+    dt.weekday = calculateWeekday(years, months, days);
+    dt.day     = days;
+    dt.month   = months;
+    dt.year    = years;
+
+    return dt;
+}
+
+static DateAndTime toDateAndTime(signed years, signed months,  signed days,
+                                 signed hours, signed minutes, signed seconds)
+{
+    return numbersToDateAndTime(years, months, days, hours, minutes, seconds);
+}
+
+static inline DateAndTime addDateAndTimes(DateAndTime first, DateAndTime second)
+{
+   return numbersToDateAndTime(first.year   + second.year,
+                               first.month  + second.month,
+                               first.day    + second.day,
+                               first.hour   + second.hour,
+                               first.minute + second.minute,
+                               first.second + second.second);
+}
+
+static inline DateAndTime subtractDateAndTimes(DateAndTime first, DateAndTime second)
+{
+   return numbersToDateAndTime(first.year   - second.year,
+                               first.month  - second.month,
+                               first.day    - second.day,
+                               first.hour   - second.hour,
+                               first.minute - second.minute,
+                               first.second - second.second);
+}
+
+
 static String getTimeStamp(void)
 {
     static char stamp[] = {"00.01.01-00:00:00"};
@@ -1139,16 +1312,17 @@ static String dateAndTimeToTimeStamp(DateAndTime dt)
 
 static DateAndTime parseTimeStamp(String stamp)
 {
-    DateAndTime dt = newDateAndTime();
+    DateAndTime dt;
 
     Uint count = sscanf(stamp, "%d.%d.%d-%d:%d:%d",
         &dt.year, &dt.month,   &dt.day,
         &dt.hour, &dt. minute, &dt.second);
 
-    if(count != 6) // error parsing timestamp
-        return newDateAndTime();
+    if(count == 6) // successfully parsed timestamp
+        return dt;
 
-    return dt;
+    // zero (invalid date) to indicate error
+    return toDateAndTime(0,0,0,0,0,0);
 }
 
 static DateAndTime getDateAndTime(void)
@@ -1197,9 +1371,11 @@ const DateTime dateTime = {
     .init = initialize,
     .get = getDateAndTime,
     .set = setDateAndTime,
-    .new = newDateAndTime,
+    .new = toDateAndTime,
+    .add = addDateAndTimes,
+    .sub = subtractDateAndTimes,
+    .cmp = compareDateAndTime,
     .toStamp = dateAndTimeToTimeStamp,
     .getStamp = getTimeStamp,
-    .parseStamp = parseTimeStamp,
-    .compare = compareDateAndTime
+    .parseStamp = parseTimeStamp
 };

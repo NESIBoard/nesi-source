@@ -49,6 +49,17 @@
 #include <p24FJ256GB106.h>
 
 /**
+ * Inline Assembly Functions
+ *
+ * The following macros are some useful inline assembly functions.
+ */
+#define nop()       __builtin_nop()
+#define clrwdt()    {__asm__ volatile ("clrwdt");}
+#define sleep()     {__asm__ volatile ("pwrsav #0");}
+#define idle()      {__asm__ volatile ("pwrsav #1");}
+#define reset()     asm("reset")
+
+/**
  * Interrupt Service Routine Declaration Macro
  *
  * Interrupt service routines for PIC microcontrollers are declared a little

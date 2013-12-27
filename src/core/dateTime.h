@@ -36,6 +36,11 @@
  *   Added .new() member to be used for initializing DateAndTime variables.
  * 12/24/2013 - Mickie Byrd
  *   Added .compare() to be used for comparing two DateAndTime objects.
+ * 12/26/2013 - Mickie Byrd
+ *   Changed .new() by adding parameters that are used to initialize returned
+ *       DateAndTime object.
+ *   Added .add() and .sub() to be used to add and subtract DateAndTime objects.
+ *   Refactored .compare() to .cmp() for consistency.
  */
 
 /**
@@ -95,15 +100,17 @@ typedef struct {
     void (*init)(void);
     DateAndTime (*get)(void);
     void (*set)(DateAndTime);
-    DateAndTime (*new)(void);
+    DateAndTime (*new)(signed y, signed mo, signed d, signed h, signed m, signed s);
     String (*toStamp)(DateAndTime);
     String (*getStamp)(void);
     DateAndTime (*parseStamp)(String);
+    DateAndTime (*add)(DateAndTime first, DateAndTime second);
+    DateAndTime (*sub)(DateAndTime first, DateAndTime second);
     /**
      * Checks if time a is after time b
      * @return negative if b is after a, zero if same, positive if a is after b
      */
-    Sint (*compare)(DateAndTime a, DateAndTime b);
+    Sint (*cmp)(DateAndTime a, DateAndTime b);
 } DateTime;
 
 extern const DateTime dateTime;
