@@ -27,6 +27,7 @@
  *   Changed getPicture() to return integer error code indicating point of
  *       failure.
  *   Refactored imageFile from FileStream to FSFILE*.
+ *   Increased syncLimit to increase success rate.
  */
 
 #include "camera.h"
@@ -161,7 +162,7 @@ static Sint getPicture(void)
         pause(25);
         fromCam = getPacket(); // get reply
 
-        if(syncTries < 6)
+        if(syncTries < 7)
             ++syncTries;
         else
             return 2;
