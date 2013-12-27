@@ -24,6 +24,9 @@
  * 12/27/2013
  *   Changed error code that results if retrievePic() cannot open file.
  *   Added wait after camera is powered down.
+ *   Changed getPicture() to return integer error code indicating point of
+ *       failure.
+ *   Refactored imageFile from FileStream to FSFILE*.
  */
 
 #include "camera.h"
@@ -129,22 +132,24 @@ static CameraPacket getPacket(void)
 }
 
 #define RX_BUFFER_SIZE 0x0800
-static FileStream imageFile;
+//static FileStream imageFile;
+FSFILE* imageFile = NullPtr;
 static Byte tempBuffer[RX_BUFFER_SIZE];
 static int tempSize = 0;
 static Int32 bytesToGet = 0;
 static Int32 picsize = 0;
 static CameraPacket toCam, fromCam;
 
-static Boolean getPicture(void)
+static Sint getPicture(void)
 {
     toCam = newCameraPacket(),
     fromCam = newCameraPacket();
     toCam.cmdToken = SYNC;
     int syncTries = 0;
 
-    if(!imageFile.open)
-        return TRUE;
+    //if(!imageFile.open)
+    if(!imageFile)
+        return 1;
 
     /* try and get sync with camera */
     while(!(fromCam.cmdToken == ACK && fromCam.parameter1 == SYNC)) // until ACK received
@@ -159,7 +164,7 @@ static Boolean getPicture(void)
         if(syncTries < 6)
             ++syncTries;
         else
-            return TRUE;
+            return 2;
     }
 
     /* acknowledge camera's sync request */
@@ -184,7 +189,7 @@ static Boolean getPicture(void)
     /* if camera acknowledges changes, change the UART baud rate */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == INITIAL))
-        return TRUE;// if reconfiguration was not successful
+        return 3;// if reconfiguration was not successful
 
     cameraComPort.baudrate(115200); // change UART baud rate
 
@@ -197,7 +202,7 @@ static Boolean getPicture(void)
     /* if camera acknowledges change, then get an image */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == QUALITY))
-        return TRUE;// if reconfiguration was not successful
+        return 4;// if reconfiguration was not successful
 
     /* get an image */
     toCam = newCameraPacket(); // initialize packet
@@ -208,12 +213,12 @@ static Boolean getPicture(void)
     /* if camera acknowledges request, then retrieve image data */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == GET_PIC))
-        return TRUE;// if request was not successful
+        return 5;// if request was not successful
 
     /* get image size */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == DATA))
-        return TRUE;// if request was not successful
+        return 6;// if request was not successful
 
     /* read data size */
     picsize = bytesToGet = fromCam.parameter2 + fromCam.parameter3 * 0x100LL + fromCam.parameter4 * 0x10000LL;
@@ -224,7 +229,8 @@ static Boolean getPicture(void)
     while(bytesToGet > 0) // until all bytes retrieved
     {
         tempSize = cameraComPort.receive(tempBuffer, RX_BUFFER_SIZE); // receive the bytes
-        imageFile.write(tempBuffer,tempSize); // store the bytes
+        //imageFile.write(tempBuffer,tempSize); // store the bytes
+        FSfwrite(tempBuffer, sizeof(char), tempSize, imageFile);
         bytesToGet -= tempSize; // update bytes remaining
 
         cnt = tempSize ? 0: cnt + 1;
@@ -264,6 +270,7 @@ static void initialize(void)
 {
     setPowerOutput(OFF);
     cameraComPort = uart1;
+    imageFile = NullPtr;
 }
 
 static int retrievePic(String imgName)
@@ -274,18 +281,22 @@ static int retrievePic(String imgName)
     // initialize camera and image storage
     cameraComPort.init();
     cameraComPort.baudrate(14400);
-    imageFile = getFileStream();
-    int error = 2;
+    //imageFile = getFileStream();
+    imageFile = FSfopen(imgName, "w");
+    int error = -1;
 
-    if(imageFile.open)
+    //if(imageFile.open)
+    if(imageFile)
     {
-        FSfclose(FSfopen(imgName, "w")); // erase file
-        imageFile.open(imgName); // open file
+        //FSfclose(FSfopen(imgName, "w")); // erase file
+        //imageFile.open(imgName); // open file
         error = getPicture();
-        imageFile.close();
+        FSfclose(imageFile);
+        imageFile = NullPtr;
+        //imageFile.close();
     }
 
-    imageFile.free();
+    //imageFile.free();
 
     setPowerOutput(OFF);
     wait(1000);
