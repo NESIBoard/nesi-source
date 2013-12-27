@@ -33,6 +33,11 @@
  *   Added .add() and .sub() to be used to add and subtract DateAndTime
  *       objects.
  *   Refactored .compare() to .cmp() for consistency.
+ * 12/27/2013
+ *   Modified .new() to newDateAndTime() which creates DateAndTime without
+ *       normalizing value.
+ *   Added .to() which does what .new() used to do.
+ *   Modified dateAndTimeToStamp() to convert without normalization.
  */
 
 #include "system.h"
@@ -221,7 +226,7 @@ static inline CalendarAndClock newCalendarAndClock(void)
  *     is http://en.wikipedia.org/wiki/Calculating_the_day_of_the_week
  *     #An_algorithm_to_calculate_the_day_of_the_week
  */
-static unsigned calculateWeekday(unsigned month, unsigned day, unsigned year)
+static unsigned calculateWeekday(unsigned year, unsigned month, unsigned day)
 {
     /**
      * Weekday Algorithm
@@ -1069,9 +1074,17 @@ static void initialize(void)
     setSystemCalendarAndClock(newCalendarAndClock());
 }
 
-static DateAndTime newDateAndTime(void)
+static DateAndTime newDateAndTime(signed year, signed month,  signed day,
+                                  signed hour, signed minute, signed second)
 {
-    static DateAndTime dt = {{{0}},{{.month = JANUARY, .weekday = SATURDAY, .day = 1}}};
+    static DateAndTime dt;
+    dt.second  = second;
+    dt.minute  = minute;
+    dt.hour    = hour;
+    dt.day     = day;
+    dt.month   = month;
+    dt.weekday = calculateWeekday(year, month, day);
+    dt.year    = year;
     return dt;
 }
 
@@ -1307,7 +1320,23 @@ static CalendarAndClock toCalendarAndClock(DateAndTime dt)
 
 static String dateAndTimeToTimeStamp(DateAndTime dt)
 {
-    return toTimeStamp(toCalendarAndClock(dt));
+    //return toTimeStamp(toCalendarAndClock(dt));
+    static char stamp[] = {"00.01.01-00:00:00"};
+
+    stamp[0]  = '0' + dt.year / 10;
+    stamp[1]  = '0' + dt.year % 10;
+    stamp[3]  = '0' + dt.month / 10;
+    stamp[4]  = '0' + dt.month % 10;
+    stamp[6]  = '0' + dt.day / 10;
+    stamp[7]  = '0' + dt.day % 10;
+    stamp[9]  = '0' + dt.hour / 10;
+    stamp[10] = '0' + dt.hour % 10;
+    stamp[12] = '0' + dt.minute / 10;
+    stamp[13] = '0' + dt.minute % 10;
+    stamp[15] = '0' + dt.second / 10;
+    stamp[16] = '0' + dt.second % 10;
+
+    return stamp;
 }
 
 static DateAndTime parseTimeStamp(String stamp)
@@ -1322,12 +1351,12 @@ static DateAndTime parseTimeStamp(String stamp)
         return dt;
 
     // zero (invalid date) to indicate error
-    return toDateAndTime(0,0,0,0,0,0);
+    return newDateAndTime(0,0,0,0,0,0);
 }
 
 static DateAndTime getDateAndTime(void)
 {
-    DateAndTime dt = newDateAndTime();
+    DateAndTime dt;
     CalendarAndClock cc = getSystemCalendarAndClock();
 
     dt.second  = cc.tensOfSeconds * 10 + cc.seconds;
@@ -1371,7 +1400,8 @@ const DateTime dateTime = {
     .init = initialize,
     .get = getDateAndTime,
     .set = setDateAndTime,
-    .new = toDateAndTime,
+    .new = newDateAndTime,
+    .to = toDateAndTime,
     .add = addDateAndTimes,
     .sub = subtractDateAndTimes,
     .cmp = compareDateAndTime,

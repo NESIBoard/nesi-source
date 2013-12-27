@@ -41,6 +41,9 @@
  *       DateAndTime object.
  *   Added .add() and .sub() to be used to add and subtract DateAndTime objects.
  *   Refactored .compare() to .cmp() for consistency.
+ * 12/27/2013
+ *   Modified .new() to create DateAndTime without normalizing value.
+ *   Added .to() which does what .new() used to do.
  */
 
 /**
@@ -101,6 +104,7 @@ typedef struct {
     DateAndTime (*get)(void);
     void (*set)(DateAndTime);
     DateAndTime (*new)(signed y, signed mo, signed d, signed h, signed m, signed s);
+    DateAndTime (*to)(signed y, signed mo, signed d, signed h, signed m, signed s);
     String (*toStamp)(DateAndTime);
     String (*getStamp)(void);
     DateAndTime (*parseStamp)(String);
