@@ -28,6 +28,7 @@
  *       failure.
  *   Refactored imageFile from FileStream to FSFILE*.
  *   Increased syncLimit to increase success rate.
+ *   Increased power up wait time so that camera is fully ready.
  */
 
 #include "camera.h"
@@ -254,7 +255,7 @@ static Sint getPicture(void)
 static void setPowerOutput(Boolean desiredOutputState)
 {
     _TRISE1 = 0;    /* configure port as output */
-    _RE1 = desiredOutputState; /* set the output (active high) */
+    _RE1 = !!desiredOutputState; /* set the output (active high) */
 }
 
 static void turnOff(void)
@@ -277,7 +278,13 @@ static void initialize(void)
 static int retrievePic(String imgName)
 {
     setPowerOutput(ON);
-    wait(1500);
+    /**
+     * Increasing Power On Period
+     *
+     * Although the data sheet says that the camera needs ~1.5 sec to start-up,
+     * in practice 2 sec makes for a much more reliable situation.
+     */
+    wait(2000);//1500);
 
     // initialize camera and image storage
     cameraComPort.init();
