@@ -4,7 +4,7 @@
                	Situational: usb_function_hid.h, usb_function_cdc.h, usb_function_msd.h, etc.
  Processor:		PIC18 or PIC24 USB Microcontrollers
  Hardware:		The code is natively intended to be used on the following
- 				hardware platforms: PICDEM™ FS USB Demo Board, 
+ 				hardware platforms: PICDEM™ FS USB Demo Board,
  				PIC18F87J50 FS USB Plug-In Module, or
  				Explorer 16 + PIC24 USB PIM.  The firmware may be
  				modified for use on other USB platforms by editing the
@@ -56,7 +56,7 @@
 								// of applications.  Exceptions to this, are applications
 								// that use EP0 IN or OUT for sending large amounts of
 								// application related data.
-									
+
 #define USB_MAX_NUM_INT     	1   // Number of interface descriptors in the device (used for tracking Alternate Setting)
 #define USB_MAX_EP_NUMBER	    1   // Maximum endpoint number used in the device
 
@@ -100,10 +100,10 @@
 //If progress is made (any successful transactions completing on EP0 IN or OUT)
 //the timeout counter gets reset to the USB_STATUS_STAGE_TIMEOUT value.
 //
-//During normal control transfer processing, the USB stack or the application 
+//During normal control transfer processing, the USB stack or the application
 //firmware will call USBCtrlEPAllowStatusStage() as soon as the firmware is finished
-//processing the control transfer.  Therefore, the status stage completes as 
-//quickly as is physically possible.  The USB_ENABLE_STATUS_STAGE_TIMEOUTS 
+//processing the control transfer.  Therefore, the status stage completes as
+//quickly as is physically possible.  The USB_ENABLE_STATUS_STAGE_TIMEOUTS
 //feature, and the USB_STATUS_STAGE_TIMEOUT value are only relevant, when:
 //1.  The application uses the USBDeferStatusStage() API function, but never calls
 //      USBCtrlEPAllowStatusStage().  Or:
@@ -115,13 +115,13 @@
 //and it never uses host to device control transfers with data stage, then
 //it is not required to enable the USB_ENABLE_STATUS_STAGE_TIMEOUTS feature.
 
-#define USB_ENABLE_STATUS_STAGE_TIMEOUTS    //Comment this out to disable this feature.  
+#define USB_ENABLE_STATUS_STAGE_TIMEOUTS    //Comment this out to disable this feature.
 
 //Section 9.2.6 of the USB 2.0 specifications indicate that:
-//1.  Control transfers with no data stage: Status stage must complete within 
+//1.  Control transfers with no data stage: Status stage must complete within
 //      50ms of the start of the control transfer.
-//2.  Control transfers with (IN) data stage: Status stage must complete within 
-//      50ms of sending the last IN data packet in fullfilment of the data stage.
+//2.  Control transfers with (IN) data stage: Status stage must complete within
+//      50ms of sending the last IN data packet in fulfillment of the data stage.
 //3.  Control transfers with (OUT) data stage: No specific status stage timing
 //      requirement.  However, the total time of the entire control transfer (ex:
 //      including the OUT data stage and IN status stage) must not exceed 5 seconds.

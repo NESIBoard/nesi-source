@@ -22,7 +22,7 @@
  * 09/24/2013 - Dakotah Karrer
  *   Migrated from solenoid software module.
  * 11/27/2013 - Mickie Byrd
- *   Added isOk() to make consistant with other NESI modules.
+ *   Added isOk() to make consistent with other NESI modules.
  */
 
 #include "system.h"
@@ -51,7 +51,7 @@ static void setOffA(void)
 
 static void initializeA(void)
 {
-    /* no itialization needed*/
+    /* no initialization needed*/
 }
 
 static Boolean readInputA(void)
@@ -66,13 +66,13 @@ static Boolean failureA(void)
     powerDriverA.on();      /* Turns powerDriverA on */
     if( powerDriverA.status()== 1 )
     {                    /* Error if powerDriverA  is on and status = 1 */
-        error = 1;       /** Note: something must be pulgged into JP2 **/
+        error = 1;       /** Note: something must be plugged into JP2 **/
     }
     powerDriverA.off();     /*Turns powerDriverA off*/
 
     if(powerDriverA.status()==0)
     {                               /* Error if powerDriverA is off and status = 0 */
-        error = 1;                  /** Note: something must be pulgged into JP2 **/
+        error = 1;                  /** Note: something must be plugged into JP2 **/
     }
 
     return error;       /* If error = 0 then nothing is wrong. If error = 1 then something is wrong*/

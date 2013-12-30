@@ -79,7 +79,7 @@ static void initClock(void)
      * first be prescaled (divided down) to 4MHz or less before they can be
      * fed into the PLL block.
      */
-    _RCDIV = 0b001;            // go from 8MHz down to 4MHz
+    _RCDIV = 0b001;     // go from 8MHz down to 4MHz
     _CPDIV = 0b000;     // do not scale down the CPU clock
 
     /**
@@ -125,11 +125,11 @@ static void initAnalog(void)
      * The ADC module will be configured to sample the chosen channel when
      * triggered.
      */
-    AD1CON1bits.ADSIDL = 0; // do not stop ADC in Idle mode
+    AD1CON1bits.ADSIDL = 0;   // do not stop ADC in Idle mode
     AD1CON1bits.FORM = 0b00;  // data formated as an unsigned integer
-    AD1CON3bits.ADRC = 0;    // ADC drives clock from the system clock
+    AD1CON3bits.ADRC = 0;     // ADC drives clock from the system clock
     AD1CON1bits.SSRC = 0b111; // autoconvert samples
-    AD1CON1bits.ASAM = 0;    // manual sample start
+    AD1CON1bits.ASAM = 0;     // manual sample start
     AD1CON3bits.SAMC = 4;     // ADC samples for 4 Tad
     AD1CON3bits.ADCS = 1;     // ADC clock is 2 Tcy
 
@@ -138,11 +138,11 @@ static void initAnalog(void)
      *
      * Inputs will be read as needed. Scanning will be disabled by the ADC module.
      */
-    AD1CHS0bits.CH0NA = 0;  // MUXA negative input is Vref-
+    AD1CHS0bits.CH0NA = 0;    // MUXA negative input is Vref-
     AD1CON2bits.VCFG = 0b000; // ADC Vref+ reference is AVdd and Vref- is AVss
-    AD1CON2bits.ALTS = 0;   // always sample from input A (mux A)
-    AD1CON2bits.CSCNA = 0;   // do not scan ADC inputs on CH0+ during sample A
-    AD1CSSL = 0;            // disable all channel scans
+    AD1CON2bits.ALTS = 0;     // always sample from input A (mux A)
+    AD1CON2bits.CSCNA = 0;    // do not scan ADC inputs on CH0+ during sample A
+    AD1CSSL = 0;              // disable all channel scans
 
     /**
      * Interrupt Configuration

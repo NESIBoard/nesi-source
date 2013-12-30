@@ -171,8 +171,8 @@ static Sint getPicture(void)
 
     /* acknowledge camera's sync request */
     toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = ACK; // acknowledge
-    toCam.parameter1 = SYNC; // the sync
+    toCam.cmdToken = ACK;      // acknowledge
+    toCam.parameter1 = SYNC;   // the sync
 
     while(!(fromCam.cmdToken == SYNC)) // wait for camera SYNC request
         fromCam = getPacket();
@@ -181,11 +181,11 @@ static Sint getPicture(void)
 
     /* configure camera */
     toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = INITIAL; // initial configuration
-    toCam.parameter1 = 0x04; // 115,200 baud rate
-    toCam.parameter2 = 0x87; // compress color
-    toCam.parameter3 = 0x01; // 80x60 preview resolution
-    toCam.parameter4 = 0x07; // 640x480 compression resolution
+    toCam.cmdToken = INITIAL;  // initial configuration
+    toCam.parameter1 = 0x04;   // 115,200 baud rate
+    toCam.parameter2 = 0x87;   // compress color
+    toCam.parameter3 = 0x01;   // 80x60 preview resolution
+    toCam.parameter4 = 0x07;   // 640x480 compression resolution
     sendPacket(toCam);
 
     /* if camera acknowledges changes, change the UART baud rate */
@@ -197,8 +197,8 @@ static Sint getPicture(void)
 
     /* specify image quality */
     toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = QUALITY; // configure picture quality
-    toCam.parameter1 = 0x00; // to be the best
+    toCam.cmdToken = QUALITY;  // configure picture quality
+    toCam.parameter1 = 0x00;   // to be the best
     sendPacket(toCam);
 
     /* if camera acknowledges change, then get an image */
@@ -208,19 +208,19 @@ static Sint getPicture(void)
 
     /* get an image */
     toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = GET_PIC; // configure picture quality
-    toCam.parameter1 = 0x05; // get full size image
+    toCam.cmdToken = GET_PIC;  // configure picture quality
+    toCam.parameter1 = 0x05;   // get full size image
     sendPacket(toCam);
 
     /* if camera acknowledges request, then retrieve image data */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == GET_PIC))
-        return 5;// if request was not successful
+        return 5; // if request was not successful
 
     /* get image size */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == DATA))
-        return 6;// if request was not successful
+        return 6; // if request was not successful
 
     /* read data size */
     picsize = bytesToGet = fromCam.parameter2 + fromCam.parameter3 * 0x100LL + fromCam.parameter4 * 0x10000LL;
@@ -243,8 +243,8 @@ static Sint getPicture(void)
 
     /* acknowledge that data was received */
     toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = ACK; // notify the camera of successful
-    toCam.parameter1 = DATA; // data retrieval
+    toCam.cmdToken = ACK;      // notify the camera of successful
+    toCam.parameter1 = DATA;   // data retrieval
     /* not needed */
     //sendPacket(toCam);
     pause(30);

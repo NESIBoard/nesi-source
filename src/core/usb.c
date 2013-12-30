@@ -102,9 +102,9 @@ const ROM InquiryResponse inq_resp = {
 	0x02,		// response is in format specified by SPC-2
 	0x20,		// n-4 = 36-4=32= 0x20
 	0x00,		// sccs etc.
-	0x00,		// bque=1 and cmdque=0,indicates simple queueing 00 is obsolete,
+	0x00,		// bque=1 and cmdque=0, indicates simple queuing 00 is obsolete,
 			    // but as in case of other device, we are just using 00
-	0x00,		// 00 obsolete, 0x80 for basic task queueing
+	0x00,		// 00 obsolete, 0x80 for basic task queuing
 
 	{'N','E','S','I',' ','1','.','2'},	// this is the T10 assigned Vendor ID
 	{'S','D',' ','C','a','r','d',' ','S','t','o','r','a','g','e',' '},
@@ -256,7 +256,7 @@ void __attribute__ ((interrupt)) _USB1Interrupt(void)
  * Overview:        The host may put USB peripheral devices in low power
  *					suspend mode (by "sending" 3+ms of idle).  Once in suspend
  *					mode, the host may wake the device back up by sending non-
- *					idle state signalling.
+ *					idle state signaling.
  *
  *					This call back is invoked when a wakeup from USB suspend
  *					is detected.
@@ -447,11 +447,11 @@ void USBCBInitEP(void)
  *					USB applications, such as an Infrared remote
  *					control	receiver.  If a user presses the "power"
  *					button on a remote control, it is nice that the
- *					IR receiver can detect this signalling, and then
+ *					IR receiver can detect this signaling, and then
  *					send a USB "command" to the PC to wake up.
  *
  *					The USBCBSendResume() "callback" function is used
- *					to send this special USB signalling which wakes
+ *					to send this special USB signaling which wakes
  *					up the PC.  This function may be called by
  *					application firmware to wake up the PC.  This
  *					function will only be able to wake up the host if
@@ -471,7 +471,7 @@ void USBCBInitEP(void)
  *                  then this function will return without actually performing a
  *                  remote wakeup sequence.  This is the required behavior,
  *                  as a USB device that has not been armed to perform remote
- *                  wakeup must not drive remote wakeup signalling onto the bus;
+ *                  wakeup must not drive remote wakeup signaling onto the bus;
  *                  doing so will cause USB compliance testing failure.
  *
  *					This callback should send a RESUME signal that
@@ -532,7 +532,7 @@ void USBCBSendResume(void)
     if(USBGetRemoteWakeupStatus() == TRUE)
     {
         //Verify that the USB bus is in fact suspended, before we send
-        //remote wakeup signalling.
+        //remote wakeup signaling.
         if(USBIsBusSuspended() == TRUE)
         {
             USBMaskInterrupts();
@@ -545,9 +545,9 @@ void USBCBSendResume(void)
 
             //Section 7.1.7.7 of the USB 2.0 specifications indicates a USB
             //device must continuously see 5ms+ of idle on the bus, before it sends
-            //remote wakeup signalling.  One way to be certain that this parameter
+            //remote wakeup signaling.  One way to be certain that this parameter
             //gets met, is to add a 2ms+ blocking delay here (2ms plus at
-            //least 3ms from bus idle to USBIsBusSuspended() == TRUE, yeilds
+            //least 3ms from bus idle to USBIsBusSuspended() == TRUE, yields
             //5ms+ total delay since start of idle).
             delay_count = 3600U;
             do
@@ -555,14 +555,14 @@ void USBCBSendResume(void)
                 delay_count--;
             }while(delay_count);
 
-            //Now drive the resume K-state signalling onto the USB bus.
+            //Now drive the resume K-state signaling onto the USB bus.
             USBResumeControl = 1;       // Start RESUME signaling
             delay_count = 1800U;        // Set RESUME line for 1-13 ms
             do
             {
                 delay_count--;
             }while(delay_count);
-            USBResumeControl = 0;       //Finished driving resume signalling
+            USBResumeControl = 0;       //Finished driving resume signaling
 
             USBUnmaskInterrupts();
         }

@@ -40,14 +40,14 @@
 
 // Summary: A macro indicating whether Long File Name is supported
 // Description: If this macro is disabled then only 8.3 format file name is enabled.
-//              If this macro is enabled then long file names upto 256 characters are
+//              If this macro is enabled then long file names up to 256 characters are
 //              supported.
 #define	SUPPORT_LFN
 
 // Summary: A macro indicating the maximum number of concurrently open files
 // Description: The FS_MAX_FILES_OPEN #define is only applicable when dynamic memory allocation is not used (FS_DYNAMIC_MEM is not defined).
 //              This macro defines the maximum number of open files at any given time.  The amount of RAM used by FSFILE objects will
-//              be equal to the size of an FSFILE object multipled by this macro value.  This value should be kept as small as possible
+//              be equal to the size of an FSFILE object multiplied by this macro value.  This value should be kept as small as possible
 //              as dictated by the application.  This will reduce memory usage.
 #define FS_MAX_FILES_OPEN 	3
 

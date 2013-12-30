@@ -47,9 +47,9 @@ typedef enum _CETYPE
     CE_NOT_FORMATTED,               // The disk is of an unsupported format
     CE_BAD_PARTITION,               // The boot record is bad
     CE_UNSUPPORTED_FS,              // The file system type is unsupported
-    CE_INIT_ERROR,                  // An initialization error has occured
+    CE_INIT_ERROR,                  // An initialization error has occurred
     CE_NOT_INIT,                    // An operation was performed on an uninitialized device
-    CE_BAD_SECTOR_READ,             // A bad read of a sector occured
+    CE_BAD_SECTOR_READ,             // A bad read of a sector occurred
     CE_WRITE_ERROR,                 // Could not write to a sector
     CE_INVALID_CLUSTER,             // Invalid cluster value > maxcls
     CE_FILE_NOT_FOUND,              // Could not find the file on the device
@@ -108,7 +108,7 @@ typedef enum _CETYPE
 
 // Summary: A read-only attribute macro
 // Description: A macro for the read-only attribute.  A file with this attribute should not be written to.  Note that this
-//              attribute will not actually prevent a write to the file; that functionality is operating-system dependant.  The
+//              attribute will not actually prevent a write to the file; that functionality is operating-system dependent. The
 //              user should take care not to write to a read-only file.
 #define ATTR_READ_ONLY      0x01
 
@@ -153,7 +153,7 @@ typedef enum _CETYPE
 
 // Summary: A macro to indicate an empty FAT entry
 // Description: The CLUSTER_EMPTY value is used to indicate that a FAT entry and it's corresponding cluster are available.
-#define CLUSTER_EMPTY               0x0000 
+#define CLUSTER_EMPTY               0x0000
 
 // Summary: A macro to indicate the last cluster value for FAT12
 // Description: The LAST_CLUSTER_FAT12 macro is used when reading the FAT to indicate that the next FAT12 entry for a file contains
@@ -176,7 +176,7 @@ typedef enum _CETYPE
 #define END_CLUSTER_FAT16           0xFFF7
 
 // Summary: A macro to indicate the failure of the ReadFAT function
-// Description: The CLUSTER_FAIL_FAT16 macro is used by the ReadFAT function to indicate that an error occured reading a FAT12 or FAT16
+// Description: The CLUSTER_FAIL_FAT16 macro is used by the ReadFAT function to indicate that an error occurred reading a FAT12 or FAT16
 //              file allocation table.  Note that since '0xFFF8' is used for the last cluster return value in the FAT16 implementation
 //              the end-of-file value '0xFFFF' can be used to indicate an error condition.
 #define CLUSTER_FAIL_FAT16          0xFFFF
@@ -195,7 +195,7 @@ typedef enum _CETYPE
     #define END_CLUSTER_FAT32       0x0FFFFFF7
 
     // Summary: A macro to indicate the failure of the ReadFAT function
-    // Description: The CLUSTER_FAIL_FAT32 macro is used by the ReadFAT function to indicate that an error occured reading a FAT32
+    // Description: The CLUSTER_FAIL_FAT32 macro is used by the ReadFAT function to indicate that an error occurred reading a FAT32
     //              file allocation able.
     #define CLUSTER_FAIL_FAT32      0x0FFFFFFF
 
@@ -222,7 +222,7 @@ typedef enum _CETYPE
 
 
 // Summary: A macro used to indicate the length of an 8.3 file name
-// Description: The DIR_NAMESIZE macro is used when validing the name portion of 8.3 filenames
+// Description: The DIR_NAMESIZE macro is used when validating the name portion of 8.3 filenames
 #define DIR_NAMESIZE        8
 
 // Summary: A macro used to indicate the length of an 8.3 file extension
@@ -265,7 +265,7 @@ typedef enum _CETYPE
 // Summary: A structure containing information about the device.
 // Description: The DISK structure contains information about the device being accessed.
 typedef struct
-{ 
+{
     BYTE    *   buffer;         // Address of the global data buffer used to read and write file information
     DWORD       firsts;         // Logical block address of the first sector of the FAT partition on the device
     DWORD       fat;            // Logical block address of the FAT
@@ -329,7 +329,7 @@ typedef struct {
     BYTE  BootSec_BootSig;          // Boot signature - equal to 0x29
     BYTE  BootSec_VolID[4];         // Volume ID
     BYTE  BootSec_VolLabel[11];     // Volume Label
-    BYTE  BootSec_FSType[8];        // File system type in ASCII. Not used for determination   
+    BYTE  BootSec_FSType[8];        // File system type in ASCII. Not used for determination
 #if defined __PIC32MX__ || defined __C30__
     } __attribute__ ((packed)) _BPB_FAT12;
 #else
@@ -358,7 +358,7 @@ typedef struct {
     BYTE  BootSec_BootSig;          // Boot signature - equal to 0x29
     BYTE  BootSec_VolID[4];         // Volume ID
     BYTE  BootSec_VolLabel[11];     // Volume Label
-    BYTE  BootSec_FSType[8];        // File system type in ASCII. Not used for determination     
+    BYTE  BootSec_FSType[8];        // File system type in ASCII. Not used for determination
 #if defined __PIC32MX__ || defined __C30__
     } __attribute__ ((packed)) _BPB_FAT16;
 #else
@@ -394,7 +394,7 @@ typedef struct {
     BYTE  BootSec_BootSig;          // Boot signature - 0x29
     BYTE  BootSec_VolID[4];         // Volume ID
     BYTE  BootSec_VolLab[11];       // Volume Label
-    BYTE  BootSec_FilSysType[8];    // File system type in ASCII.  Not used for determination  
+    BYTE  BootSec_FilSysType[8];    // File system type in ASCII.  Not used for determination
 #if defined __PIC32MX__ || defined __C30__
     } __attribute__ ((packed)) _BPB_FAT32;
 #else
@@ -515,7 +515,7 @@ typedef _BootSec * BootSec;
 
 
 // Summary: A macro indicating the offset for the master boot record
-// Description: FO_MBR is a macro that indicates the addresss of the master boot record on the device.  When the device is initialized
+// Description: FO_MBR is a macro that indicates the address of the master boot record on the device.  When the device is initialized
 //              this sector will be read
 #define FO_MBR          0L
 
@@ -530,19 +530,19 @@ typedef _BootSec * BootSec;
 #define FAT_GOOD_SIGN_1     0xAA
 
 
-typedef struct 
+typedef struct
 {
     BYTE    errorCode;
-    union 
+    union
     {
         BYTE    value;
-        struct 
+        struct
         {
             BYTE    sectorSize  : 1;
             BYTE    maxLUN      : 1;
         }   bits;
     } validityFlags;
-    
+
     WORD    sectorSize;
     BYTE    maxLUN;
 } MEDIA_INFORMATION;
@@ -552,7 +552,7 @@ typedef enum
     MEDIA_NO_ERROR,                     // No errors
     MEDIA_DEVICE_NOT_PRESENT,           // The requested device is not present
     MEDIA_CANNOT_INITIALIZE             // Cannot initialize media
-} MEDIA_ERRORS;                
+} MEDIA_ERRORS;
 
 
 #endif

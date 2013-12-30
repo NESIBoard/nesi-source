@@ -22,7 +22,7 @@
  * 09/24/2013 - Dakotah Karrer
  *   Migrated from solenoid software module.
  * 11/27/2013 - Mickie Byrd
- *   Added isOk() to make consistant with other NESI modules.
+ *   Added isOk() to make consistent with other NESI modules.
  */
 
 #ifndef POWERDRIVER_H
@@ -43,13 +43,13 @@
 */
 typedef struct {
     /**
-     * Check if a hardware failure has occured with the powerDriver
-     * @return whether or not a hardware failure has occured
+     * Check if a hardware failure has occurred with the powerDriver
+     * @return whether or not a hardware failure has occurred
      */
     Boolean (*isFailure)(void);
     /**
      * Checks if the powerDriver hardware is ok.
-     * @return whether or not a hardware failure has occured
+     * @return whether or not a hardware failure has occurred
      */
     Boolean (*isOk)(void);
     /**

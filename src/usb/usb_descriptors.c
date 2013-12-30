@@ -173,7 +173,7 @@ ROM USB_DEVICE_DESCRIPTOR device_dsc=
     0x00,                   // Protocol code
     USB_EP0_BUFF_SIZE,          // Max packet size for EP0, see usb_config.h
     0x04D8,                 // Vendor ID
-    0x0009,                // Product ID: mass storage device demo
+    0x0009,                 // Product ID: mass storage device demo
     0x0001,                 // Device release number in BCD format
     0x01,                   // Manufacturer string index
     0x02,                   // Product string index
@@ -184,25 +184,25 @@ ROM USB_DEVICE_DESCRIPTOR device_dsc=
 /* Configuration 1 Descriptor */
 ROM BYTE configDescriptor1[]={
     /* Configuration Descriptor */
-    9,    // Size of this descriptor in bytes
-    USB_DESCRIPTOR_CONFIGURATION,                // CONFIGURATION descriptor type
-    0x20,0x00,          // Total length of data for this cfg
-    1,                      // Number of interfaces in this cfg
-    1,                      // Index value of this configuration
-    0,                      // Configuration string index
-    _DEFAULT | _SELF,               // Attributes, see usb_device.h
-    250,                     // Max power consumption (2X mA)
+    9,                            // Size of this descriptor in bytes
+    USB_DESCRIPTOR_CONFIGURATION, // CONFIGURATION descriptor type
+    0x20,0x00,                    // Total length of data for this cfg
+    1,                            // Number of interfaces in this cfg
+    1,                            // Index value of this configuration
+    0,                            // Configuration string index
+    _DEFAULT | _SELF,             // Attributes, see usb_device.h
+    250,                          // Max power consumption (2X mA)
 
     /* Interface Descriptor */
-    9,   // Size of this descriptor in bytes
-    USB_DESCRIPTOR_INTERFACE,               // INTERFACE descriptor type
-    0,                      // Interface Number
-    0,                      // Alternate Setting Number
-    2,                      // Number of endpoints in this intf
-    MSD_INTF,               // Class code
-    MSD_INTF_SUBCLASS,      // Subclass code
-    MSD_PROTOCOL, 		    // Protocol code
-    0,                      // Interface string index
+    9,                         // Size of this descriptor in bytes
+    USB_DESCRIPTOR_INTERFACE,  // INTERFACE descriptor type
+    0,                         // Interface Number
+    0,                         // Alternate Setting Number
+    2,                         // Number of endpoints in this intf
+    MSD_INTF,                  // Class code
+    MSD_INTF_SUBCLASS,         // Subclass code
+    MSD_PROTOCOL, 		       // Protocol code
+    0,                         // Interface string index
 
     /* Endpoint Descriptor */
     7,

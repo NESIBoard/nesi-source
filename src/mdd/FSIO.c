@@ -49,7 +49,7 @@
           Fixed bug that prevented the Windows Explorer to show the Date Creation field for directories
 
   x.x.x   Fixed issue on some USB drives where the information written
-            to the drive is cached in a RAM for 500ms before it is 
+            to the drive is cached in a RAM for 500ms before it is
             written to the flash unless the sector is accessed again.
           Add some error recovery for FAT32 systems when there is
             corruption in the boot sector.
@@ -57,10 +57,10 @@
   1.3.0   Modified to support Long File Name(LFN) format
   1.3.4   1) Initialized some of the local variables to default values
              to remove non-critical compiler warnings for code sanitation.
-          2) The sector size of the media device is obtained from the MBR of media.So, 
+          2) The sector size of the media device is obtained from the MBR of media.So,
              instead of using the hard coded macro "DIRENTRIES_PER_SECTOR", the variables
-             "dirEntriesPerSector" & "disk->sectorSize" are used in the code. Refer 
-             "Cache_File_Entry","EraseCluster" & "writeDotEntries" fucntions to see 
+             "dirEntriesPerSector" & "disk->sectorSize" are used in the code. Refer
+             "Cache_File_Entry","EraseCluster" & "writeDotEntries" functions to see
              the change.
   1.3.6   1) The function "FILEget_next_cluster" is made public.
           2) Modified "FILEfind" function such that when using 8.3 format
@@ -72,12 +72,12 @@
           5) Updated comments in most of the function header blocks.
   1.4.0   1) While creating files in LFN format with file name length as 13,26,39,52...etc(multiples of 13),
              MDD library was creating incorrect directory entries. To fix this issue,
-             functions "FILEfind", "CreateFileEntry", "Alias_LFN_Object", "FormatFileName", 
+             functions "FILEfind", "CreateFileEntry", "Alias_LFN_Object", "FormatFileName",
              "FormatDirName", "FSgetcwd", "GetPreviousEntry" & "rmdirhelper" were modified.
              Now "utf16LFNlength" variable part of "FSFILE" structure, indicates LFN length
              excluding the NULL word at the last.
           2) When creating large number of files in LFN format, some files were not getting created in disk.
-             To fix this issue,function "FILEfind" was modified.
+             To fix this issue, function "FILEfind" was modified.
           3) Modified "FSformat" function to initialize "disk->sectorSize" to default value.
           4) Modified "CreateFileEntry" & "FindEmptyEntries" functions to remove unnecessary
              assignments & optimize the code.
@@ -407,7 +407,7 @@ DWORD GetFullClusterNumber(DIRENTRY entry);
   Description:
     This function initializes the file system stack & the interfacing device.
     Initializes the static or dynamic memory slots for holding file
-    structures. Initializes the device with the DISKmount function. Loads 
+    structures. Initializes the device with the DISKmount function. Loads
     MBR and boot sector information. Initializes the current working
     directory to the root directory for the device if directory support
     is enabled.
@@ -428,9 +428,9 @@ int FSInit(void)
 #endif
 
     gBufferZeroed = FALSE;
-    gNeedFATWrite = FALSE;             
-    gLastFATSectorRead = 0xFFFFFFFF;       
-    gLastDataSectorRead = 0xFFFFFFFF;  
+    gNeedFATWrite = FALSE;
+    gLastFATSectorRead = 0xFFFFFFFF;
+    gLastDataSectorRead = 0xFFFFFFFF;
 
     MDD_InitIO();
 
@@ -583,7 +583,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
                 	state = Fill_File_Object(foDest, &fHandle);
 				#endif
 
-                if(state == NO_MORE) // Reached the end of available files. Comparision over and file not found so quit.
+                if(state == NO_MORE) // Reached the end of available files. Comparison over and file not found so quit.
                 {
                     break;
                 }
@@ -611,8 +611,8 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
 					if(lfnObject.LFN_SequenceNo & 0x40)
 					{
 						lfnFoundMaxSequenceNum = lfnObject.LFN_SequenceNo & 0x1F;
-						
-						if((mode == 0x00) && ((fileNameLength && (lfnFoundMaxSequenceNum != lfnCompareMaxSequenceNum)) || 
+
+						if((mode == 0x00) && ((fileNameLength && (lfnFoundMaxSequenceNum != lfnCompareMaxSequenceNum)) ||
 						   (!fileNameLength && (lfnFoundMaxSequenceNum != 0x01))))
 						{
 //							fHandle = fHandle + lfnFoundMaxSequenceNum + 1;
@@ -649,7 +649,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
 						tempShift.byte.HB = lfnObject.LFN_Part1[1];
 						fileFoundString[fileFoundLfnIndex--] = tempShift.Val;
 
-						
+
 						fileFoundLength = fileCompareLfnIndex + 1;
 						for(index = 1;index <= MAX_UTF16_CHARS_IN_LFN_ENTRY;index++)
 						{
@@ -720,7 +720,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
           	        case 0:
 
 							// Copy the contents of any SFN found to temporary string
-							// for future comparision tests
+							// for future comparison tests
 							for(index = 0;index < FILE_NAME_SIZE_8P3;index++)
 								tempDst[index] = dst[index];
 
@@ -734,12 +734,12 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
 								}
 								tempDst[index++] = '.';
 								tempDst[index++] = dst[8];
-								
+
 								if(dst[9] != ' ')
 									tempDst[index++] = dst[9];
 								else
 									tempDst[index++] = 0x00;
-							
+
 								if(dst[10] != ' ')
 									tempDst[index++] = dst[10];
 								else
@@ -756,7 +756,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
 
 							// Terminate the string using the NULL value
 							tempDst[index] = 0x00;
-          
+
           	            	if(fileNameLength)
           	            	{
           	        			if(foundLFN)
@@ -901,13 +901,13 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
           	         			{
           	         				if (templfnPtr[fileCompareLfnIndex] == '*')
           	         					break;
-          	         			   
+
 									if(fileCompareLfnIndex > lfnCountIndex)
           	         			    {
           	         			    	statusB = CE_FILE_NOT_FOUND; // Nope its not a match
           	         			    	break;
           	         			    }
-          	         			   
+
           	         			   if (templfnPtr[fileCompareLfnIndex] != '?')
           	         			   {
 				  						if(foCompareTo -> AsciiEncodingType)
@@ -975,13 +975,13 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
           	         			{
           	         				if (templfnPtr[fileCompareLfnIndex] == '*')
           	         					break;
-          	         			   
+
 									if((foundLFN && (lfnCountIndex > fileFoundMaxLfnIndex)) || (foundSFN && (lfnCountIndex == 11)))
 									{
           	         			    	statusB = CE_FILE_NOT_FOUND; // Nope its not a match
           	         			    	break;
 									}
-          	         			   
+
           	         			   if (templfnPtr[fileCompareLfnIndex] != '?')
           	         			   {
 				  						if(foCompareTo -> AsciiEncodingType)
@@ -1045,7 +1045,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
 								else
 									fileCompareLfnIndex = DIR_NAMESIZE - 1;	// Short File name last char position
 
-               		    	    if (foCompareTo->name[0] != '*')   //If "*" is passed for comparion as 1st char then don't proceed. Go back, file alreay found.
+               		    	    if (foCompareTo->name[0] != '*')   //If "*" is passed for comparison as 1st char then don't proceed. Go back, file already found.
                		    	    {
                		    	        for (index = 0;;)
                		    	        {
@@ -1076,7 +1076,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
                		    	                    break;
                		    	                }
                		    	            }
-               		    	 
+
                		    	 			index++;
                		    	 			if(index == DIR_NAMESIZE)
                		    	        	{
@@ -1157,7 +1157,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
           	            	break;
 				  }
 
-				// If the comparision of each character in LFN is completed
+				// If the comparison of each character in LFN is completed
 				if(statusB == CE_GOOD)
 				{
 					if(foundLFN)
@@ -1230,7 +1230,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
                		         {
                		             statusB = CE_GOOD;                 // Indicate the already filled file data is correct and go back
                		             character = (BYTE)'m';             // random value
-               		             if (foCompareTo->name[0] != '*')   //If "*" is passed for comparion as 1st char then don't proceed. Go back, file alreay found.
+               		             if (foCompareTo->name[0] != '*')   //If "*" is passed for comparison as 1st char then don't proceed. Go back, file already found.
                		             {
                		                 for (index = 0; index < DIR_NAMESIZE; index++)
                		                 {
@@ -1324,7 +1324,7 @@ CETYPE FILEfind( FILEOBJ foDest, FILEOBJ foCompareTo, BYTE cmd, BYTE mode)
     CE_GOOD -            FILEopen successful
     CE_NOT_INIT -        Device is not yet initialized
     CE_FILE_NOT_FOUND -  Could not find the file on the device
-    CE_BAD_SECTOR_READ - A bad read of a sector occured
+    CE_BAD_SECTOR_READ - A bad read of a sector occurred
   Side Effects:
     None
   Description:
@@ -1446,7 +1446,7 @@ CETYPE FILEopen (FILEOBJ fo, WORD *fHandle, char type)
     n -  Number of links in the FAT cluster chain to jump through
   Return Values:
     CE_GOOD - Operation successful
-    CE_BAD_SECTOR_READ - A bad read occured of a sector
+    CE_BAD_SECTOR_READ - A bad read occurred of a sector
     CE_INVALID_CLUSTER - Invalid cluster value \> maxcls
     CE_FAT_EOF - Fat attempt to read beyond EOF
   Side Effects:
@@ -1525,14 +1525,14 @@ BYTE FILEget_next_cluster(FSFILE *fo, DWORD n)
   Function:
     BYTE DISKmount ( DISK *dsk)
   Summary:
-    Initialies the device and loads MBR and boot sector information
+    Initializes the device and loads MBR and boot sector information
   Conditions:
     This function should not be called by the user.
   Input:
     dsk -  The disk structure to be initialized.
   Return Values:
     CE_GOOD -       Disk mounted
-    CE_INIT_ERROR - Initialization error has occured
+    CE_INIT_ERROR - Initialization error has occurred
     CE_UNSUPPORTED_SECTOR_SIZE - Media sector size bigger than
                 MEDIA_SECTOR_SIZE as defined in FSconfig.h.
   Side Effects:
@@ -1603,7 +1603,7 @@ BYTE DISKmount( DISK *dsk)
     dsk -  The disk containing the master boot record to be loaded
   Return Values:
     CE_GOOD -            MBR loaded successfully
-    CE_BAD_SECTOR_READ - A bad read occured of a sector
+    CE_BAD_SECTOR_READ - A bad read occurred of a sector
     CE_BAD_PARTITION -   The boot record is bad
   Side Effects:
     None
@@ -1685,7 +1685,7 @@ BYTE LoadMBR(DISK *dsk)
                 }
             }
         }
-        // assign it the partition table strucutre
+        // assign it the partition table structure
         Partition = (PT_MBR)dsk->buffer;
 
         // Ensure its good
@@ -1700,7 +1700,7 @@ BYTE LoadMBR(DISK *dsk)
             PTE_MBR* partitionEntry = &Partition->Partition0;
 
             for(i=0; i<4; i++)
-            {                
+            {
                 /*    Valid Master Boot Record Loaded   */
 
                 // Get the 32 bit offset to the first partition
@@ -1754,7 +1754,7 @@ BYTE LoadMBR(DISK *dsk)
     dsk -  The disk containing the boot sector
   Return Values:
     CE_GOOD -                    Boot sector loaded
-    CE_BAD_SECTOR_READ -         A bad read occured of a sector
+    CE_BAD_SECTOR_READ -         A bad read occurred of a sector
     CE_NOT_FORMATTED -           The disk is of an unsupported format
     CE_CARDFAT32 -               FAT 32 device not supported
     CE_UNSUPPORTED_SECTOR_SIZE - The sector size is not supported
@@ -1764,7 +1764,7 @@ BYTE LoadMBR(DISK *dsk)
     LoadBootSector will use the function pointed to by the MDD_SectorWrite
     function pointer to load the boot sector, whose location was obtained
     by a previous call of LoadMBR.  If the boot sector is loaded successfully,
-    partition information will be calcualted from it and copied into the DISK
+    partition information will be calculated from it and copied into the DISK
     structure pointed to by 'dsk.'
   Remarks:
     None
@@ -1803,7 +1803,7 @@ BYTE LoadBootSector(DISK *dsk)
             {
                 error = CE_NOT_FORMATTED;
             }
-            else   
+            else
             {
 
                 do      //loop just to allow a break to jump out of this section of code
@@ -1823,7 +1823,7 @@ BYTE LoadBootSector(DISK *dsk)
                     dsk->root = dsk->fat + (DWORD)(dsk->fatcopy * (DWORD)dsk->fatsize);
                     // Determine the max size of the root (will be 0 for FAT32)
                     dsk->maxroot    = BSec->FAT.FAT_16.BootSec_RootDirEnts;
-    
+
                     // Determine the total number of sectors in the partition
                     if(BSec->FAT.FAT_16.BootSec_TotSec16 != 0)
                     {
@@ -1833,7 +1833,7 @@ BYTE LoadBootSector(DISK *dsk)
                     {
                         TotSec = BSec->FAT.FAT_16.BootSec_TotSec32;
                     }
-    
+
                     // Calculate the number of bytes in each sector
                     BytesPerSec = BSec->FAT.FAT_16.BootSec_BPS;
                     if( (BytesPerSec == 0) || ((BytesPerSec & 1) == 1) )
@@ -1841,16 +1841,16 @@ BYTE LoadBootSector(DISK *dsk)
                         error = CE_UNSUPPORTED_SECTOR_SIZE;
                         break;  //break out of the do while loop
                     }
-    
+
                     // Calculate the number of sectors in the root (will be 0 for FAT32)
                     RootDirSectors = ((BSec->FAT.FAT_16.BootSec_RootDirEnts * 32) + (BSec->FAT.FAT_16.BootSec_BPS - 1)) / BSec->FAT.FAT_16.BootSec_BPS;
                     // Calculate the number of data sectors on the card
                     DataSec = TotSec - (dsk->root + RootDirSectors);
                     // Calculate the maximum number of clusters on the card
                     dsk->maxcls = DataSec / dsk->SecPerClus;
-    
+
                     #else // PIC24/30/33
-    
+
                     // Read the count of reserved sectors
                     ReservedSectorCount = ReadWord( dsk->buffer, BSI_RESRVSEC );
                     // Load the count of sectors per cluster
@@ -1867,12 +1867,12 @@ BYTE LoadBootSector(DISK *dsk)
                     dsk->root = dsk->fat + (DWORD)(dsk->fatcopy * (DWORD)dsk->fatsize);
                     // Determine the max size of the root (will be 0 for FAT32)
                     dsk->maxroot = ReadWord( dsk->buffer, BSI_ROOTDIRENTS );
-    
+
                     // Determine the total number of sectors in the partition
                     TotSec = ReadWord( dsk->buffer, BSI_TOTSEC16 );
                     if( TotSec == 0 )
                         TotSec = ReadDWord( dsk->buffer, BSI_TOTSEC32 );
-    
+
                     // Calculate the number of bytes in each sector
                     BytesPerSec = ReadWord( dsk->buffer, BSI_BPS );
                     if( (BytesPerSec == 0) || ((BytesPerSec & 1) == 1) )
@@ -1880,16 +1880,16 @@ BYTE LoadBootSector(DISK *dsk)
                         error = CE_UNSUPPORTED_SECTOR_SIZE;
                         break;
                     }
-    
+
                     // Calculate the number of sectors in the root (will be 0 for FAT32)
                     RootDirSectors = ((dsk->maxroot * NUMBER_OF_BYTES_IN_DIR_ENTRY) + (BytesPerSec - 1)) / BytesPerSec;
                     // Calculate the number of data sectors on the card
                     DataSec = TotSec - (ReservedSectorCount + (dsk->fatcopy * dsk->fatsize )  + RootDirSectors);
                     // Calculate the maximum number of clusters on the card
                     dsk->maxcls = DataSec / dsk->SecPerClus;
-    
+
                     #endif
-    
+
                     // Determine the file system type based on the number of clusters used
                     if(dsk->maxcls < 4085)
                     {
@@ -1910,7 +1910,7 @@ BYTE LoadBootSector(DISK *dsk)
                             #endif
                         }
                     }
-        
+
                     #ifdef SUPPORT_FAT32
                         if (dsk->type == FAT32)
                         {
@@ -1927,7 +1927,7 @@ BYTE LoadBootSector(DISK *dsk)
                         FatRootDirClusterValue = 0;
                         dsk->data = dsk->root + ( dsk->maxroot >> 4);
                     }
-    
+
                 #ifdef __18CXX
                     if(BSec->FAT.FAT_16.BootSec_BPS > MEDIA_SECTOR_SIZE)
                 #else
@@ -1965,13 +1965,13 @@ BYTE LoadBootSector(DISK *dsk)
                 {
                     error = CE_NOT_FORMATTED;
                 }
-    
+
                 //If there were formatting errors then in FAT32 we can try to use
                 //  the backup boot sector
                 if((error != CE_GOOD) && (TriedSpecifiedBackupBootSec == FALSE))
                 {
                     TriedSpecifiedBackupBootSec = TRUE;
-    
+
                     if ( MDD_SectorRead( dsk->firsts + BSec->FAT.FAT_32.BootSec_BkBootSec, dsk->buffer) != TRUE)
                     {
                         FSerrno = CE_BAD_SECTOR_READ;
@@ -1983,11 +1983,11 @@ BYTE LoadBootSector(DISK *dsk)
                         continue;
                     }
                 }
-    
+
                 if((error != CE_GOOD) && (TriedBackupBootSecAtAddress6 == FALSE))
                 {
                     TriedBackupBootSecAtAddress6 = TRUE;
-    
+
                     //Here we are using the magic number 6 because the FAT32 specification
                     //  recommends that "No value other than 6 is recommended."  We've
                     //  already tried using the value specified in the BPB_BkBootSec
@@ -2214,16 +2214,16 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors)
 
     Based on the number of sectors, the format function automatically
     compute the smallest possible value for the cluster size in order to
-    accommodate the physical size of the media. In this case, if a media 
+    accommodate the physical size of the media. In this case, if a media
     with a big capacity is formatted, the format function may take a very
-    long time to write all the FAT tables. 
+    long time to write all the FAT tables.
 
-    Therefore, the FORMAT_SECTORS_PER_CLUSTER macro may be used to 
-    specify the exact cluster size (in multiples of sector size). This 
+    Therefore, the FORMAT_SECTORS_PER_CLUSTER macro may be used to
+    specify the exact cluster size (in multiples of sector size). This
     macro can be defined in FSconfig.h
 
   Remarks:
-    Only devices with a sector size of 512 bytes are supported by the 
+    Only devices with a sector size of 512 bytes are supported by the
     format function
   *******************************************************************/
 
@@ -2246,9 +2246,9 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
     FSerrno = CE_GOOD;
 
     gBufferZeroed = FALSE;
-    gNeedFATWrite = FALSE;             
-    gLastFATSectorRead = 0xFFFFFFFF;       
-    gLastDataSectorRead = 0xFFFFFFFF;  
+    gNeedFATWrite = FALSE;
+    gLastFATSectorRead = 0xFFFFFFFF;
+    gLastDataSectorRead = 0xFFFFFFFF;
 
     disk->buffer = gDataBuffer;
 
@@ -2288,8 +2288,8 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             (BSec->FAT.FAT_16.BootSec_BootSig == 0x29))
 #endif
         {
-            /* Mark that we do not have a MBR; 
-                this is not actualy used - is here only to remove a compilation warning */
+            /* Mark that we do not have a MBR;
+                this is not actually used - is here only to remove a compilation warning */
             masterBootRecord = (PT_MBR) NULL;
             switch (mode)
             {
@@ -2366,10 +2366,10 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                 fatsize = (secCount - 0x21  + (2*disk->SecPerClus));
                 test =   (341 * disk->SecPerClus) + 2;
                 fatsize = (fatsize + (test-1)) / test;
-    
+
                 disk->fatcopy = 0x02;
                 disk->maxroot = 0x200;
-    
+
                 disk->fatsize = fatsize;
 
             }
@@ -2392,7 +2392,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                     disk->SecPerClus *= 2;
                     DataClusters /= 2;
                 }
-                // This shouldnt happen
+                // This shouldn't happen
                 if (disk->SecPerClus > 128)
                 {
                     FSerrno = CE_BAD_PARTITION;
@@ -2409,10 +2409,10 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                 fatsize = (secCount - 0x21  + (2*disk->SecPerClus));
                 test =    (256  * disk->SecPerClus) + 2;
                 fatsize = (fatsize + (test-1)) / test;
-    
+
                 disk->fatcopy = 0x02;
                 disk->maxroot = 0x200;
-    
+
                 disk->fatsize = fatsize;
             }
             else
@@ -2436,7 +2436,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                         FSerrno = CE_BAD_PARTITION;
                         return EOF;
                     }
-                #else               
+                #else
                     /*  FAT32: 65526 < Number of clusters < 4177918 */
                     DataClusters = secCount;
                     // Figure out how many sectors per cluster we need
@@ -2461,10 +2461,10 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                 fatsize = (secCount - 0x20);
                 test =    (128  * disk->SecPerClus) + 1;
                 fatsize = (fatsize + (test-1)) / test;
-    
+
                 disk->fatcopy = 0x02;
                 disk->maxroot = 0x200;
-    
+
                 disk->fatsize = fatsize;
             }
 
@@ -2481,7 +2481,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             gDataBuffer[9] =  'A';
             gDataBuffer[10] = 'T';
 
-            gDataBuffer[11] = 0x00;             //Sector size 
+            gDataBuffer[11] = 0x00;             //Sector size
             gDataBuffer[12] = 0x02;
 
             gDataBuffer[13] = disk->SecPerClus;   //Sectors per cluster
@@ -2507,16 +2507,16 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
 
                 gDataBuffer[24] = 0x3F;           //Sectors per track
                 gDataBuffer[25] = 0x00;
-    
+
                 gDataBuffer[26] = 0xFF;         //Number of heads
                 gDataBuffer[27] = 0x00;
-    
+
                 // Hidden sectors = sectors between the MBR and the boot sector
                 gDataBuffer[28] = (BYTE)(disk->firsts & 0xFF);
                 gDataBuffer[29] = (BYTE)((disk->firsts / 0x100) & 0xFF);
                 gDataBuffer[30] = (BYTE)((disk->firsts / 0x10000) & 0xFF);
                 gDataBuffer[31] = (BYTE)((disk->firsts / 0x1000000) & 0xFF);
-    
+
                 // Total Sectors = same as sectors in the partition from MBR
                 gDataBuffer[32] = (BYTE)(secCount & 0xFF);
                 gDataBuffer[33] = (BYTE)((secCount / 0x100) & 0xFF);
@@ -2584,16 +2584,16 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
 
                 gDataBuffer[24] = 0x3F;         //Sectors per track
                 gDataBuffer[25] = 0x00;
-    
+
                 gDataBuffer[26] = 0xFF;         //Number of heads
                 gDataBuffer[27] = 0x00;
-    
+
                 // Hidden sectors = sectors between the MBR and the boot sector
                 gDataBuffer[28] = (BYTE)(disk->firsts & 0xFF);
                 gDataBuffer[29] = (BYTE)((disk->firsts / 0x100) & 0xFF);
                 gDataBuffer[30] = (BYTE)((disk->firsts / 0x10000) & 0xFF);
                 gDataBuffer[31] = (BYTE)((disk->firsts / 0x1000000) & 0xFF);
-    
+
                 // Total Sectors = same as sectors in the partition from MBR
                 gDataBuffer[32] = (BYTE)(secCount & 0xFF);
                 gDataBuffer[33] = (BYTE)((secCount / 0x100) & 0xFF);
@@ -2602,13 +2602,13 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
 
                 gDataBuffer[36] = fatsize & 0xFF;         //Sectors per FAT
                 gDataBuffer[37] = (fatsize >>  8) & 0xFF;
-                gDataBuffer[38] = (fatsize >> 16) & 0xFF;         
+                gDataBuffer[38] = (fatsize >> 16) & 0xFF;
                 gDataBuffer[39] = (fatsize >> 24) & 0xFF;
 
                 gDataBuffer[40] = 0x00;         //Active FAT
                 gDataBuffer[41] = 0x00;
 
-                gDataBuffer[42] = 0x00;         //File System version  
+                gDataBuffer[42] = 0x00;         //File System version
                 gDataBuffer[43] = 0x00;
 
                 gDataBuffer[44] = 0x02;         //First cluster of the root directory
@@ -2624,15 +2624,15 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
 
                 gDataBuffer[52] = 0x00;         //Reserved for future expansion
                 gDataBuffer[53] = 0x00;
-                gDataBuffer[54] = 0x00;                   
+                gDataBuffer[54] = 0x00;
                 gDataBuffer[55] = 0x00;
-                gDataBuffer[56] = 0x00;                   
+                gDataBuffer[56] = 0x00;
                 gDataBuffer[57] = 0x00;
-                gDataBuffer[58] = 0x00;                   
+                gDataBuffer[58] = 0x00;
                 gDataBuffer[59] = 0x00;
-                gDataBuffer[60] = 0x00;                   
+                gDataBuffer[60] = 0x00;
                 gDataBuffer[61] = 0x00;
-                gDataBuffer[62] = 0x00;                   
+                gDataBuffer[62] = 0x00;
                 gDataBuffer[63] = 0x00;
 
                 gDataBuffer[64] = 0x00;         // Physical drive number
@@ -2724,7 +2724,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
         gDataBuffer[6] = 0x00;
         gDataBuffer[7] = 0x0C;
 
-        gDataBuffer[8]  = 0xFF;         //Root Directory EOF  
+        gDataBuffer[8]  = 0xFF;         //Root Directory EOF
         gDataBuffer[9]  = 0xFF;
         gDataBuffer[10] = 0xFF;
         gDataBuffer[11] = 0xFF;
@@ -2734,9 +2734,9 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             if (MDD_SectorWrite (disk->fat + (j * disk->fatsize), gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         memset (gDataBuffer, 0x00, 12);
-    
+
         for (Index = disk->fat + 1; Index < (disk->fat + disk->fatsize); Index++)
         {
             for (j = disk->fatcopy - 1; j != 0xFFFF; j--)
@@ -2745,14 +2745,14 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                     return EOF;
             }
         }
-    
+
         // Erase the root directory
         for (Index = 1; Index < disk->SecPerClus; Index++)
         {
             if (MDD_SectorWrite (disk->root + Index, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         if (volumeID != NULL)
         {
             // Create a drive name entry in the root dir
@@ -2770,7 +2770,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             gDataBuffer[17] = 0x11;
             gDataBuffer[19] = 0x11;
             gDataBuffer[23] = 0x11;
-    
+
             if (MDD_SectorWrite (disk->root, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
@@ -2779,7 +2779,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             if (MDD_SectorWrite (disk->root, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         return 0;
     }
     else
@@ -2789,15 +2789,15 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
         gDataBuffer[2] = 0xFF;
         if (disk->type == FAT16)
             gDataBuffer[3] = 0xFF;
-    
+
         for (j = disk->fatcopy - 1; j != 0xFFFF; j--)
         {
             if (MDD_SectorWrite (disk->fat + (j * disk->fatsize), gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         memset (gDataBuffer, 0x00, 4);
-    
+
         for (Index = disk->fat + 1; Index < (disk->fat + disk->fatsize); Index++)
         {
             for (j = disk->fatcopy - 1; j != 0xFFFF; j--)
@@ -2806,19 +2806,19 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
                     return EOF;
             }
         }
-    
+
 		// Initialize the sector size
         disk->sectorSize = MEDIA_SECTOR_SIZE;
 
         // Erase the root directory
         RootDirSectors = ((disk->maxroot * 32) + (disk->sectorSize - 1)) / disk->sectorSize;
-    
+
         for (Index = 1; Index < RootDirSectors; Index++)
         {
             if (MDD_SectorWrite (disk->root + Index, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         if (volumeID != NULL)
         {
             // Create a drive name entry in the root dir
@@ -2836,7 +2836,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             gDataBuffer[17] = 0x11;
             gDataBuffer[19] = 0x11;
             gDataBuffer[23] = 0x11;
-    
+
             if (MDD_SectorWrite (disk->root, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
@@ -2845,7 +2845,7 @@ int FSformat (char mode, long int serialNumber, char * volumeID)
             if (MDD_SectorWrite (disk->root, gDataBuffer, FALSE) == FALSE)
                 return EOF;
         }
-    
+
         return 0;
     }
 }
@@ -3076,8 +3076,8 @@ DIRENTRY Cache_File_Entry( FILEOBJ fo, WORD * curEntry, BYTE ForceRead)
 #ifdef SUPPORT_FAT32 // If FAT32 supported.
         case FAT32:
             // the ROOT is always cluster based in FAT32
-            /* In FAT32: There is no ROOT region. Root etries are made in DATA region only.
-            Every cluster of DATA which is accupied by ROOT is tracked by FAT table/entry so the ROOT can grow
+            /* In FAT32: There is no ROOT region. Root entries are made in DATA region only.
+            Every cluster of DATA which is occupied by ROOT is tracked by FAT table/entry so the ROOT can grow
             to an amount which is restricted only by available free DATA region. */
             offset2  = offset2 % (dsk->SecPerClus);   // figure out the offset
             LastClusterLimit = LAST_CLUSTER_FAT32;
@@ -3225,7 +3225,7 @@ CETYPE CreateFileEntry(FILEOBJ fo, WORD *fHandle, BYTE mode, BOOL createFirstClu
 
    *fHandle = 0;
 
-    // figure out where to put this file in the directory stucture
+    // figure out where to put this file in the directory structure
     if(FindEmptyEntries(fo, fHandle) == FOUND)
     {
 		#if defined(SUPPORT_LFN)
@@ -3235,7 +3235,7 @@ CETYPE CreateFileEntry(FILEOBJ fo, WORD *fHandle, BYTE mode, BOOL createFirstClu
 			// Alias the LFN to short file name
 			if(!Alias_LFN_Object(fo))
 			{
-				// If Aliasing of LFN is unsucessful
+				// If Aliasing of LFN is unsuccessful
 				error = FSerrno = CE_FILENAME_EXISTS;
 				return(error);
 			}
@@ -3273,15 +3273,15 @@ CETYPE CreateFileEntry(FILEOBJ fo, WORD *fHandle, BYTE mode, BOOL createFirstClu
 				{
 					tempString[(BYTE)index++] = templfnPtr[fileNameLength - tempCalc1];
 					tempCalc1--;
-				}				 
+				}
 
 				tempString[(BYTE)index++] = 0x0000;
-				
+
 				// Store the remaining bytes of max sequence number entries with 0xFF
 				for(;index < MAX_UTF16_CHARS_IN_LFN_ENTRY;index++)
 				{
 					tempString[(BYTE)index] = 0xFFFF;
-				}				 
+				}
 			}
 			else
 			{
@@ -3427,11 +3427,11 @@ CETYPE CreateFirstCluster(FILEOBJ fo)
 
 #ifdef SUPPORT_FAT32 // If FAT32 supported.
         // Get the higher part of cluster and store it in directory entry.
-       TempMsbCluster = (cluster & 0x0FFF0000);    // Since only 28 bits usedin FAT32. Mask the higher MSB nibble.
+       TempMsbCluster = (cluster & 0x0FFF0000);    // Since only 28 bits used in FAT32. Mask the higher MSB nibble.
        TempMsbCluster = TempMsbCluster >> 16;      // Get the date into Lsb place.
        dir->DIR_FstClusHI = TempMsbCluster;
 #else // If FAT32 support not enabled
-       TempMsbCluster = 0;                         // Just to avoid compiler warnigng.
+       TempMsbCluster = 0;                         // Just to avoid compiler warning.
        dir->DIR_FstClusHI = 0;
 #endif
 
@@ -3501,7 +3501,7 @@ BYTE FindEmptyEntries(FILEOBJ fo, WORD *fHandle)
 				numberOfFileEntries++;
 			}
 
-            // Increment by 1 so that you have space to store for assosciated short file name
+            // Increment by 1 so that you have space to store for associated short file name
             numberOfFileEntries = numberOfFileEntries + 1;
 		}
 		else
@@ -3622,7 +3622,7 @@ BYTE PopulateEntries(FILEOBJ fo, WORD *fHandle, BYTE mode)
         dir->DIR_Attr   = ATTR_ARCHIVE;
 
     dir->DIR_NTRes  = 0x00;              // nt reserved
-    dir->DIR_FstClusHI =    0x0000;      // high word of this enty's first cluster number
+    dir->DIR_FstClusHI =    0x0000;      // high word of this entry's first cluster number
     dir->DIR_FstClusLO =    0x0000;      // low word of this entry's first cluster number
     dir->DIR_FileSize =     0x0;         // file size in DWORD
 
@@ -3647,7 +3647,7 @@ BYTE PopulateEntries(FILEOBJ fo, WORD *fHandle, BYTE mode)
 #endif
 
 #ifdef USERDEFINEDCLOCK
-    // The user will have set the time before this funciton is called
+    // The user will have set the time before this function is called
     dir->DIR_CrtTimeTenth = gTimeCrtMS;
     dir->DIR_CrtTime =      gTimeCrtTime;
     dir->DIR_CrtDate =       gTimeCrtDate;
@@ -3746,8 +3746,8 @@ BOOL Alias_LFN_Object(FILEOBJ fo)
 			{
 				continue;
 			}
-			else if ((index == 0x2B) || (index == 0x2C) || (index == 0x3B) || 
-					(index == 0x3D) || (index == 0x5B) || (index == 0x5D) || 
+			else if ((index == 0x2B) || (index == 0x2C) || (index == 0x3B) ||
+					(index == 0x3D) || (index == 0x5B) || (index == 0x5D) ||
 					(templfnPtr[index1] > 0xFF))
 			{
 			    lfnAliasPtr[index2++] = '_';
@@ -3756,7 +3756,7 @@ BOOL Alias_LFN_Object(FILEOBJ fo)
 			{
 			    lfnAliasPtr[index2++] = index;
 			}
-			
+
 			tempVariable++;
 		}
 
@@ -3781,8 +3781,8 @@ BOOL Alias_LFN_Object(FILEOBJ fo)
 		{
 			continue;
 		}
-		else if ((index == 0x2B) || (index == 0x2C) || (index == 0x3B) || 
-				(index == 0x3D) || (index == 0x5B) || (index == 0x5D) || 
+		else if ((index == 0x2B) || (index == 0x2C) || (index == 0x3B) ||
+				(index == 0x3D) || (index == 0x5B) || (index == 0x5D) ||
 				(templfnPtr[index1] > 0xFF))
 		{
 		    lfnAliasPtr[tempVariable] = '_';
@@ -4277,22 +4277,22 @@ DWORD FATfindEmptyCluster(FILEOBJ fo)
     properties - a pointer to a FS_DISK_PROPERTIES object where the results should
       be stored.
   Return Values:
-    This function returns void.  The properties_status of the previous call of this 
-      function is located in the properties.status field.  This field has the 
+    This function returns void.  The properties_status of the previous call of this
+      function is located in the properties.status field.  This field has the
       following possible values:
 
     FS_GET_PROPERTIES_NO_ERRORS - operation completed without error.  Results
       are in the properties object passed into the function.
     FS_GET_PROPERTIES_DISK_NOT_MOUNTED - there is no mounted disk.  Results in
       properties object is not valid
-    FS_GET_PROPERTIES_CLUSTER_FAILURE - there was a failure trying to read a 
+    FS_GET_PROPERTIES_CLUSTER_FAILURE - there was a failure trying to read a
       cluster from the drive.  The results in the properties object is a partial
       result up until the point of the failure.
     FS_GET_PROPERTIES_STILL_WORKING - the search for free sectors is still in
-      process.  Continue calling this function with the same properties pointer 
+      process.  Continue calling this function with the same properties pointer
       until either the function completes or until the partial results meets the
       application needs.  The properties object contains the partial results of
-      the search and can be used by the application.  
+      the search and can be used by the application.
   Side Effects:
     Can cause errors if called when files are open.  Close all files before
     calling this function.
@@ -4302,10 +4302,10 @@ DWORD FATfindEmptyCluster(FILEOBJ fo)
 
     Calling this function after a result is returned other than
     FS_GET_PROPERTIES_STILL_WORKING can result in undefined behavior and results.
-  Description:  
-    This function returns the information about the mounted drive.  The results 
-    member of the properties object passed into the function is populated with 
-    the information about the drive.    
+  Description:
+    This function returns the information about the mounted drive.  The results
+    member of the properties object passed into the function is populated with
+    the information about the drive.
 
     Before starting a new request, the new_request member of the properties
     input parameter should be set to TRUE.  This will initiate a new search
@@ -4315,13 +4315,13 @@ DWORD FATfindEmptyCluster(FILEOBJ fo)
     All of the results except the free_clusters will be correct after the first
     call.  The free_clusters will contain the number of free clusters found up
     until that point, thus the free_clusters result will continue to grow until
-    the entire drive is searched.  If an application only needs to know that a 
-    certain number of bytes is available and doesn't need to know the total free 
+    the entire drive is searched.  If an application only needs to know that a
+    certain number of bytes is available and doesn't need to know the total free
     size, then this function can be called until the required free size is
     verified.  To continue a search, pass a pointer to the same FS_DISK_PROPERTIES
     object that was passed in to create the search.
 
-    A new search request sould be made once this function has returned a value 
+    A new search request should be made once this function has returned a value
     other than FS_GET_PROPERTIES_STILL_WORKING.  Continuing a completed search
     can result in undefined behavior or results.
 
@@ -4337,7 +4337,7 @@ DWORD FATfindEmptyCluster(FILEOBJ fo)
     } while (disk_properties.properties_status == FS_GET_PROPERTIES_STILL_WORKING);
     </code>
 
-    results.disk_format - contains the format of the drive.  Valid results are 
+    results.disk_format - contains the format of the drive.  Valid results are
       FAT12(1), FAT16(2), or FAT32(3).
 
     results.sector_size - the sector size of the mounted drive.  Valid values are
@@ -4345,12 +4345,12 @@ DWORD FATfindEmptyCluster(FILEOBJ fo)
 
     results.sectors_per_cluster - the number sectors per cluster.
 
-    results.total_clusters - the number of total clusters on the drive.  This 
-      can be used to calculate the total disk size (total_clusters * 
+    results.total_clusters - the number of total clusters on the drive.  This
+      can be used to calculate the total disk size (total_clusters *
       sectors_per_cluster * sector_size = total size of drive in bytes)
 
     results.free_clusters - the number of free (unallocated) clusters on the drive.
-      This can be used to calculate the total free disk size (free_clusters * 
+      This can be used to calculate the total free disk size (free_clusters *
       sectors_per_cluster * sector_size = total size of drive in bytes)
 
   Remarks:
@@ -4380,7 +4380,7 @@ void FSGetDiskProperties(FS_DISK_PROPERTIES* properties)
         }
 
         properties->properties_status = FS_GET_PROPERTIES_STILL_WORKING;
-   
+
         properties->results.disk_format = properties->disk->type;
         properties->results.sector_size = properties->disk->sectorSize;
         properties->results.sectors_per_cluster = properties->disk->SecPerClus;
@@ -4404,7 +4404,7 @@ void FSGetDiskProperties(FS_DISK_PROPERTIES* properties)
                 properties->private.ClusterFailValue = CLUSTER_FAIL_FAT16;
                 break;
         }
-    
+
         properties->private.c = 2;
 
         properties->private.curcls = properties->private.c;
@@ -4517,12 +4517,12 @@ int FSfclose(FSFILE   *fo)
         WriteFAT (fo->dsk, 0, 0, TRUE);
 
         // Invalidate the currently cached FAT entry so that the next read will
-        //   result in an acutal read from the physical media instead of a read
+        //   result in an actual read from the physical media instead of a read
         //   from the RAM cache.
         gLastFATSectorRead = 0;
 
         // Read the FAT entry from the physical media.  This is required because
-        //   some physical media cache the entries in RAM and only write them 
+        //   some physical media cache the entries in RAM and only write them
         //   after a time expires for until the sector is accessed again.
         ReadFAT (fo->dsk, fo->ccls);
 
@@ -4556,7 +4556,7 @@ int FSfclose(FSFILE   *fo)
         if(Write_File_Entry(fo,&fHandle))
         {
             // Read the folder entry from the physical media.  This is required because
-            //   some physical media cache the entries in RAM and only write them 
+            //   some physical media cache the entries in RAM and only write them
             //   after a time expires for until the sector is accessed again.
             dir = LoadDirAttrib(fo, &fHandle);
             error = 0;
@@ -5136,7 +5136,7 @@ CETYPE FILEerase( FILEOBJ fo, WORD *fHandle, BYTE EraseClusters)
     specified new filename is not already in use. If it isn't, the new filename
     will be written to the file entry of the file pointed to by 'fo.'
   Remarks:
-    None                                                        
+    None
   ***************************************************************/
 
 #ifdef ALLOW_WRITES
@@ -5203,14 +5203,14 @@ int FSrename (const char * fileName, FSFILE * fo)
 
 	   	#ifdef SUPPORT_FAT32 // If FAT32 supported.
 	   	// Get the higher part of cluster and store it in directory entry.
-	   	TempMsbCluster = (fo->cluster & 0x0FFF0000);    // Since only 28 bits usedin FAT32. Mask the higher MSB nibble.
+	   	TempMsbCluster = (fo->cluster & 0x0FFF0000);    // Since only 28 bits used in FAT32. Mask the higher MSB nibble.
 	   	TempMsbCluster = TempMsbCluster >> 16;      // Get the date into Lsb place.
 	   	dir->DIR_FstClusHI = TempMsbCluster;
 	   	#else // If FAT32 support not enabled
-	   	TempMsbCluster = 0;                         // Just to avoid compiler warnigng.
+	   	TempMsbCluster = 0;                         // Just to avoid compiler warning.
 	   	dir->DIR_FstClusHI = 0;
 	   	#endif
-	   
+
 		// Update the file size
         dir->DIR_FileSize = fo->size;
 
@@ -5220,12 +5220,12 @@ int FSrename (const char * fileName, FSFILE * fo)
 	    	FSerrno = CE_WRITE_ERROR;
 	    	return -1;
 		}
-	   	
+
    		tempFo1.size = fo->size;
 
 		// copy file object over
 		FileObjectCopy(fo, &tempFo1);
-		
+
 		#else
 
         // Get the file entry
@@ -5402,11 +5402,11 @@ FSFILE * FSfopen( const char * fileName, const char *mode )
     //Read the mode character
     ModeC = mode[0];
 
-    if(MDD_WriteProtectState() && (ModeC != 'r') && (ModeC != 'R')) 
-    { 
-        FSerrno = CE_WRITE_PROTECTED; 
-        return NULL; 
-    } 
+    if(MDD_WriteProtectState() && (ModeC != 'r') && (ModeC != 'R'))
+    {
+        FSerrno = CE_WRITE_PROTECTED;
+        return NULL;
+    }
 
 #ifdef FS_DYNAMIC_MEM
     filePtr = (FILEOBJ) FS_malloc(sizeof(FSFILE));
@@ -5451,7 +5451,7 @@ FSFILE * FSfopen( const char * fileName, const char *mode )
 		#else
         	gFileSlotOpen[fIndex] = TRUE;   //put this slot back to the pool
 		#endif
-        
+
 		FSerrno = CE_INVALID_FILENAME;
         return NULL;   //bad filename
     }
@@ -5702,7 +5702,7 @@ long FSftell (FSFILE * fo)
   Input:
     fileName -  Name of the file to erase
   Return Values:
-    0 -   File removed 
+    0 -   File removed
     EOF - File was not removed
   Side Effects:
     The FSerrno variable will be changed.
@@ -5713,7 +5713,7 @@ long FSftell (FSFILE * fo)
     The user can also provide ascii alias name of the ascii long file name as the
     input to this function to get it erased from the memory.
   Remarks:
-    None                                       
+    None
   **********************************************************************/
 
 int FSremove (const char * fileName)
@@ -5777,7 +5777,7 @@ int FSremove (const char * fileName)
         return -1;
     }
 
-	// Find the long file name assosciated with the short file name if present
+	// Find the long file name associated with the short file name if present
 	#ifdef SUPPORT_LFN
 	if(!fo->utf16LFNlength)
 	{
@@ -5871,7 +5871,7 @@ int wFSremove (const unsigned short int * fileName)
   Side Effects:
     None.
   Description:
-    The FSrewind funciton will reset the position of the
+    The FSrewind function will reset the position of the
     specified file to the beginning of the file.  This
     functionality is faster than using FSfseek to reset
     the position in the file.
@@ -6100,7 +6100,7 @@ int FSerror (void)
   Side Effects:
     None
   Description:
-    The FileObjectCopy function will make an exacy copy of
+    The FileObjectCopy function will make an exact copy of
     a specified FSFILE object.
   Remarks:
     None
@@ -6431,7 +6431,7 @@ DWORD Cluster2Sector(DISK * dsk, DWORD cluster)
   Side Effects:
     The FSerrno variable will be changed.
   Description:
-    The FSattrib funciton will set the attributes of the specified file
+    The FSattrib function will set the attributes of the specified file
     to the attributes passed in by the user.  This function will load the
     file entry, replace the attributes with the ones specified, and write
     the attributes back.  If the specified file is a directory, the
@@ -6521,7 +6521,7 @@ int FSattrib (FSFILE * file, unsigned char attributes)
     will be stored in the FSFILE object.  The parameters 'size' and 'n' indicate how
     much data to write.  'Size' refers to the size of one object to write (in bytes),
     and 'n' will refer to the number of these objects to write.  The value returned
-    will be equal  to 'n' unless an error occured.
+    will be equal  to 'n' unless an error occurred.
   Remarks:
     None.
   *********************************************************************************/
@@ -6687,7 +6687,7 @@ size_t FSfwrite(const void *data_to_write, size_t size, size_t n, FSFILE *stream
         }
     } // while count
 
-    // save off the positon
+    // save off the position
     stream->pos = pos;
 
     // save off the seek
@@ -6805,7 +6805,7 @@ int FSfeof( FSFILE * stream )
     parameters 'size' and 'n' indicate how much data to read.  'Size'
     refers to the size of one object to read (in bytes), and 'n' will refer
     to the number of these objects to read.  The value returned will be equal
-    to 'n' unless an error occured or the user tried to read beyond the end
+    to 'n' unless an error occurred or the user tried to read beyond the end
     of the file.
   Remarks:
     None.
@@ -6911,7 +6911,7 @@ size_t FSfread (void *ptr, size_t size, size_t n, FSFILE *stream)
         len--;
     }
 
-    // save off the positon
+    // save off the position
     stream->pos = pos;
     // save off the seek
     stream->seek = seek;
@@ -6930,7 +6930,7 @@ size_t FSfread (void *ptr, size_t size, size_t n, FSFILE *stream)
   Input:
     fileName -  The name to be formatted
     fN2 -       The location the formatted name will be stored
-    mode -      Non-zero if parital string search chars are allowed
+    mode -      Non-zero if partial string search chars are allowed
   Return Values:
     TRUE - Name formatted successfully
     FALSE - File name could not be formatted
@@ -6939,7 +6939,7 @@ size_t FSfread (void *ptr, size_t size, size_t n, FSFILE *stream)
   Description:
     Format an 8.3 filename into FSFILE structure format. If filename is less
     than 8 chars, then it will be padded with spaces. If the extension name is
-    fewer than 3 chars, then it will also be oadded with spaces. The
+    fewer than 3 chars, then it will also be padded with spaces. The
     ValidateChars function is used to ensure the characters in the specified
     filename are valid in this filesystem.
   Remarks:
@@ -6980,12 +6980,12 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 		{
 			return FALSE;
 		}
-		
+
 		for (count1 = 0;count1 < fileNameLength; count1++)
 		{
 			tempString[count1] = utf16Filename[count1];
 		}
-		
+
 		utf16Filename = tempString;
 	}
 	else
@@ -6997,7 +6997,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 		{
 			return FALSE;
 		}
-		
+
 		asciiFilename = (char *)tempString;
 		for (count1 = 0;count1 < fileNameLength; count1++)
 		{
@@ -7072,7 +7072,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 					(count3 > 8))
 				{
 					// UTF File name extension greater then 3 characters or
-				    // UTF File name greater then 8 charcters
+				    // UTF File name greater then 8 characters
 					supportLFN = TRUE;
 					break;
 				}
@@ -7088,7 +7088,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 					(count3 > 8))
 				{
 					// File extension greater then 3 characters or
-					// File name greater then 8 charcters
+					// File name greater then 8 characters
 					#if !defined(SUPPORT_LFN)
 						return FALSE;
 					#endif
@@ -7101,14 +7101,14 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 				}
 			}
 		}
-		
+
 		// If LFN not supported try to adjust in 8P3 format
 		if(FALSE == supportLFN)
 		{
 		    // point fN2 to short file name
 		    fN2 = fptr -> name;
-		    
-		    // Load destination filename to be space intially.
+
+		    // Load destination filename to be space initially.
 		    for (count1 = 0; count1 < FILE_NAME_SIZE_8P3; count1++)
 		    {
 		        *(fN2 + count1) = ' ';
@@ -7172,7 +7172,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 	// If the file name follows LFN format
     if((NAME_LFN_TYPE == fileNameType) || (TRUE == supportLFN))
 	{
-		#if defined(SUPPORT_LFN)  	
+		#if defined(SUPPORT_LFN)
 
 			// point fN2 to long file name
 			fN2 = (char *)(fptr -> utf16LFNptr);
@@ -7182,7 +7182,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
 				localFileName = asciiFilename;
 			}
 
-			// Copy the LFN name in the adress specified by FSFILE pointer
+			// Copy the LFN name in the address specified by FSFILE pointer
 			count2 = 0;
 			for(count1 = 0;count1 < temp;count1++)
 			{
@@ -7238,7 +7238,7 @@ BYTE FormatFileName( const char* fileName, FILEOBJ fptr, BYTE mode)
   Description:
     Format an 8.3 filename into directory structure format. If the name is less
     than 8 chars, then it will be padded with spaces. If the extension name is
-    fewer than 3 chars, then it will also be oadded with spaces. The
+    fewer than 3 chars, then it will also be padded with spaces. The
     ValidateChars function is used to ensure the characters in the specified
     directory name are valid in this filesystem.
   Remarks:
@@ -7347,7 +7347,7 @@ BYTE FormatDirName (char * string,FILEOBJ fptr, BYTE mode)
         	return FALSE;
 		#else
 			fptr -> utf16LFNptr = (unsigned short int *)string;
-		
+
 			if(utfModeFileName)
 			{
 				if(utf16Filename != (unsigned short int *)string)
@@ -7438,7 +7438,7 @@ BYTE FormatDirName (char * string,FILEOBJ fptr, BYTE mode)
 					if(count4 == 8)
 						break;
 				}
-		 
+
 				if(localFileName[count1 + 1])
 				{
 			        tempString[count4] = localFileName[count1 + 1];
@@ -7550,9 +7550,9 @@ BYTE FormatDirName (char * string,FILEOBJ fptr, BYTE mode)
     None
   Description:
     The ValidateChars function will compare characters in a
-    specified filename to determine if they're permissable
+    specified filename to determine if they're permissible
     in the FAT file system.  Lower-case characters will be
-    converted to upper-case.  If the mode argument is specifed
+    converted to upper-case.  If the mode argument is specified
     to be 'TRUE,' partial string search characters are allowed.
   Remarks:
     None.
@@ -7650,8 +7650,8 @@ FILE_DIR_NAME_TYPE ValidateChars(BYTE mode)
 		{
 			utf16Value = utf16Filename[count1];
 		    // Characters not valid for either of 8P3 & LFN format
-		    if (((utf16Value < 0x20) && (utf16Value != 0x05)) || (utf16Value == 0x22) || 
-				(utf16Value == 0x2F) || (utf16Value == 0x3A) || (utf16Value == 0x3C) || 
+		    if (((utf16Value < 0x20) && (utf16Value != 0x05)) || (utf16Value == 0x22) ||
+				(utf16Value == 0x2F) || (utf16Value == 0x3A) || (utf16Value == 0x3C) ||
 		        (utf16Value == 0x3E) || (utf16Value == 0x5C) || (utf16Value == 0x7C))
 		    {
 		        return NAME_ERROR;
@@ -7669,23 +7669,23 @@ FILE_DIR_NAME_TYPE ValidateChars(BYTE mode)
 			if(fileNameType != NAME_LFN_TYPE)
 			{
 				// Characters valid for LFN format only
-			    if ((utf16Value == 0x20) || (utf16Value == 0x2B) || (utf16Value == 0x2C) || 
-					(utf16Value == 0x3B) || (utf16Value == 0x3D) || (utf16Value == 0x5B) || 
+			    if ((utf16Value == 0x20) || (utf16Value == 0x2B) || (utf16Value == 0x2C) ||
+					(utf16Value == 0x3B) || (utf16Value == 0x3D) || (utf16Value == 0x5B) ||
 					(utf16Value == 0x5D) || ((utf16Value == 0x2E) && (radix == TRUE)))
 			    {
 					fileNameType = NAME_LFN_TYPE;
 					continue;
 			    }
 
-	    	    // only one radix ('.') character is allowed in 8P3 format, where as 
-				// multiple radices can be present in LFN format
+	    	    // only one radix ('.') character is allowed in 8P3 format, where as
+				// multiple radixes can be present in LFN format
 	    	    if (utf16Filename[count1] == 0x2E)
 	    	    {
 	    	        radix = TRUE;
 	    	    }
 			}
 		}
-		else 
+		else
 		#endif
 		{
 			asciiValue = asciiFilename[count1];
@@ -7716,8 +7716,8 @@ FILE_DIR_NAME_TYPE ValidateChars(BYTE mode)
 					continue;
 			    }
 
-	    	    // only one radix ('.') character is allowed in 8P3 format, where as 
-				// multiple radices can be present in LFN format
+	    	    // only one radix ('.') character is allowed in 8P3 format, where as
+				// multiple radixes can be present in LFN format
 	    	    if (asciiValue == 0x2E)
 	    	    {
 	    	        radix = TRUE;
@@ -7756,7 +7756,7 @@ FILE_DIR_NAME_TYPE ValidateChars(BYTE mode)
            - SEEK_END -  Seek from end of file (subtract offset)
   Return Values:
     0 -  Operation successful
-    -1 - Operation unsuccesful
+    -1 - Operation unsuccessful
   Side Effects:
     The FSerrno variable will be changed.
   Description:
@@ -7822,7 +7822,7 @@ int FSfseek(FSFILE *stream, long offset, int whence)
         // if we are writing we are no longer at the end
         stream->flags.FileWriteEOF = FALSE;
 
-        // set the new postion
+        // set the new position
         stream->seek = offset2;
 
         // figure out how many sectors
@@ -7932,10 +7932,10 @@ int FSfseek(FSFILE *stream, long offset, int whence)
     The FSerrno variable will be changed.
   Description:
     Renames the file with the ascii ROM string(PIC18).The Fsrenamepgm
-    function will copy the rom fileName specified by the user into a 
+    function will copy the rom fileName specified by the user into a
     RAM array and pass that array into the FSrename function.
   Remarks:
-    This function is for use with PIC18 when passing arguments in ROM.                       
+    This function is for use with PIC18 when passing arguments in ROM.
   *****************************************************************/
 
 int FSrenamepgm (const rom char * fileName, FSFILE * fo)
@@ -8194,7 +8194,7 @@ DWORD ReadFAT (DISK *dsk, DWORD ccls)
                 {
                     c >>= 4;
                 }
-                // Check if the MSB is across the sector boundry
+                // Check if the MSB is across the sector boundary
                 p = (p +1) & (dsk->sectorSize-1);
                 if (p == 0)
                 {
@@ -8414,13 +8414,13 @@ DWORD WriteFAT (DISK *dsk, DWORD ccls, DWORD value, BYTE forceWrite)
 #ifdef SUPPORT_FAT32 // If FAT32 supported.
     if (dsk->type == FAT32)  // Refer page 16 of FAT requirement.
     {
-        RAMwrite (gFATBuffer, p,   ((value & 0x000000ff)));         // lsb,1st byte of cluster value
+        RAMwrite (gFATBuffer, p,   ((value & 0x000000ff)));         // lsb, 1st byte of cluster value
         RAMwrite (gFATBuffer, p+1, ((value & 0x0000ff00) >> 8));
         RAMwrite (gFATBuffer, p+2, ((value & 0x00ff0000) >> 16));
         RAMwrite (gFATBuffer, p+3, ((value & 0x0f000000) >> 24));   // the MSB nibble is supposed to be "0" in FAT32. So mask it.
     }
     else
-    
+
 #endif
     {
         if (dsk->type == FAT16)
@@ -8511,7 +8511,7 @@ DWORD WriteFAT (DISK *dsk, DWORD ccls, DWORD value, BYTE forceWrite)
     Changes the current working directory to the ascii input path(PIC24/PIC32/dsPIC).
     The FSchdir function passes a RAM pointer to the path to the chdirhelper function.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 int FSchdir (char * path)
@@ -8540,7 +8540,7 @@ int FSchdir (char * path)
     UTF16 format (PIC24/PIC32/dsPIC).The FSchdir function passes a RAM
     pointer to the path to the chdirhelper function.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 #ifdef SUPPORT_LFN
 int wFSchdir (unsigned short int * path)
@@ -9188,7 +9188,7 @@ int chdirhelper (BYTE mode, char * ramptr, char * romptr)
 #ifdef ALLOW_PGMFUNCTIONS
             }
 #endif
- 
+
             tempDirectoryString[j++] = 0;
 
             // We got a whole 12 chars
@@ -9367,19 +9367,19 @@ char defaultArray [10];
     working directory, if it isn't already present.  This could
     occur if the user switched to the dotdot entry of a
     subdirectory immediately before calling this function.  The
-    function will then copy the current working directory name 
-    into the buffer backwards, and insert a backslash character.  
-    Next, the function will continuously switch to the previous 
+    function will then copy the current working directory name
+    into the buffer backwards, and insert a backslash character.
+    Next, the function will continuously switch to the previous
     directories and copy their names backwards into the buffer
     until it reaches the root.  If the buffer overflows, it
     will be treated as a circular buffer, and data will be
     copied over existing characters, starting at the beginning.
     Once the root directory is reached, the text in the buffer
     will be swapped, so that the buffer contains as much of the
-    current working directory name as possible, starting at the 
+    current working directory name as possible, starting at the
     root.
   Remarks:
-    None                                                       
+    None
   **************************************************************/
 char * FSgetcwd (char * path, int numchars)
 {
@@ -9425,7 +9425,7 @@ char * FSgetcwd (char * path, int numchars)
     FileObjectCopy (tempCWD, cwdptr);
 
     if (((tempCWD->name[0] == '.') && (tempCWD->name[1] == '.'))
-		#if defined(SUPPORT_LFN)	
+		#if defined(SUPPORT_LFN)
 	 	|| tempCWD->utf16LFNlength
 		#endif
 		)
@@ -9550,7 +9550,7 @@ char * FSgetcwd (char * path, int numchars)
 
 	   		tempLFN[i++] = lfno->LFN_Part3[1];
 
-	   
+
 
 	   		prevHandle = prevHandle - 1;
 
@@ -9608,8 +9608,8 @@ char * FSgetcwd (char * path, int numchars)
 
     // There's actually some kind of name value in the cwd
 	#if defined(SUPPORT_LFN)
-    if (((tempCWD->name[0] == '\\') && (tempCWD->utf16LFNlength == 0x0000)) || 
-		((tempCWD->utf16LFNlength != 0x0000) && (tempCWD->utf16LFNptr[0] == (unsigned short int)'\\')) || (numchars == 0x02)) 
+    if (((tempCWD->name[0] == '\\') && (tempCWD->utf16LFNlength == 0x0000)) ||
+		((tempCWD->utf16LFNlength != 0x0000) && (tempCWD->utf16LFNptr[0] == (unsigned short int)'\\')) || (numchars == 0x02))
 	#else
     if ((tempCWD->name[0] == '\\') || (numchars == 0x02))
 	#endif
@@ -9652,7 +9652,7 @@ char * FSgetcwd (char * path, int numchars)
 	           		  	  	    index = 0;
 	           		  	  	    bufferOverflow = TRUE;
 	           		  	  	}
-							
+
 						}
 						i--;
 					}
@@ -9850,19 +9850,19 @@ char * FSgetcwd (char * path, int numchars)
     working directory, if it isn't already present.  This could
     occur if the user switched to the dotdot entry of a
     subdirectory immediately before calling this function.  The
-    function will then copy the current working directory name 
-    into the buffer backwards, and insert a backslash character.  
-    Next, the function will continuously switch to the previous 
+    function will then copy the current working directory name
+    into the buffer backwards, and insert a backslash character.
+    Next, the function will continuously switch to the previous
     directories and copy their names backwards into the buffer
     until it reaches the root.  If the buffer overflows, it
     will be treated as a circular buffer, and data will be
     copied over existing characters, starting at the beginning.
     Once the root directory is reached, the text in the buffer
     will be swapped, so that the buffer contains as much of the
-    current working directory name as possible, starting at the 
+    current working directory name as possible, starting at the
     root.
   Remarks:
-    None                                                       
+    None
   **************************************************************/
 char * wFSgetcwd (unsigned short int * path, int numchars)
 {
@@ -10056,7 +10056,7 @@ BYTE GetPreviousEntry (FSFILE * fo)
 
 	   		tempLFN[i++] = lfno->LFN_Part3[1];
 
-	   
+
 
 	   		prevHandle = prevHandle - 1;
 
@@ -10085,7 +10085,7 @@ BYTE GetPreviousEntry (FSFILE * fo)
 
 		fo->utf16LFNlength = i;
 
-		
+
 
 		for(j = 12;j >= 0;j--)
 
@@ -10103,7 +10103,7 @@ BYTE GetPreviousEntry (FSFILE * fo)
 
 		}
 
-		
+
    		fo->utf16LFNptr = (unsigned short int *)&tempDirectoryString[0];
 
    	}
@@ -10127,13 +10127,13 @@ BYTE GetPreviousEntry (FSFILE * fo)
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
     Creates a directory as per the ascii input path (PIC24/PIC32/dsPIC).
     This function doesn't move the current working directory setting.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 #ifdef ALLOW_WRITES
@@ -10155,13 +10155,13 @@ int FSmkdir (char * path)
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
     Creates a directory as per the UTF16 input path (PIC24/PIC32/dsPIC).
     This function doesn't move the current working directory setting.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 #ifdef SUPPORT_LFN
 int wFSmkdir (unsigned short int * path)
@@ -10178,7 +10178,7 @@ int wFSmkdir (unsigned short int * path)
   Function:
     int FSmkdirpgm (const rom char * path)
   Summary:
-    Creates a directory as per the path mentioned in the input string on 
+    Creates a directory as per the path mentioned in the input string on
     PIC18 devices.
   Conditions:
     None
@@ -10188,15 +10188,15 @@ int wFSmkdir (unsigned short int * path)
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
-    Creates a directory as per the path mentioned in the input string on 
+    Creates a directory as per the path mentioned in the input string on
     PIC18 devices.'FSmkdirpgm' creates the directories as per the input
     string path.This function doesn't move the current working
     directory setting.
   Remarks:
-    This function is for use with PIC18 when passing arugments in ROM
+    This function is for use with PIC18 when passing arguments in ROM
   **************************************************************************/
 
 #ifdef ALLOW_PGMFUNCTIONS
@@ -10224,7 +10224,7 @@ int FSmkdirpgm (const rom char * path)
     The FSmkdirpgm function passes a PIC18 ROM path pointer to the
     mkdirhelper function.
   Remarks:
-    This function is for use with PIC18 when passing arugments in ROM
+    This function is for use with PIC18 when passing arguments in ROM
   **************************************************************************/
 #ifdef SUPPORT_LFN
 int wFSmkdirpgm (const rom unsigned short int * path)
@@ -10257,7 +10257,7 @@ int wFSmkdirpgm (const rom unsigned short int * path)
     0 -  Directory was created
     -1 - Directory could not be created
   Side Effects:
-    Will create all non-existant directories in the path.
+    Will create all non-existent directories in the path.
     The FSerrno variable will be changed.
   Description:
     This helper function is used by the FSchdir function. If the path
@@ -11297,7 +11297,7 @@ BYTE writeDotEntries (DISK * disk, DWORD dotAddress, DWORD dotdotAddress)
     None
   Input:
     path -      The path of the directory to remove
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -11327,7 +11327,7 @@ int FSrmdir (char * path, unsigned char rmsubdirs)
     None
   Input:
     path -      The path of the directory to remove
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -11361,7 +11361,7 @@ int wFSrmdir (unsigned short int * path, unsigned char rmsubdirs)
     None.
   Input:
     path -      The path of the directory to remove (ROM)
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -11634,7 +11634,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
 					if(forFirstTime)
 					{
 						tempCWD->utf16LFNlength = Index3;
-						
+
 						for(Index = 12;Index >= 0;Index--)
 						{
 							if((tempLFN[Index3 - Index - 1]) == 0x0000)
@@ -11643,7 +11643,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
 								break;
 							}
 						}
-					
+
 						fo->utf16LFNlength = tempCWD->utf16LFNlength;
 					}
                 	handle++;
@@ -11769,7 +11769,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
                 {
                     entry = Cache_File_Entry (cwdptr, &handle, FALSE);
                 }
-                
+
 				if (entry == NULL)
                 {
 					#if defined(SUPPORT_LFN)
@@ -11899,7 +11899,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
 
 						tempLFN[Index3++] = lfno->LFN_Part3[0];
 						tempLFN[Index3++] = lfno->LFN_Part3[1];
-				
+
 						prevHandle = prevHandle - 1;
 						lfno = (LFN_ENTRY *)Cache_File_Entry (cwdptr, &prevHandle, FALSE);
 					}
@@ -11927,7 +11927,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
 					else
 					{
 						cwdptr->utf16LFNlength = Index3;
-						
+
 						for(Index = 12;Index >= 0;Index--)
 						{
 							if((tempLFN[Index3 - Index - 1]) == 0x0000)
@@ -11990,7 +11990,7 @@ int rmdirhelper (BYTE mode, char * ramptr, char * romptr, unsigned char rmsubdir
         		for (Index = 0; Index < 11; Index++)
         		{
             		tempArray[(BYTE)Index] = cwdptr->name[(BYTE)Index];
-        		}			
+        		}
 			}
 	}
 
@@ -12133,7 +12133,7 @@ int eraseDir (char * path)
     None
   Input:
     fileName - The name to search for
-             - Parital string search characters
+             - Partial string search characters
              - * - Indicates the rest of the filename or extension can vary (e.g. FILE.*)
              - ? - Indicates that one character in a filename can vary (e.g. F?LE.T?T)
     attr -            The attributes that a found file may have
@@ -12160,8 +12160,8 @@ int eraseDir (char * path)
     the current working directory searching for entries that match the specified
     parameters.  If a file is found, its parameters are copied into the SearchRec
     structure, as are the initial parameters passed in by the user and the position
-    of the file entry in the current working directory.If the return value of the 
-    function is 0 then "utf16LFNfoundLength" indicates whether the file found was 
+    of the file entry in the current working directory.If the return value of the
+    function is 0 then "utf16LFNfoundLength" indicates whether the file found was
     long file name or short file name(8P3 format). The "utf16LFNfoundLength" is non-zero
     for long file name and is zero for 8P3 format."utf16LFNfound" points to the
     address of long file name if found during the operation.
@@ -12328,14 +12328,14 @@ int FindFirst (const char * fileName, unsigned int attr, SearchRec * rec)
     before it is lost.The FSerrno variable will be changed.
   Description:
     The FindNext function performs the same function as the FindFirst
-    funciton, except it does not copy any search parameters into the
+    function, except it does not copy any search parameters into the
     SearchRec structure (only info about found files) and it begins
     searching at the last directory entry offset at which a file was
     found, rather than at the beginning of the current working
     directory.If the return value of the function is 0 then "utf16LFNfoundLength"
     indicates whether the file found was long file name or short file
     name(8P3 format). The "utf16LFNfoundLength" is non-zero for long file name
-    and is zero for 8P3 format."utf16LFNfound" points to the address of long 
+    and is zero for 8P3 format."utf16LFNfound" points to the address of long
     file name if found during the operation.
   Remarks:
     Call FindFirst or FindFirstpgm before calling this function
@@ -12367,7 +12367,7 @@ int FindNext (SearchRec * rec)
         return -1;
     }
 #endif
-    
+
 	#if defined(SUPPORT_LFN)
     fo->AsciiEncodingType = rec->AsciiEncodingType;
     fo->utf16LFNlength = recordSearchLength;
@@ -12386,7 +12386,7 @@ int FindNext (SearchRec * rec)
 	    }
     }
 
-    /* Brn: Copy the formatted name to "fo" which is necesary before calling "FILEfind" function */
+    /* Brn: Copy the formatted name to "fo" which is necessary before calling "FILEfind" function */
     //strcpy(fo->name,rec->searchname);
 
     fo->dsk = &gDiskData;
@@ -12474,7 +12474,7 @@ int FindNext (SearchRec * rec)
     None
   Input:
     fileName - The name to search for
-             - Parital string search characters
+             - Partial string search characters
              - * - Indicates the rest of the filename or extension can vary (e.g. FILE.*)
              - ? - Indicates that one character in a filename can vary (e.g. F?LE.T?T)
     attr -            The attributes that a found file may have
@@ -12501,8 +12501,8 @@ int FindNext (SearchRec * rec)
     the current working directory searching for entries that match the specified
     parameters.  If a file is found, its parameters are copied into the SearchRec
     structure, as are the initial parameters passed in by the user and the position
-    of the file entry in the current working directory.If the return value of the 
-    function is 0 then "utf16LFNfoundLength" indicates whether the file found was 
+    of the file entry in the current working directory.If the return value of the
+    function is 0 then "utf16LFNfoundLength" indicates whether the file found was
     long file name or short file name(8P3 format). The "utf16LFNfoundLength" is non-zero
     for long file name and is zero for 8P3 format."utf16LFNfound" points to the
     address of long file name if found during the operation.
@@ -12574,9 +12574,9 @@ int FSputc (char c, FSFILE * file)
   Side Effects:
     None
   Description:
-    This funciton is used by the FSfprintf function to write multiple
+    This function is used by the FSfprintf function to write multiple
     instances of a single character to a file (for example, when
-    padding a format specifier with leading spacez or zeros).
+    padding a format specifier with leading spaces or zeros).
   Remarks:
     None.
   **********************************************************************/
@@ -12812,14 +12812,14 @@ int FSvfprintf (FSFILE *handle, const char * formatString, va_list ap)
             switch (c)
             {
                 case '\0':
-                /* this is undefined behaviour. we have a trailing '%' character
+                /* this is undefined behavior. we have a trailing '%' character
                     in the string, perhaps with some flags, width, precision
                     stuff as well, but no format specifier. We'll, arbitrarily,
                     back up a character so that the loop will terminate
                     properly when it loops back and we'll output a '%'
                     character. */
                     --formatString;
-                /* fallthrough */
+                /* fall through */
                 case '%':
                     if (FSputc ('%', handle) == EOF)
                     {
@@ -13221,7 +13221,7 @@ int FSvfprintf (FSFILE *handle, const char * formatString, va_list ap)
                             }
                             /* if we have leading zeros, they follow. the prefix, if any
                                 is included in the number of digits when determining how
-                                many leading zeroes are needed. */
+                                many leading zeros are needed. */
 //                            if (precision > prefix_cnt)
   //                              precision -= prefix_cnt;
                             if (str_put_n_chars (handle, precision, '0'))
@@ -13271,7 +13271,7 @@ int FSvfprintf (FSFILE *handle, const char * formatString, va_list ap)
                     }
                     break;
                 default:
-                    /* undefined behaviour. we do nothing */
+                    /* undefined behavior. we do nothing */
                     break;
             }
         }

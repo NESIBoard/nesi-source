@@ -4,7 +4,7 @@
     Dependencies:	See INCLUDES section
     Processor:		PIC18,PIC24, PIC32 and dsPIC33E USB Microcontrollers
     Hardware:		The code is natively intended to be used on the following
-    				hardware platforms: PICDEM� FS USB Demo Board, 
+    				hardware platforms: PICDEM� FS USB Demo Board,
     				PIC18F87J50 FS USB Plug-In Module, or
     				Explorer 16 + compatible USB PIM.  The firmware may be
     				modified for use on other USB platforms by editing the
@@ -12,9 +12,9 @@
     Complier:  	    Microchip C18 (for PIC18),C30 (for PIC24 and dsPIC33E)
                     and C32 (for PIC32)
     Company:		Microchip Technology, Inc.
-    
+
     Software License Agreement:
-    
+
     The software supplied herewith by Microchip Technology Incorporated
     (the �Company�) for its PIC� Microcontroller is intended and
     supplied to you, the Company�s customer, for use solely and
@@ -25,7 +25,7 @@
     user to criminal sanctions under applicable laws, as well as to
     civil liability for the breach of the terms and conditions of this
     license.
-    
+
     THIS SOFTWARE IS PROVIDED IN AN �AS IS� CONDITION. NO WARRANTIES,
     WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
     TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
@@ -36,21 +36,21 @@
   Summary:
     This file contains functions, macros, definitions, variables,
     datatypes, etc. that are required for usage with the MCHPFSUSB device
-    stack. This file should be included in projects that use the device stack. 
-    
+    stack. This file should be included in projects that use the device stack.
+
     This file is located in the "\<Install Directory\>\\Microchip\\USB"
     directory.
 
   Description:
     USB Device Stack File
-    
+
     This file contains functions, macros, definitions, variables,
     datatypes, etc. that are required for usage with the MCHPFSUSB device
     stack. This file should be included in projects that use the device stack.
-    
+
     This file is located in the "\<Install Directory\>\\Microchip\\USB"
     directory.
-    
+
     When including this file in a new project, this file can either be
     referenced from the directory in which it was installed or copied
     directly into the user application folder. If the first method is
@@ -60,17 +60,17 @@
     application folder is located in the same folder as the Microchip
     folder (like the current demo folders), then the following include
     paths need to be added to the application's project:
-    
+
     .
     ..\\..\\MicrochipInclude
-    
+
     If a different directory structure is used, modify the paths as
     required. An example using absolute paths instead of relative paths
     would be the following:
-    
+
     C:\\Microchip Solutions\\Microchip\\Include
-    
-    C:\\Microchip Solutions\\My Demo Application 
+
+    C:\\Microchip Solutions\\My Demo Application
 
 ********************************************************************
  File Description:
@@ -78,11 +78,11 @@
  Change History:
   Rev    Description
   ----   -----------
-  2.8    Initial revision.  Contents extracted from the previous usb_device.c 
+  2.8    Initial revision.  Contents extracted from the previous usb_device.c
          file, so as to make the usb_device.c file less cluttered.
          Fixed BD() and EP() macro computation error, when running in
          USB_PING_PONG__EP0_OUT_ONLY mode.
-  2.9    No functional change.  Fixed spelling typo in the name of 
+  2.9    No functional change.  Fixed spelling typo in the name of
          "USB_TRANSFER_COMPLETE_HANDLER()"
 ********************************************************************/
 #include "usb_config.h"
@@ -428,62 +428,62 @@ typedef union
 /****** Event callback enabling/disabling macros ********************
     This section of code is used to disable specific USB events that may not be
     desired by the user.  This can save code size and increase throughput and
-    decrease CPU utiliazation.
+    decrease CPU utilization.
 ********************************************************************/
 #if defined USB_DISABLE_SUSPEND_HANDLER
-    #define USB_SUSPEND_HANDLER(event,pointer,size) 
-    
-    #warning "Disabling the suspend handler is not recommended.  Proper suspend handling is required to create a compliant USB device."                
+    #define USB_SUSPEND_HANDLER(event,pointer,size)
+
+    #warning "Disabling the suspend handler is not recommended.  Proper suspend handling is required to create a compliant USB device."
 #else
     #define USB_SUSPEND_HANDLER(event,pointer,size)             USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
 #if defined USB_DISABLE_WAKEUP_FROM_SUSPEND_HANDLER
-    #define USB_WAKEUP_FROM_SUSPEND_HANDLER(event,pointer,size) 
+    #define USB_WAKEUP_FROM_SUSPEND_HANDLER(event,pointer,size)
 
-    #warning "Disabling the wake from suspend handler is not recommended.  Proper suspend handling is required to create a compliant USB device."                
+    #warning "Disabling the wake from suspend handler is not recommended.  Proper suspend handling is required to create a compliant USB device."
 #else
-    #define USB_WAKEUP_FROM_SUSPEND_HANDLER(event,pointer,size) USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)   
+    #define USB_WAKEUP_FROM_SUSPEND_HANDLER(event,pointer,size) USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
 #if defined USB_DISABLE_SOF_HANDLER
-    #define USB_SOF_HANDLER(event,pointer,size)                
+    #define USB_SOF_HANDLER(event,pointer,size)
 #else
     #define USB_SOF_HANDLER(event,pointer,size)                 USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
 #if defined USB_DISABLE_TRANSFER_TERMINATED_HANDLER
-    #define USB_TRANSFER_TERMINATED_HANDLER(event,pointer,size)                
+    #define USB_TRANSFER_TERMINATED_HANDLER(event,pointer,size)
 #else
     #define USB_TRANSFER_TERMINATED_HANDLER(event,pointer,size)                 USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
-#if defined USB_DISABLE_ERROR_HANDLER 
-    #define USB_ERROR_HANDLER(event,pointer,size)             
+#if defined USB_DISABLE_ERROR_HANDLER
+    #define USB_ERROR_HANDLER(event,pointer,size)
 #else
     #define USB_ERROR_HANDLER(event,pointer,size)               USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
-#if defined USB_DISABLE_NONSTANDARD_EP0_REQUEST_HANDLER 
-    #define USB_NONSTANDARD_EP0_REQUEST_HANDLER(event,pointer,size)                 
+#if defined USB_DISABLE_NONSTANDARD_EP0_REQUEST_HANDLER
+    #define USB_NONSTANDARD_EP0_REQUEST_HANDLER(event,pointer,size)
 #else
     #define USB_NONSTANDARD_EP0_REQUEST_HANDLER(event,pointer,size)       USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
-#if defined USB_DISABLE_SET_DESCRIPTOR_HANDLER 
-    #define USB_SET_DESCRIPTOR_HANDLER(event,pointer,size)                
+#if defined USB_DISABLE_SET_DESCRIPTOR_HANDLER
+    #define USB_SET_DESCRIPTOR_HANDLER(event,pointer,size)
 #else
-    #define USB_SET_DESCRIPTOR_HANDLER(event,pointer,size)      USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size) 
+    #define USB_SET_DESCRIPTOR_HANDLER(event,pointer,size)      USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
 #if defined USB_DISABLE_SET_CONFIGURATION_HANDLER
-    #define USB_SET_CONFIGURATION_HANDLER(event,pointer,size)                
+    #define USB_SET_CONFIGURATION_HANDLER(event,pointer,size)
 #else
     #define USB_SET_CONFIGURATION_HANDLER(event,pointer,size)             USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif
 
-#if defined USB_DISABLE_TRANSFER_COMPLETE_HANDLER 
-    #define USB_TRANSFER_COMPLETE_HANDLER(event,pointer,size)               
+#if defined USB_DISABLE_TRANSFER_COMPLETE_HANDLER
+    #define USB_TRANSFER_COMPLETE_HANDLER(event,pointer,size)
 #else
     #define USB_TRANSFER_COMPLETE_HANDLER(event,pointer,size)    USER_USB_CALLBACK_EVENT_HANDLER(event,pointer,size)
 #endif

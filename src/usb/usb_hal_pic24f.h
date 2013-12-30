@@ -13,12 +13,12 @@ Description:
     compiled to work on different USB microcontrollers, such as PIC18 and PIC24.
     The USB related special function registers and bit names are generally very
     similar between the device families, but small differences in naming exist.
-    
-    In order to make the same set of firmware work accross the device families,
+
+    In order to make the same set of firmware work across the device families,
     when modifying SFR contents, a slightly abstracted name is used, which is
     then "mapped" to the appropriate real name in the usb_hal_picxx.h header.
-    
-    Make sure to include the correct version of the usb_hal_picxx.h file for 
+
+    Make sure to include the correct version of the usb_hal_picxx.h file for
     the microcontroller family which will be used.
 
     When including this file in a new project, this file can either be
@@ -30,18 +30,18 @@ Description:
     application folder is located in the same folder as the Microchip
     folder (like the current demo folders), then the following include
     paths need to be added to the application's project:
-    
+
     .
 
     ..\\..\\Microchip\\Include
-        
+
     If a different directory structure is used, modify the paths as
     required. An example using absolute paths instead of relative paths
     would be the following:
-    
+
     C:\\Microchip Solutions\\Microchip\\Include
-    
-    C:\\Microchip Solutions\\My Demo Application 
+
+    C:\\Microchip Solutions\\My Demo Application
 
 
 *******************************************************************************/
@@ -53,7 +53,7 @@ Description:
  This file defines the interface to the USB hardware abstraction layer.
 
  Filename:        usb_hal_pic24.h
- Dependancies:    none
+ Dependencies:    none
  Processor:       PIC24F USB Microcontrollers
  Hardware:        PIC24F USB Microcontrollers
  Compiler:        Microchip C30 (for PIC24)
@@ -86,10 +86,10 @@ Description:
  Change History:
   Rev    Description
   ----   -----------
-  2.6    Changed the inplementation of the interrupt clearing macro
-         to be more efficient. 
+  2.6    Changed the implementation of the interrupt clearing macro
+         to be more efficient.
 
-  2.6a   Added DisableNonZeroEndpoints() function 
+  2.6a   Added DisableNonZeroEndpoints() function
 
   2.7    Addition of ConvertToVirtualAddress() function for
          compatibility with PIC32.
@@ -119,7 +119,7 @@ Description:
 /****** Constant definitions *************************************************/
 /*****************************************************************************/
 
-//----- USBEnableEndpoint() input defintions ----------------------------------
+//----- USBEnableEndpoint() input definitions ----------------------------------
 #define USB_HANDSHAKE_ENABLED           0x01
 #define USB_HANDSHAKE_DISABLED          0x00
 
@@ -134,7 +134,7 @@ Description:
 
 #define USB_STALL_ENDPOINT              0x02
 
-//----- usb_config.h input defintions -----------------------------------------
+//----- usb_config.h input definitions -----------------------------------------
 #define USB_PULLUP_ENABLE               0x00
 //#define USB_PULLUP_DISABLE            0x00
 
@@ -192,7 +192,7 @@ Description:
 #define USBIDIFReg                      U1OTGIR
 #define USBIDIFBitNum                   7
 
-//----- Event call back defintions --------------------------------------------
+//----- Event call back definitions --------------------------------------------
 #if defined(USB_DISABLE_SOF_HANDLER)
     #define USB_SOF_INTERRUPT           0x00
 #else
@@ -238,15 +238,15 @@ Description:
 //----- U1EP bit definitions --------------------------------------------------
 #define UEP_STALL                       0x0002
 // Cfg Control pipe for this ep
-#define EP_CTRL                         0x0C        
+#define EP_CTRL                         0x0C
 
 
 #define BDT_BASE_ADDR_TAG   __attribute__ ((aligned (512)))
 #define CTRL_TRF_SETUP_ADDR_TAG
 #define CTRL_TRF_DATA_ADDR_TAG
 
-//----- Depricated defintions - will be removed at some point of time----------
-//--------- Depricated in v2.2
+//----- Deprecated definitions - will be removed at some point of time----------
+//--------- Deprecated in v2.2
 #define _LS                             0x00        // Use Low-Speed USB Mode
 #define _FS                             0x00        // Use Full-Speed USB Mode
 #define _TRINT                          0x00        // Use internal transceiver
@@ -332,7 +332,7 @@ typedef union _POINTER
         //byte bUpper;
     };
     WORD _word;                         // bLow & bHigh
-    
+
     //pFunc _pFunc;                       // Usage: ptr.pFunc(); Init: ptr.pFunc = &<Function>;
 
     BYTE* bRam;                         // Ram byte pointer: 2 bytes pointer pointing
@@ -359,8 +359,8 @@ typedef union _POINTER
     #define USBMaskInterrupts() {IEC5bits.USB1IE = 0;}
     #define USBUnmaskInterrupts() {IEC5bits.USB1IE = 1;}
 #else
-    #define USBMaskInterrupts() 
-    #define USBUnmaskInterrupts() 
+    #define USBMaskInterrupts()
+    #define USBUnmaskInterrupts()
 #endif
 
 //STALLIE, IDLEIE, TRNIE, and URSTIE are all enabled by default and are required
@@ -387,27 +387,27 @@ typedef union _POINTER
                                             PullUpConfiguration();\
                                             U1EIE = 0x9F;\
                                             U1IE = 0x99 | USB_SOF_INTERRUPT | USB_ERROR_INTERRUPT;\
-                                        } 
+                                        }
 
 
 /********************************************************************
 Function:
     BOOL USBSleepOnSuspend(void)
-    
+
 Summary:
     Places the PIC24F core into sleep and sets up the USB module
     to wake up the device on USB activity.
-    
+
 PreCondition:
     IPL (in the SR register) must be non-zero.
-    
+
 Parameters:
     None
-    
+
 Return Values:
     TRUE  - if entered sleep successfully
     FALSE - if there was an error entering sleep
-    
+
 Remarks:
     Please note that before calling this function that it is the
     responsibility of the application to place all of the other
@@ -420,40 +420,40 @@ BOOL USBSleepOnSuspend(void);
 /****************************************************************
     Function:
         void USBPowerModule(void)
-        
+
     Description:
         This macro is used to power up the USB module if required<br>
         PIC18: defines as nothing<br>
         PIC24: defines as U1PWRCbits.USBPWR = 1;<br>
-        
+
     Parameters:
         None
-        
+
     Return Values:
         None
-        
+
     Remarks:
         None
-        
+
   ****************************************************************/
 #define USBPowerModule() U1PWRCbits.USBPWR = 1;
 
 /****************************************************************
     Function:
         void USBModuleDisable(void)
-        
+
     Description:
         This macro is used to disable the USB module
-        
+
     Parameters:
         None
-        
+
     Return Values:
         None
-        
+
     Remarks:
         None
-        
+
   ****************************************************************/
 #define USBModuleDisable() {\
     U1CON = 0;\
@@ -461,95 +461,95 @@ BOOL USBSleepOnSuspend(void);
     U1OTGIE = 0;\
     U1PWRCbits.USBPWR = 1;\
     USBDeviceState = DETACHED_STATE;\
-}    
+}
 
 /****************************************************************
     Function:
         USBSetBDTAddress(addr)
-        
+
     Description:
         This macro is used to power up the USB module if required
-        
+
     Parameters:
         None
-        
+
     Return Values:
         None
-        
+
     Remarks:
         None
-        
+
   ****************************************************************/
 #define USBSetBDTAddress(addr)         U1BDTP1 = (((unsigned int)addr)/256);
 
 /****************************************************************
     Function:
         void USBClearInterruptRegister(int register)
-        
+
     Description:
         Clears all of the interrupts in the requested register
-        
+
     Parameters:
-        register - the regsister that needs to be cleared.
-        
+        register - the register that needs to be cleared.
+
     Return Values:
         None
-        
+
     Remarks:
         Note that on these devices to clear an interrupt you must
         write a '1' to the interrupt location.
-        
+
   ****************************************************************/
 #define USBClearInterruptRegister(reg) reg = 0xFFFF;
 
 /********************************************************************
     Function:
         void USBClearInterruptFlag(register, BYTE if_flag_offset)
-        
+
     Summary:
         Clears the specified USB interrupt flag.
-        
+
     PreCondition:
         None
-        
+
     Parameters:
-        register - the register mnemonic for the register holding the interrupt 
+        register - the register mnemonic for the register holding the interrupt
                    flag to be cleared
-        BYTE if_flag_offset - the bit position offset (for the interrupt flag to 
+        BYTE if_flag_offset - the bit position offset (for the interrupt flag to
                    clear) from the "right of the register"
-        
+
     Return Values:
         None
-        
+
     Remarks:
-        Individual USB interrupt flag bits are cleared by writing '1' to the 
+        Individual USB interrupt flag bits are cleared by writing '1' to the
         bit, in a word write operation.
- 
+
  *******************************************************************/
-#define USBClearInterruptFlag(reg_name, if_flag_offset)	(reg_name = (1 << if_flag_offset))	
+#define USBClearInterruptFlag(reg_name, if_flag_offset)	(reg_name = (1 << if_flag_offset))
 
 /********************************************************************
     Function:
         void DisableNonZeroEndpoints(UINT8 last_ep_num)
-        
+
     Summary:
         Clears the control registers for the specified non-zero endpoints
-        
+
     PreCondition:
         None
-        
+
     Parameters:
         UINT8 last_ep_num - the last endpoint number to clear.  This
         number should include all endpoints used in any configuration.
-        
+
     Return Values:
         None
-        
+
     Remarks:
         None
- 
+
  *******************************************************************/
-#define DisableNonZeroEndpoints(last_ep_num) memset((void*)&U1EP1,0x00,(last_ep_num * 2));                                          
+#define DisableNonZeroEndpoints(last_ep_num) memset((void*)&U1EP1,0x00,(last_ep_num * 2));
 
 
 /*****************************************************************************/
@@ -573,7 +573,7 @@ BOOL USBSleepOnSuspend(void);
         extern USB_VOLATILE OUT_PIPE outPipes[1];
     #endif
 	extern volatile BDT_ENTRY* pBDTEntryOut[USB_MAX_EP_NUMBER+1];
-	extern volatile BDT_ENTRY* pBDTEntryIn[USB_MAX_EP_NUMBER+1];	
+	extern volatile BDT_ENTRY* pBDTEntryIn[USB_MAX_EP_NUMBER+1];
 #endif
 
 #endif //USB_HAL_PIC24F_H

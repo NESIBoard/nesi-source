@@ -59,7 +59,7 @@ static Uint16 readValue(void)
  */
 static void setHeaterOutput(Boolean desiredOutputState)
 {
-    _TRISE3 = 0;    // configure port as output
+    _TRISE3 = 0;               // configure port as output
     _RE3 = desiredOutputState; // set the output
 }
 

@@ -768,7 +768,7 @@ static inline Calendar subtractCalendars(Calendar first, Calendar second)
 
 static inline Clock addClocks(Clock first, Clock second)
 {
-   return numbersToClock(first.tensOfHours   + second.tensOfHours,
+   return numbersToClock(first.tensOfHours  + second.tensOfHours,
                         first.hours         + second.hours,
                         first.tensOfMinutes + second.tensOfMinutes,
                         first.minutes       + second.minutes,
@@ -778,7 +778,7 @@ static inline Clock addClocks(Clock first, Clock second)
 
 static inline Clock subtractClocks(Clock first, Clock second)
 {
-   return numbersToClock(first.tensOfHours   - second.tensOfHours,
+   return numbersToClock(first.tensOfHours  - second.tensOfHours,
                         first.hours         - second.hours,
                         first.tensOfMinutes - second.tensOfMinutes,
                         first.minutes       - second.minutes,

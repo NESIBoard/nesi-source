@@ -40,7 +40,7 @@
 
 #include "../dev/GenericTypeDefs.h"
 #include "FSconfig.h"
-#include "FSDefs.h" 
+#include "FSDefs.h"
 #include <stddef.h>
 
 #ifdef USE_SD_INTERFACE_WITH_SPI
@@ -61,7 +61,7 @@
 
 
 /*******************************************************************/
-/*                     Strunctures and defines                     */
+/*                     Structures and defines                     */
 /*******************************************************************/
 
 #ifndef FALSE
@@ -80,7 +80,7 @@
 
 #ifndef SEEK_SET
     // Summary: Macro for the FSfseek SEEK_SET base location.
-    // Description: Functions as an input for FSfseek that specifies that the position in the file will be changed 
+    // Description: Functions as an input for FSfseek that specifies that the position in the file will be changed
     //              relative to the beginning of the file.
     #define SEEK_SET 0
 
@@ -116,8 +116,8 @@
 #define FS_WRITE    "w"
 
 // Summary: Macro for the FSfopen FS_READ mode
-// Description: If this macro is specified as the mode argument in a call of FSfopen, the file information for the 
-//              specified file will be loaded.  If the file does not exist, the FSfopen function will fail.  The user 
+// Description: If this macro is specified as the mode argument in a call of FSfopen, the file information for the
+//              specified file will be loaded.  If the file does not exist, the FSfopen function will fail.  The user
 //              will then be able to read from the file.
 #define FS_READ "r"
 
@@ -135,8 +135,8 @@
 #define FS_WRITEPLUS    "w+"
 
 // Summary: Macro for the FSfopen FS_READ+ mode
-// Description: If this macro is specified as the mode argument in a call of FSfopen, the file information for the 
-//              specified file will be loaded.  If the file does not exist, the FSfopen function will fail.  The user 
+// Description: If this macro is specified as the mode argument in a call of FSfopen, the file information for the
+//              specified file will be loaded.  If the file does not exist, the FSfopen function will fail.  The user
 //              will then be able to read from the file or write to the file.
 #define FS_READPLUS     "r+"
 
@@ -185,7 +185,7 @@ typedef enum{
 
 // Summary: Macro indicating the length of a 8.3 file name
 // Description: The TOTAL_FILE_SIZE_8P3 macro indicates the maximum number of characters in an 8.3 file name.  This value includes
-//              8 characters for the name, three for the extentsion, and 1 for the radix ('.')
+//              8 characters for the name, three for the extension, and 1 for the radix ('.')
 #define TOTAL_FILE_SIZE_8P3             (8+3+1)
 #define TOTAL_FILE_SIZE                 TOTAL_FILE_SIZE_8P3
 
@@ -219,8 +219,8 @@ typedef enum{
 
 
 // Summary: Contains file information and is used to indicate which file to access.
-// Description: The FSFILE structure is used to hold file information for an open file as it's being modified or accessed.  A pointer to 
-//              an open file's FSFILE structure will be passeed to any library function that will modify that file.
+// Description: The FSFILE structure is used to hold file information for an open file as it's being modified or accessed.  A pointer to
+//              an open file's FSFILE structure will be passed to any library function that will modify that file.
 typedef struct
 {
     DISK    *       dsk;            // Pointer to a DISK structure
@@ -279,7 +279,7 @@ typedef struct
 
     struct
     {
-        DWORD   c;     
+        DWORD   c;
         DWORD   curcls;
         DWORD   EndClusterLimit;
         DWORD   ClusterFailValue;
@@ -292,7 +292,7 @@ typedef struct
 // Summary: A structure used for searching for files on a device.
 // Description: The SearchRec structure is used when searching for file on a device.  It contains parameters that will be loaded with
 //              file information when a file is found.  It also contains the parameters that the user searched for, allowing further
-//              searches to be perfomed in the same directory for additional files that meet the specified criteria.
+//              searches to be performed in the same directory for additional files that meet the specified criteria.
 typedef struct
 {
     char            filename[FILE_NAME_SIZE_8P3 + 2];   // The name of the file that has been found
@@ -336,7 +336,7 @@ typedef struct
   Description:
     This function initializes the file system stack & the interfacing device.
     Initializes the static or dynamic memory slots for holding file
-    structures. Initializes the device with the DISKmount function. Loads 
+    structures. Initializes the device with the DISKmount function. Loads
     MBR and boot sector information. Initializes the current working
     directory to the root directory for the device if directory support
     is enabled.
@@ -553,7 +553,7 @@ FSFILE * wFSfopen(const unsigned short int * fileName, const char *mode);
   Function:
     int FSmkdirpgm (const rom char * path)
   Summary:
-    Creates a directory as per the path mentioned in the input string on 
+    Creates a directory as per the path mentioned in the input string on
     PIC18 devices.
   Conditions:
     None
@@ -563,15 +563,15 @@ FSFILE * wFSfopen(const unsigned short int * fileName, const char *mode);
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
-    Creates a directory as per the path mentioned in the input string on 
+    Creates a directory as per the path mentioned in the input string on
     PIC18 devices.'FSmkdirpgm' creates the directories as per the input
     string path.This function doesn't move the current working
     directory setting.
   Remarks:
-    This function is for use with PIC18 when passing arugments in ROM
+    This function is for use with PIC18 when passing arguments in ROM
   **************************************************************************/
 
         int FSmkdirpgm (const rom char * path);
@@ -586,7 +586,7 @@ FSFILE * wFSfopen(const unsigned short int * fileName, const char *mode);
     None.
   Input:
     path -      The path of the directory to remove (ROM)
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -622,10 +622,10 @@ FSFILE * wFSfopen(const unsigned short int * fileName, const char *mode);
     The FSerrno variable will be changed.
   Description:
     Renames the file with the ascii ROM string(PIC18).The Fsrenamepgm
-    function will copy the rom fileName specified by the user into a 
+    function will copy the rom fileName specified by the user into a
     RAM array and pass that array into the FSrename function.
   Remarks:
-    This function is for use with PIC18 when passing arguments in ROM.                       
+    This function is for use with PIC18 when passing arguments in ROM.
   *****************************************************************/
 
         int FSrenamepgm (const rom char * fileName, FSFILE * fo);
@@ -643,12 +643,12 @@ FSFILE * wFSfopen(const unsigned short int * fileName, const char *mode);
   Input:
     fo -  Pointer to the file to close
   Return Values:
-    0 -   File closed successfully 
+    0 -   File closed successfully
     EOF - Error closing the file
   Side Effects:
     The FSerrno variable will be changed.
   Description:
-    This function will update the directory entry for the 
+    This function will update the directory entry for the
     file pointed to by 'fo' with the information contained
     in 'fo,' including the new file size and attributes.
     Timestamp information will also be loaded based on the
@@ -681,7 +681,7 @@ int FSfclose(FSFILE *fo);
   Side Effects:
     None.
   Description:
-    The FSrewind funciton will reset the position of the
+    The FSrewind function will reset the position of the
     specified file to the beginning of the file.  This
     functionality is faster than using FSfseek to reset
     the position in the file.
@@ -714,9 +714,9 @@ void FSrewind (FSFILE *fo);
     the specified buffer until the specified number of bytes have been read.
     When a cluster boundary is reached, a new cluster will be loaded.  The
     parameters 'size' and 'n' indicate how much data to read.  'Size'
-    refers to the size of one object to read (in bytes), and 'n' will refer 
-    to the number of these objects to read.  The value returned will be equal 
-    to 'n' unless an error occured or the user tried to read beyond the end
+    refers to the size of one object to read (in bytes), and 'n' will refer
+    to the number of these objects to read.  The value returned will be equal
+    to 'n' unless an error occurred or the user tried to read beyond the end
     of the file.
   Remarks:
     None.
@@ -735,13 +735,13 @@ size_t FSfread(void *ptr, size_t size, size_t n, FSFILE *stream);
   Input:
     stream -    Pointer to file structure
     offset -    Offset from base location
-    whence -    
+    whence -
            - SEEK_SET -  Seek from start of file
            - SEEK_CUR -  Seek from current location
            - SEEK_END -  Seek from end of file (subtract offset)
   Return Values:
-    0 -  Operation successful 
-    -1 - Operation unsuccesful
+    0 -  Operation successful
+    -1 - Operation unsuccessful
   Side Effects:
     The FSerrno variable will be changed.
   Description:
@@ -754,7 +754,7 @@ size_t FSfread(void *ptr, size_t size, size_t n, FSFILE *stream);
     to the file and the position will be set to the first byte of that
     cluster.
   Remarks:
-    None                                                               
+    None
   **********************************************************************/
 
 int FSfseek(FSFILE *stream, long offset, int whence);
@@ -778,7 +778,7 @@ int FSfseek(FSFILE *stream, long offset, int whence);
     FSFILE object, which is used to keep track of the absolute
     location of the current position in the file.
   Remarks:
-    None                                                            
+    None
   *******************************************************************/
 
 long FSftell(FSFILE *fo);
@@ -794,7 +794,7 @@ long FSftell(FSFILE *fo);
   Input:
     stream -  Pointer to the target file
   Return Values:
-    Non-Zero - EOF reached 
+    Non-Zero - EOF reached
     0 - Not at end of File
   Side Effects:
     The FSerrno variable will be changed.
@@ -840,7 +840,7 @@ int FSfeof( FSFILE * stream );
     values from the master boot record.  Once the boot sector has
     been successfully loaded/created, the locations of the FAT and
     root will be loaded from it, and they will be completely
-    erased.  If the user has specified a volumeID parameter, a 
+    erased.  If the user has specified a volumeID parameter, a
     VOLUME attribute entry will be created in the root directory
     to name the device.
 
@@ -848,17 +848,17 @@ int FSfeof( FSFILE * stream );
 
     Based on the number of sectors, the format function automatically
     compute the smallest possible value for the cluster size in order to
-    accommodate the physical size of the media. In this case, if a media 
+    accommodate the physical size of the media. In this case, if a media
     with a big capacity is formatted, the format function may take a very
-    long time to write all the FAT tables. 
+    long time to write all the FAT tables.
 
-    Therefore, the FORMAT_SECTORS_PER_CLUSTER macro may be used to 
-    specify the exact cluster size (in multiples of sector size). This 
+    Therefore, the FORMAT_SECTORS_PER_CLUSTER macro may be used to
+    specify the exact cluster size (in multiples of sector size). This
     macro can be defined in FSconfig.h
 
   Remarks:
-    Only devices with a sector size of 512 bytes are supported by the 
-    format function                      
+    Only devices with a sector size of 512 bytes are supported by the
+    format function
   *******************************************************************/
 
 int FSformat (char mode, long int serialNumber, char * volumeID);
@@ -876,24 +876,24 @@ int FSformat (char mode, long int serialNumber, char * volumeID);
   Input:
     file -        Pointer to file structure
     attributes -  The attributes to set for the file
-               -  Attribute -      Value - Indications 
+               -  Attribute -      Value - Indications
                -  ATTR_READ_ONLY - 0x01  - The read-only attribute
-               -  ATTR_HIDDEN -    0x02  - The hidden attribute 
-               -  ATTR_SYSTEM -    0x04  - The system attribute 
+               -  ATTR_HIDDEN -    0x02  - The hidden attribute
+               -  ATTR_SYSTEM -    0x04  - The system attribute
                -  ATTR_ARCHIVE -   0x20  - The archive attribute
   Return Values:
-    0 -  Attribute change was successful 
+    0 -  Attribute change was successful
     -1 - Attribute change was unsuccessful
   Side Effects:
     The FSerrno variable will be changed.
   Description:
-    The FSattrib funciton will set the attributes of the specified file
+    The FSattrib function will set the attributes of the specified file
     to the attributes passed in by the user.  This function will load the
     file entry, replace the attributes with the ones specified, and write
     the attributes back.  If the specified file is a directory, the
     directory attribute will be preserved.
   Remarks:
-    None                                                                
+    None
   ***************************************************************************/
 
 int FSattrib (FSFILE * file, unsigned char attributes);
@@ -920,7 +920,7 @@ int FSattrib (FSFILE * file, unsigned char attributes);
     specified new filename is not already in use. If it isn't, the new filename
     will be written to the file entry of the file pointed to by 'fo.'
   Remarks:
-    None                                                        
+    None
   ***************************************************************/
 
 int FSrename (const char * fileName, FSFILE * fo);
@@ -965,7 +965,7 @@ int wFSrename (const unsigned short int * fileName, FSFILE * fo);
   Input:
     fileName -  Name of the file to erase
   Return Values:
-    0 -   File removed 
+    0 -   File removed
     EOF - File was not removed
   Side Effects:
     The FSerrno variable will be changed.
@@ -976,7 +976,7 @@ int wFSrename (const unsigned short int * fileName, FSFILE * fo);
     The user can also provide ascii alias name of the ascii long file name as the
     input to this function to get it erased from the memory.
   Remarks:
-    None                                       
+    None
   **********************************************************************/
 
 int FSremove (const char * fileName);
@@ -1032,10 +1032,10 @@ int wFSremove (const unsigned short int * fileName);
     If the end of a cluster is reached, the next cluster will be loaded, unless
     the end-of-file flag for the specified file has been set.  If it has, a new
     cluster will be allocated to the file.  Finally, the new position and filesize
-    will be stored in the FSFILE object.  The parameters 'size' and 'n' indicate how 
-    much data to write.  'Size' refers to the size of one object to write (in bytes), 
-    and 'n' will refer to the number of these objects to write.  The value returned 
-    will be equal  to 'n' unless an error occured.
+    will be stored in the FSFILE object.  The parameters 'size' and 'n' indicate how
+    much data to write.  'Size' refers to the size of one object to write (in bytes),
+    and 'n' will refer to the number of these objects to write.  The value returned
+    will be equal  to 'n' unless an error occurred.
   Remarks:
     None.
   *********************************************************************************/
@@ -1066,7 +1066,7 @@ size_t FSfwrite(const void *data_to_write, size_t size, size_t n, FSFILE *stream
     Changes the current working directory to the ascii input path(PIC24/PIC32/dsPIC).
     The FSchdir function passes a RAM pointer to the path to the chdirhelper function.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 int FSchdir (char * path);
@@ -1093,7 +1093,7 @@ int FSchdir (char * path);
     UTF16 format (PIC24/PIC32/dsPIC).The FSchdir function passes a RAM
     pointer to the path to the chdirhelper function.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 int wFSchdir (unsigned short int * path);
@@ -1126,19 +1126,19 @@ int wFSchdir (unsigned short int * path);
     working directory, if it isn't already present.  This could
     occur if the user switched to the dotdot entry of a
     subdirectory immediately before calling this function.  The
-    function will then copy the current working directory name 
-    into the buffer backwards, and insert a backslash character.  
-    Next, the function will continuously switch to the previous 
+    function will then copy the current working directory name
+    into the buffer backwards, and insert a backslash character.
+    Next, the function will continuously switch to the previous
     directories and copy their names backwards into the buffer
     until it reaches the root.  If the buffer overflows, it
     will be treated as a circular buffer, and data will be
     copied over existing characters, starting at the beginning.
     Once the root directory is reached, the text in the buffer
     will be swapped, so that the buffer contains as much of the
-    current working directory name as possible, starting at the 
+    current working directory name as possible, starting at the
     root.
   Remarks:
-    None                                                       
+    None
   **************************************************************/
 
 char * FSgetcwd (char * path, int numbchars);
@@ -1171,19 +1171,19 @@ char * FSgetcwd (char * path, int numbchars);
     working directory, if it isn't already present.  This could
     occur if the user switched to the dotdot entry of a
     subdirectory immediately before calling this function.  The
-    function will then copy the current working directory name 
-    into the buffer backwards, and insert a backslash character.  
-    Next, the function will continuously switch to the previous 
+    function will then copy the current working directory name
+    into the buffer backwards, and insert a backslash character.
+    Next, the function will continuously switch to the previous
     directories and copy their names backwards into the buffer
     until it reaches the root.  If the buffer overflows, it
     will be treated as a circular buffer, and data will be
     copied over existing characters, starting at the beginning.
     Once the root directory is reached, the text in the buffer
     will be swapped, so that the buffer contains as much of the
-    current working directory name as possible, starting at the 
+    current working directory name as possible, starting at the
     root.
   Remarks:
-    None                                                       
+    None
   **************************************************************/
 
 char * wFSgetcwd (unsigned short int * path, int numbchars);
@@ -1204,13 +1204,13 @@ char * wFSgetcwd (unsigned short int * path, int numbchars);
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
     Creates a directory as per the ascii input path (PIC24/PIC32/dsPIC).
     This function doesn't move the current working directory setting.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 int FSmkdir (char * path);
@@ -1229,13 +1229,13 @@ int FSmkdir (char * path);
     0 -   The specified directory was created successfully
     EOF - The specified directory could not be created
   Side Effects:
-    Will create all non-existent directories in the path. The FSerrno 
+    Will create all non-existent directories in the path. The FSerrno
     variable will be changed.
   Description:
     Creates a directory as per the UTF16 input path (PIC24/PIC32/dsPIC).
     This function doesn't move the current working directory setting.
   Remarks:
-    None                                            
+    None
   **************************************************************************/
 
 int wFSmkdir (unsigned short int * path);
@@ -1250,7 +1250,7 @@ int wFSmkdir (unsigned short int * path);
     None
   Input:
     path -      The path of the directory to remove
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -1277,7 +1277,7 @@ int FSrmdir (char * path, unsigned char rmsubdirs);
     None
   Input:
     path -      The path of the directory to remove
-    rmsubdirs - 
+    rmsubdirs -
               - TRUE -  All sub-dirs and files in the target dir will be removed
               - FALSE - FSrmdir will not remove non-empty directories
   Return Values:
@@ -1325,7 +1325,7 @@ int wFSrmdir (unsigned short int * path, unsigned char rmsubdirs);
     used by the FAT timestamps.
   Remarks:
     Call this before creating a file or directory (set create time) and
-    before closing a file (set last access time, last modified time)                                        
+    before closing a file (set last access time, last modified time)
   ***********************************************************************************************************/
 
 int SetClockVars (unsigned int year, unsigned char month, unsigned char day, unsigned char hour, unsigned char minute, unsigned char second);
@@ -1343,7 +1343,7 @@ int SetClockVars (unsigned int year, unsigned char month, unsigned char day, uns
     None
   Input:
     fileName - The name to search for
-             - Parital string search characters
+             - Partial string search characters
              - * - Indicates the rest of the filename or extension can vary (e.g. FILE.*)
              - ? - Indicates that one character in a filename can vary (e.g. F?LE.T?T)
     attr -            The attributes that a found file may have
@@ -1370,8 +1370,8 @@ int SetClockVars (unsigned int year, unsigned char month, unsigned char day, uns
     the current working directory searching for entries that match the specified
     parameters.  If a file is found, its parameters are copied into the SearchRec
     structure, as are the initial parameters passed in by the user and the position
-    of the file entry in the current working directory.If the return value of the 
-    function is 0 then "utf16LFNfoundLength" indicates whether the file found was 
+    of the file entry in the current working directory.If the return value of the
+    function is 0 then "utf16LFNfoundLength" indicates whether the file found was
     long file name or short file name(8P3 format). The "utf16LFNfoundLength" is non-zero
     for long file name and is zero for 8P3 format."utf16LFNfound" points to the
     address of long file name if found during the operation.
@@ -1391,7 +1391,7 @@ int FindFirst (const char * fileName, unsigned int attr, SearchRec * rec);
     None
   Input:
     fileName - The name to search for
-             - Parital string search characters
+             - Partial string search characters
              - * - Indicates the rest of the filename or extension can vary (e.g. FILE.*)
              - ? - Indicates that one character in a filename can vary (e.g. F?LE.T?T)
     attr -            The attributes that a found file may have
@@ -1418,8 +1418,8 @@ int FindFirst (const char * fileName, unsigned int attr, SearchRec * rec);
     the current working directory searching for entries that match the specified
     parameters.  If a file is found, its parameters are copied into the SearchRec
     structure, as are the initial parameters passed in by the user and the position
-    of the file entry in the current working directory.If the return value of the 
-    function is 0 then "utf16LFNfoundLength" indicates whether the file found was 
+    of the file entry in the current working directory.If the return value of the
+    function is 0 then "utf16LFNfoundLength" indicates whether the file found was
     long file name or short file name(8P3 format). The "utf16LFNfoundLength" is non-zero
     for long file name and is zero for 8P3 format."utf16LFNfound" points to the
     address of long file name if found during the operation.
@@ -1449,20 +1449,20 @@ int wFindFirst (const unsigned short int * fileName, unsigned int attr, SearchRe
     before it is lost.The FSerrno variable will be changed.
   Description:
     The FindNext function performs the same function as the FindFirst
-    funciton, except it does not copy any search parameters into the
+    function, except it does not copy any search parameters into the
     SearchRec structure (only info about found files) and it begins
     searching at the last directory entry offset at which a file was
     found, rather than at the beginning of the current working
     directory.If the return value of the function is 0 then "utf16LFNfoundLength"
     indicates whether the file found was long file name or short file
     name(8P3 format). The "utf16LFNfoundLength" is non-zero for long file name
-    and is zero for 8P3 format."utf16LFNfound" points to the address of long 
+    and is zero for 8P3 format."utf16LFNfound" points to the address of long
     file name if found during the operation.
   Remarks:
     Call FindFirst or FindFirstpgm before calling this function
   **********************************************************************/
 
-int FindNext (SearchRec * rec); 
+int FindNext (SearchRec * rec);
 #endif
 
 
@@ -1491,7 +1491,7 @@ int FindNext (SearchRec * rec);
     Writes a specially formatted string to a file.
   Remarks:
     Consult AN1045 for a full description of how to use format
-    specifiers.        
+    specifiers.
   **********************************************************************/
 
 #ifdef ALLOW_FSFPRINTF
@@ -1515,171 +1515,171 @@ int FindNext (SearchRec * rec);
   Side Effects:
     None.
   Return Values:
-    FSInit       - 
-                 - CE_GOOD –                  No Error 
+    FSInit       -
+                 - CE_GOOD –                  No Error
                  - CE_INIT_ERROR –            The physical media could not be initialized
                  - CE_BAD_SECTOR_READ –       The MBR or the boot sector could not be
                                               read correctly
                  - CE_BAD_PARITION –          The MBR signature code was incorrect.
                  - CE_NOT_FORMATTED –         The boot sector signature code was incorrect or
-                                              indicates an invalid number of bytes per sector. 
-                 - CE_CARDFAT32 –             The physical media is FAT32 type (only an error 
-                                              when FAT32 support is disabled). 
-                 - CE_UNSUPPORTED_FS –        The device is formatted with an unsupported file 
+                                              indicates an invalid number of bytes per sector.
+                 - CE_CARDFAT32 –             The physical media is FAT32 type (only an error
+                                              when FAT32 support is disabled).
+                 - CE_UNSUPPORTED_FS –        The device is formatted with an unsupported file
                                               system (not FAT12 or 16).
     FSfopen      -
-                 - CE_GOOD –                  No Error 
-                 - CE_NOT_INIT –              The device has not been initialized. 
-                 - CE_TOO_MANY_FILES_OPEN –   The function could not allocate any 
-                                              additional file information to the array 
-                                              of FSFILE structures or the heap. 
+                 - CE_GOOD –                  No Error
+                 - CE_NOT_INIT –              The device has not been initialized.
+                 - CE_TOO_MANY_FILES_OPEN –   The function could not allocate any
+                                              additional file information to the array
+                                              of FSFILE structures or the heap.
                  - CE_INVALID_FILENAME –      The file name argument was invalid.
-                 - CE_INVALID_ARGUMENT –      The user attempted to open a directory in a 
-                                              write mode or specified an invalid mode argument. 
-                 - CE_FILE_NOT_FOUND –        The specified file (which was to be opened in read 
-                                              mode) does not exist on the device. 
+                 - CE_INVALID_ARGUMENT –      The user attempted to open a directory in a
+                                              write mode or specified an invalid mode argument.
+                 - CE_FILE_NOT_FOUND –        The specified file (which was to be opened in read
+                                              mode) does not exist on the device.
                  - CE_BADCACHEREAD –          A read from the device failed.
-                 - CE_ERASE_FAIL –            The existing file could not be erased (when opening 
-                                              a file in FS_WRITE mode). 
-                 - CE_DIR_FULL –              The directory is full. 
-                 - CE_DISK_FULL–              The data memory section is full. 
-                 - CE_WRITE_ERROR –           A write to the device failed. 
-                 - CE_SEEK_ERROR –            The current position in the file could not be set to 
+                 - CE_ERASE_FAIL –            The existing file could not be erased (when opening
+                                              a file in FS_WRITE mode).
+                 - CE_DIR_FULL –              The directory is full.
+                 - CE_DISK_FULL–              The data memory section is full.
+                 - CE_WRITE_ERROR –           A write to the device failed.
+                 - CE_SEEK_ERROR –            The current position in the file could not be set to
                                               the end (when the file was opened in FS_APPEND mode).
-    FSfclose     - 
-                 - CE_GOOD –                  No Error 
+    FSfclose     -
+                 - CE_GOOD –                  No Error
                  - CE_WRITE_ERROR –           The existing data in the data buffer or the new file
                                               entry information could not be written to the device.
                  - CE_BADCACHEREAD –          The file entry information could not be cached
-    FSfread      - 
-                 - CE_GOOD –                  No Error 
+    FSfread      -
+                 - CE_GOOD –                  No Error
                  - CE_WRITEONLY –             The file was opened in a write-only mode.
-                 - CE_WRITE_ERROR –           The existing data in the data buffer could not be 
-                                              written to the device. 
-                 - CE_BAD_SECTOR_READ –       The data sector could not be read. 
+                 - CE_WRITE_ERROR –           The existing data in the data buffer could not be
+                                              written to the device.
+                 - CE_BAD_SECTOR_READ –       The data sector could not be read.
                  - CE_EOF –                   The end of the file was reached.
                  - CE_COULD_NOT_GET_CLUSTER – Additional clusters in the file could not be loaded.
-    FSfwrite     - 
-                 - CE_GOOD –                  No Error 
-                 - CE_READONLY –              The file was opened in a read-only mode. 
-                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated 
+    FSfwrite     -
+                 - CE_GOOD –                  No Error
+                 - CE_READONLY –              The file was opened in a read-only mode.
+                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated
                                               that the device has been write-protected.
                  - CE_WRITE_ERROR –           There was an error writing data to the device.
                  - CE_BADCACHEREAD –          The data sector to be modified could not be read from
-                                              the device. 
+                                              the device.
                  - CE_DISK_FULL –             All data clusters on the device are in use.
     FSfseek      -
-                 - CE_GOOD –                  No Error 
+                 - CE_GOOD –                  No Error
                  - CE_WRITE_ERROR –           The existing data in the data buffer could not be
-                                              written to the device. 
-                 - CE_INVALID_ARGUMENT –      The specified offset exceeds the size of the file. 
-                 - CE_BADCACHEREAD –          The sector that contains the new current position 
+                                              written to the device.
+                 - CE_INVALID_ARGUMENT –      The specified offset exceeds the size of the file.
+                 - CE_BADCACHEREAD –          The sector that contains the new current position
                                               could not be loaded.
-                 - CE_COULD_NOT_GET_CLUSTER – Additional clusters in the file could not be 
+                 - CE_COULD_NOT_GET_CLUSTER – Additional clusters in the file could not be
                                               loaded/allocated.
-    FSftell      - 
+    FSftell      -
                  - CE_GOOD –                  No Error
     FSattrib     -
-                 - CE_GOOD –                  No Error 
-                 - CE_INVALID_ARGUMENT –      The attribute argument was invalid. 
-                 - CE_BADCACHEREAD –          The existing file entry information could not be 
-                                              loaded. 
-                 - CE_WRITE_ERROR –           The file entry information could not be written to 
+                 - CE_GOOD –                  No Error
+                 - CE_INVALID_ARGUMENT –      The attribute argument was invalid.
+                 - CE_BADCACHEREAD –          The existing file entry information could not be
+                                              loaded.
+                 - CE_WRITE_ERROR –           The file entry information could not be written to
                                               the device.
     FSrename     -
-                 - CE_GOOD –                  No Error 
-                 - CE_FILENOTOPENED –         A null file pointer was passed into the function. 
-                 - CE_INVALID_FILENAME –      The file name passed into the function was invalid. 
-                 - CE_BADCACHEREAD –          A read from the device failed. 
-                 - CE_FILENAME_EXISTS –       A file with the specified name already exists. 
-                 - CE_WRITE_ERROR –           The new file entry data could not be written to the 
+                 - CE_GOOD –                  No Error
+                 - CE_FILENOTOPENED –         A null file pointer was passed into the function.
+                 - CE_INVALID_FILENAME –      The file name passed into the function was invalid.
+                 - CE_BADCACHEREAD –          A read from the device failed.
+                 - CE_FILENAME_EXISTS –       A file with the specified name already exists.
+                 - CE_WRITE_ERROR –           The new file entry data could not be written to the
                                               device.
     FSfeof       -
                  - CE_GOOD –                  No Error
     FSformat     -
-                 - CE_GOOD –                  No Error 
-                 - CE_INIT_ERROR –            The device could not be initialized. 
-                 - CE_BADCACHEREAD –          The master boot record or boot sector could not be 
-                                              loaded successfully. 
-                 - CE_INVALID_ARGUMENT –      The user selected to create their own boot sector on 
-                                              a device that has no master boot record, or the mode 
-                                              argument was invalid. 
-                 - CE_WRITE_ERROR –           The updated MBR/Boot sector could not be written to 
+                 - CE_GOOD –                  No Error
+                 - CE_INIT_ERROR –            The device could not be initialized.
+                 - CE_BADCACHEREAD –          The master boot record or boot sector could not be
+                                              loaded successfully.
+                 - CE_INVALID_ARGUMENT –      The user selected to create their own boot sector on
+                                              a device that has no master boot record, or the mode
+                                              argument was invalid.
+                 - CE_WRITE_ERROR –           The updated MBR/Boot sector could not be written to
                                               the device.
-                 - CE_BAD_PARTITION –         The calculated number of sectors per clusters was 
-                                              invalid. 
-                 - CE_NONSUPPORTED_SIZE –     The card has too many sectors to be formatted as 
+                 - CE_BAD_PARTITION –         The calculated number of sectors per clusters was
+                                              invalid.
+                 - CE_NONSUPPORTED_SIZE –     The card has too many sectors to be formatted as
                                               FAT12 or FAT16.
-    FSremove     - 
-                 - CE_GOOD –                  No Error 
-                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated 
-                                              that the device has been write-protected. 
-                 - CE_INVALID_FILENAME –      The specified filename was invalid. 
+    FSremove     -
+                 - CE_GOOD –                  No Error
+                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated
+                                              that the device has been write-protected.
+                 - CE_INVALID_FILENAME –      The specified filename was invalid.
                  - CE_FILE_NOT_FOUND –        The specified file could not be found.
                  - CE_ERASE_FAIL –            The file could not be erased.
     FSchdir      -
-                 - CE_GOOD –                  No Error 
-                 - CE_INVALID_ARGUMENT –      The path string was mis-formed or the user tried to 
+                 - CE_GOOD –                  No Error
+                 - CE_INVALID_ARGUMENT –      The path string was mis-formed or the user tried to
                                               change to a non-directory file.
                  - CE_BADCACHEREAD –          A directory entry could not be cached.
                  - CE_DIR_NOT_FOUND –         Could not find a directory in the path.
     FSgetcwd     -
-                 - CE_GOOD –                  No Error 
+                 - CE_GOOD –                  No Error
                  - CE_INVALID_ARGUMENT –      The user passed a 0-length buffer into the function.
-                 - CE_BADCACHEREAD –          A directory entry could not be cached. 
-                 - CE_BAD_SECTOR_READ –       The function could not determine a previous directory 
+                 - CE_BADCACHEREAD –          A directory entry could not be cached.
+                 - CE_BAD_SECTOR_READ –       The function could not determine a previous directory
                                               of the current working directory.
     FSmkdir      -
-                 - CE_GOOD –                  No Error 
-                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated 
-                                              that the device has been write-protected. 
+                 - CE_GOOD –                  No Error
+                 - CE_WRITE_PROTECTED –       The device write-protect check function indicated
+                                              that the device has been write-protected.
                  - CE_INVALID_ARGUMENT –      The path string was mis-formed.
-                 - CE_BADCACHEREAD –          Could not successfully change to a recently created 
-                                              directory to store its dir entry information, or 
-                                              could not cache directory entry information. 
-                 - CE_INVALID_FILENAME –      One or more of the directory names has an invalid 
-                                              format. 
-                 - CE_WRITE_ERROR –           The existing data in the data buffer could not be 
-                                              written to the device or the dot/dotdot entries could 
+                 - CE_BADCACHEREAD –          Could not successfully change to a recently created
+                                              directory to store its dir entry information, or
+                                              could not cache directory entry information.
+                 - CE_INVALID_FILENAME –      One or more of the directory names has an invalid
+                                              format.
+                 - CE_WRITE_ERROR –           The existing data in the data buffer could not be
+                                              written to the device or the dot/dotdot entries could
                                               not be written to a newly created directory.
                  - CE_DIR_FULL –              There are no available dir entries in the CWD.
-                 - CE_DISK_FULL –             There are no available clusters in the data region of 
-                                              the device.    
-    FSrmdir      - 
-                 - CE_GOOD –                  No Error 
-                 - CE_DIR_NOT_FOUND –         The directory specified could not be found or the 
-                                              function could not change to a subdirectory within 
-                                              the directory to be deleted (when recursive delete is 
+                 - CE_DISK_FULL –             There are no available clusters in the data region of
+                                              the device.
+    FSrmdir      -
+                 - CE_GOOD –                  No Error
+                 - CE_DIR_NOT_FOUND –         The directory specified could not be found or the
+                                              function could not change to a subdirectory within
+                                              the directory to be deleted (when recursive delete is
                                               enabled).
-                 - CE_INVALID_ARGUMENT –      The user tried to remove the CWD or root directory. 
+                 - CE_INVALID_ARGUMENT –      The user tried to remove the CWD or root directory.
                  - CE_BADCACHEREAD –          A directory entry could not be cached.
-                 - CE_DIR_NOT_EMPTY –         The directory to be deleted was not empty and 
-                                              recursive subdirectory removal was disabled. 
-                 - CE_ERASE_FAIL –            The directory or one of the directories or files 
-                                              within it could not be deleted. 
-                 - CE_BAD_SECTOR_READ –       The function could not determine a previous directory 
+                 - CE_DIR_NOT_EMPTY –         The directory to be deleted was not empty and
+                                              recursive subdirectory removal was disabled.
+                 - CE_ERASE_FAIL –            The directory or one of the directories or files
+                                              within it could not be deleted.
+                 - CE_BAD_SECTOR_READ –       The function could not determine a previous directory
                                               of the CWD.
     SetClockVars -
-                 - CE_GOOD –                  No Error 
-                 - CE_INVALID_ARGUMENT –      The time values passed into the function were 
-                                              invalid.    
-    FindFirst    - 
-                 - CE_GOOD –                  No Error 
-                 - CE_INVALID_FILENAME –      The specified filename was invalid. 
-                 - CE_FILE_NOT_FOUND –        No file matching the specified criteria was found. 
-                 - CE_BADCACHEREAD –          The file information for the file that was found 
-                                              could not be cached.
-    FindNext     - 
-                 - CE_GOOD –                  No Error 
-                 - CE_NOT_INIT –              The SearchRec object was not initialized by a call to 
-                                              FindFirst. 
-                 - CE_INVALID_ARGUMENT –      The SearchRec object was initialized in a different 
-                                              directory from the CWD.
-                 - CE_INVALID_FILENAME –      The filename is invalid. 
+                 - CE_GOOD –                  No Error
+                 - CE_INVALID_ARGUMENT –      The time values passed into the function were
+                                              invalid.
+    FindFirst    -
+                 - CE_GOOD –                  No Error
+                 - CE_INVALID_FILENAME –      The specified filename was invalid.
                  - CE_FILE_NOT_FOUND –        No file matching the specified criteria was found.
-    FSfprintf    - 
-                 - CE_GOOD –                  No Error 
-                 - CE_WRITE_ERROR –           Characters could not be written to the file.                                                   
+                 - CE_BADCACHEREAD –          The file information for the file that was found
+                                              could not be cached.
+    FindNext     -
+                 - CE_GOOD –                  No Error
+                 - CE_NOT_INIT –              The SearchRec object was not initialized by a call to
+                                              FindFirst.
+                 - CE_INVALID_ARGUMENT –      The SearchRec object was initialized in a different
+                                              directory from the CWD.
+                 - CE_INVALID_FILENAME –      The filename is invalid.
+                 - CE_FILE_NOT_FOUND –        No file matching the specified criteria was found.
+    FSfprintf    -
+                 - CE_GOOD –                  No Error
+                 - CE_WRITE_ERROR –           Characters could not be written to the file.
   Description:
     The FSerror function will return the FSerrno variable.  This global
     variable will have been set to an error value during the last call of a
@@ -1708,7 +1708,7 @@ int FSerror (void);
     EOF - MBR could not be created
   Side Effects:
     None
-  Description:  
+  Description:
     This function can be used to create a master boot record for a device.  Note
     that this function should not be used on a device that is already formatted
     with a master boot record (i.e. most SD cards, CF cards, USB keys).  This
@@ -1745,22 +1745,22 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors);
     properties - a pointer to a FS_DISK_PROPERTIES object where the results should
       be stored.
   Return Values:
-    This function returns void.  The properties_status of the previous call of 
-      this function is located in the properties.status field.  This field has 
+    This function returns void.  The properties_status of the previous call of
+      this function is located in the properties.status field.  This field has
       the following possible values:
 
     FS_GET_PROPERTIES_NO_ERRORS - operation completed without error.  Results
       are in the properties object passed into the function.
     FS_GET_PROPERTIES_DISK_NOT_MOUNTED - there is no mounted disk.  Results in
       properties object is not valid
-    FS_GET_PROPERTIES_CLUSTER_FAILURE - there was a failure trying to read a 
+    FS_GET_PROPERTIES_CLUSTER_FAILURE - there was a failure trying to read a
       cluster from the drive.  The results in the properties object is a partial
       result up until the point of the failure.
     FS_GET_PROPERTIES_STILL_WORKING - the search for free sectors is still in
-      process.  Continue calling this function with the same properties pointer 
+      process.  Continue calling this function with the same properties pointer
       until either the function completes or until the partial results meets the
       application needs.  The properties object contains the partial results of
-      the search and can be used by the application.  
+      the search and can be used by the application.
   Side Effects:
     Can cause errors if called when files are open.  Close all files before
     calling this function.
@@ -1770,10 +1770,10 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors);
 
     Calling this function after a result is returned other than
     FS_GET_PROPERTIES_STILL_WORKING can result in undefined behavior and results.
-  Description:  
-    This function returns the information about the mounted drive.  The results 
-    member of the properties object passed into the function is populated with 
-    the information about the drive.    
+  Description:
+    This function returns the information about the mounted drive.  The results
+    member of the properties object passed into the function is populated with
+    the information about the drive.
 
     Before starting a new request, the new_request member of the properties
     input parameter should be set to TRUE.  This will initiate a new search
@@ -1783,13 +1783,13 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors);
     All of the results except the free_clusters will be correct after the first
     call.  The free_clusters will contain the number of free clusters found up
     until that point, thus the free_clusters result will continue to grow until
-    the entire drive is searched.  If an application only needs to know that a 
-    certain number of bytes is available and doesn't need to know the total free 
+    the entire drive is searched.  If an application only needs to know that a
+    certain number of bytes is available and doesn't need to know the total free
     size, then this function can be called until the required free size is
     verified.  To continue a search, pass a pointer to the same FS_DISK_PROPERTIES
     object that was passed in to create the search.
 
-    A new search request sould be made once this function has returned a value 
+    A new search request should be made once this function has returned a value
     other than FS_GET_PROPERTIES_STILL_WORKING.  Continuing a completed search
     can result in undefined behavior or results.
 
@@ -1805,7 +1805,7 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors);
     } while (disk_properties.properties_status == FS_GET_PROPERTIES_STILL_WORKING);
     </code>
 
-    results.disk_format - contains the format of the drive.  Valid results are 
+    results.disk_format - contains the format of the drive.  Valid results are
       FAT12(1), FAT16(2), or FAT32(3).
 
     results.sector_size - the sector size of the mounted drive.  Valid values are
@@ -1813,12 +1813,12 @@ int FSCreateMBR (unsigned long firstSector, unsigned long numSectors);
 
     results.sectors_per_cluster - the number sectors per cluster.
 
-    results.total_clusters - the number of total clusters on the drive.  This 
-      can be used to calculate the total disk size (total_clusters * 
+    results.total_clusters - the number of total clusters on the drive.  This
+      can be used to calculate the total disk size (total_clusters *
       sectors_per_cluster * sector_size = total size of drive in bytes)
 
     results.free_clusters - the number of free (unallocated) clusters on the drive.
-      This can be used to calculate the total free disk size (free_clusters * 
+      This can be used to calculate the total free disk size (free_clusters *
       sectors_per_cluster * sector_size = total size of drive in bytes)
 
   Remarks:
@@ -1844,7 +1844,7 @@ void FSGetDiskProperties(FS_DISK_PROPERTIES* properties);
     n -  Number of links in the FAT cluster chain to jump through
   Return Values:
     CE_GOOD - Operation successful
-    CE_BAD_SECTOR_READ - A bad read occured of a sector
+    CE_BAD_SECTOR_READ - A bad read occurred of a sector
     CE_INVALID_CLUSTER - Invalid cluster value \> maxcls
     CE_FAT_EOF - Fat attempt to read beyond EOF
   Side Effects:

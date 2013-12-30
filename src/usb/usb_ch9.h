@@ -14,7 +14,7 @@ Description:
 
     This file is located in the "\<Install Directory\>\\Microchip\\Include\\USB"
     directory.
-    
+
     When including this file in a new project, this file can either be
     referenced from the directory in which it was installed or copied
     directly into the user application folder. If the first method is
@@ -24,18 +24,18 @@ Description:
     application folder is located in the same folder as the Microchip
     folder (like the current demo folders), then the following include
     paths need to be added to the application's project:
-    
+
     .
-    
+
     ..\\..\\Microchip\\Include
-    
+
     If a different directory structure is used, modify the paths as
     required. An example using absolute paths instead of relative paths
     would be the following:
-    
+
     C:\\Microchip Solutions\\Microchip\\Include
-    
-    C:\\Microchip Solutions\\My Demo Application 
+
+    C:\\Microchip Solutions\\My Demo Application
 *******************************************************************************/
 //DOM-IGNORE-BEGIN
 /*******************************************************************************
@@ -77,7 +77,7 @@ CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
  Change History:
   Rev    Description
   ----   -----------
-  2.6    Moved many of the CH9 defintions from the device stack files
+  2.6    Moved many of the CH9 definitions from the device stack files
          into this file.
 ********************************************************************/
 //DOM-IGNORE-END
@@ -152,7 +152,7 @@ typedef struct __attribute__ ((packed)) _USB_CONFIGURATION_DESCRIPTOR
 // Attributes bits
 #define USB_CFG_DSC_REQUIRED     0x80                       // Required attribute
 #define USB_CFG_DSC_SELF_PWR    (0x40|USB_CFG_DSC_REQUIRED) // Device is self powered.
-#define USB_CFG_DSC_REM_WAKE    (0x20|USB_CFG_DSC_REQUIRED) // Device can request remote wakup
+#define USB_CFG_DSC_REM_WAKE    (0x20|USB_CFG_DSC_REQUIRED) // Device can request remote wakeup
 
 
 // *****************************************************************************
@@ -204,12 +204,12 @@ typedef struct __attribute__ ((packed)) _USB_ENDPOINT_DESCRIPTOR
 // ******************************************************************
 
 // Section: Transfer Types
-#define EP_ATTR_CONTROL     (0<<0)  // Endoint used for control transfers
+#define EP_ATTR_CONTROL     (0<<0)  // Endpoint used for control transfers
 #define EP_ATTR_ISOCH       (1<<0)  // Endpoint used for isochronous transfers
 #define EP_ATTR_BULK        (2<<0)  // Endpoint used for bulk transfers
 #define EP_ATTR_INTR        (3<<0)  // Endpoint used for interrupt transfers
 
-// Section: Synchronization Types (for isochronous enpoints)
+// Section: Synchronization Types (for isochronous endpoints)
 #define EP_ATTR_NO_SYNC     (0<<2)  // No Synchronization
 #define EP_ATTR_ASYNC       (1<<2)  // Asynchronous
 #define EP_ATTR_ADAPT       (2<<2)  // Adaptive synchronization
@@ -230,7 +230,7 @@ typedef struct __attribute__ ((packed)) _USB_ENDPOINT_DESCRIPTOR
 #define EP_SM_PKT_BULK_FS   8       // Small full-speed bulk packet
 
 /* Descriptor IDs
-The descriptor ID type defines the information required by the HOST during a 
+The descriptor ID type defines the information required by the HOST during a
 GET_DESCRIPTOR request
 */
 typedef struct
@@ -261,7 +261,7 @@ typedef struct __attribute__ ((packed)) _USB_OTG_DESCRIPTOR
 // ******************************************************************
 // This structure describes the USB string descriptor.  The string
 // descriptor provides user-readable information about various aspects of
-// the device.  The first string desriptor (string descriptor zero (0)),
+// the device.  The first string descriptor (string descriptor zero (0)),
 // provides a list of the number of languages supported by the set of
 // string descriptors for this device instead of an actual string.
 //
@@ -320,17 +320,17 @@ typedef union __attribute__ ((packed))
     struct __attribute__ ((packed))
     {
         BYTE bmRequestType; //from table 9-2 of USB2.0 spec
-        BYTE bRequest; //from table 9-2 of USB2.0 spec
-        WORD wValue; //from table 9-2 of USB2.0 spec
-        WORD wIndex; //from table 9-2 of USB2.0 spec
-        WORD wLength; //from table 9-2 of USB2.0 spec
+        BYTE bRequest;      //from table 9-2 of USB2.0 spec
+        WORD wValue;        //from table 9-2 of USB2.0 spec
+        WORD wIndex;        //from table 9-2 of USB2.0 spec
+        WORD wLength;       //from table 9-2 of USB2.0 spec
     };
     struct __attribute__ ((packed))
     {
         unsigned :8;
         unsigned :8;
-        WORD_VAL W_Value; //from table 9-2 of USB2.0 spec, allows byte/bitwise access
-        WORD_VAL W_Index; //from table 9-2 of USB2.0 spec, allows byte/bitwise access
+        WORD_VAL W_Value;  //from table 9-2 of USB2.0 spec, allows byte/bitwise access
+        WORD_VAL W_Index;  //from table 9-2 of USB2.0 spec, allows byte/bitwise access
         WORD_VAL W_Length; //from table 9-2 of USB2.0 spec, allows byte/bitwise access
     };
     struct __attribute__ ((packed))
@@ -364,7 +364,7 @@ typedef union __attribute__ ((packed))
         unsigned :8;
         unsigned :8;
         BYTE bDscIndex;         //For Configuration and String DSC Only
-        BYTE bDescriptorType;          //Device,Configuration,String
+        BYTE bDescriptorType;   //Device,Configuration,String
         WORD wLangID;           //Language ID
         unsigned :8;
         unsigned :8;
@@ -384,8 +384,8 @@ typedef union __attribute__ ((packed))
     {
         unsigned :8;
         unsigned :8;
-        BYTE bConfigurationValue;         //Configuration Value 0-255
-        BYTE bCfgRSD;           //Must equal zero (Reserved)
+        BYTE bConfigurationValue;  //Configuration Value 0-255
+        BYTE bCfgRSD;              //Must equal zero (Reserved)
         unsigned :8;
         unsigned :8;
         unsigned :8;
@@ -543,7 +543,7 @@ typedef union __attribute__ ((packed))
 /********************************************************************
 USB Endpoint Definitions
 USB Standard EP Address Format: DIR:X:X:X:EP3:EP2:EP1:EP0
-This is used in the descriptors. 
+This is used in the descriptors.
 ********************************************************************/
 #define _EP_IN      0x80
 #define _EP_OUT     0x00
@@ -615,4 +615,3 @@ This is used in the descriptors.
 /*************************************************************************
  * EOF
  */
-

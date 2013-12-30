@@ -31,7 +31,7 @@
  *           D0 (RP11 - MOSI)
  *   - Peripherals: SPI 1
  *
- * Note: This module uses the Microchip Memory Disk Drive (MDD) filesystem for
+ * Note: This module uses the Microchip Memory Disk Drive (MDD) file system for
  *       file I/O.
  */
 
@@ -48,7 +48,7 @@ typedef struct Sdcard Sdcard;
 
 struct Sdcard {
     /**
-     * Configures the microcontroller and initializes the filesystem.
+     * Configures the microcontroller and initializes the file system.
      */
     void (*init)(void);
     /**

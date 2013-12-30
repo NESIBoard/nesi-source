@@ -29,7 +29,7 @@ static Boolean initialized = FALSE;
 /**
  * initialize() Information
  *
- * This function configures the SD card hardware and initializes the filesystem.
+ * This function configures the SD card hardware and initializes the file system.
  */
 static void initialize(void)
 {
@@ -47,7 +47,7 @@ static void initialize(void)
     __builtin_write_OSCCONL(OSCCON & 0xBF);
     _SDI1R = 12; // data in (MISO)
     _RP11R = 7;  // data out (MOSI)
-    _RP3R = 8;   // clock ouut (SCLK)
+    _RP3R = 8;   // clock out (SCLK)
     __builtin_write_OSCCONL(OSCCON | 0x40);
 
     /*  Detecting the SD Card
