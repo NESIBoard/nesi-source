@@ -16,44 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 12/31/2013 - Mickie Byrd
+ *   Added several members to usb module:
+ *     .state() - returns current state of USB stack state machine
+ *     .read() - read data from USB communications port
+ *     .write() - write data to USB communications port
+ *     .print() - print a string to USB communications port
+ *     .debug() - print a string to USB communications port
+ *   Added CDC support:
+ *     - CDCInitEP() added to USBCBInitEP()
+ *     - USBCheckCDCRequest() added to USBCBCheckOtherReq()
+ *     - CDCTxService() added to ProcessIO()
+ *     - including usb_function_cdc library
+ *   Added .printf() member to output formatted text
+ */
+
 #include "usb.h"
 #include "sdcard.h"
 #include "../usb/usb_function_msd.h"
+#include "../usb/usb_function_cdc.h"
 #include "../mdd/SD-SPI.h"
-
-/** PRIVATE PROTOTYPES *********************************************/
-void USBDeviceTasks(void);
-void ProcessIO(void);
-void YourHighPriorityISRCode(void);
-void YourLowPriorityISRCode(void);
-void USBCBSendResume(void);
-
-
-/**
- * initialize() Information
- *
- * This function initializes the USB module.
- */
-static void initialize(void)
-{
-    sdcard.init();
-    USBDeviceInit();
-}
-
-/**
- * usb Information
- *
- * usb is the software wrapper for the NESI USB interface.
- */
-const Usb usb = {
-    init:initialize,
-    connect:USBDeviceAttach,
-    disconnect:USBDeviceDetach,
-    process:ProcessIO,
-    attach:USBDeviceAttach,
-    detach:USBDeviceDetach,
-    eject:USBDeviceDetach
-};
+#include <stdio.h>
+#include <stdarg.h>
 
 //The LUN variable definition is critical to the MSD function driver.  This
 //  array is a structure of function pointers that are the functions that
@@ -76,41 +63,22 @@ LUN_FUNCTIONS LUN[MAX_LUN + 1] =
     }
 };
 
-#if 0
-/* Standard Response to INQUIRY command stored in ROM 	*/
+/* Standard Response to INQUIRY command stored in ROM   */
 const ROM InquiryResponse inq_resp = {
-	0x00,		// peripheral device is connected, direct access block device
-	0x80,       // removable
-	0x04,	 	// version = 00=> does not conform to any standard, 4=> SPC-2
-	0x02,		// response is in format specified by SPC-2
-	0x20,		// n-4 = 36-4=32= 0x20
-	0x00,		// sccs etc.
-	0x00,		// bque=1 and cmdque=0,indicates simple queueing 00 is obsolete,
-			    // but as in case of other device, we are just using 00
-	0x00,		// 00 obsolete, 0x80 for basic task queueing
+    0x00,       // peripheral device is connected, direct access block device
+    0x80,       // removable
+    0x04,       // version = 00=> does not conform to any standard, 4=> SPC-2
+    0x02,       // response is in format specified by SPC-2
+    0x20,       // n-4 = 36-4=32= 0x20
+    0x00,       // sccs etc.
+    0x00,       // bque=1 and cmdque=0, indicates simple queuing 00 is obsolete,
+                // but as in case of other device, we are just using 00
+    0x00,       // 00 obsolete, 0x80 for basic task queuing
 
-	{'M','i','c','r','o','c','h','p'},	// this is the T10 assigned Vendor ID
-	{'M','a','s','s',' ','S','t','o','r','a','g','e',' ',' ',' ',' '},
-	{'0','0','0','1'}
+    {'N','E','S','I',' ','1','.','2'},  // this is the T10 assigned Vendor ID
+    {'S','D',' ','C','a','r','d',' ','S','t','o','r','a','g','e',' '},
+    {'0','0','0','1'}
 };
-#else
-/* Standard Response to INQUIRY command stored in ROM 	*/
-const ROM InquiryResponse inq_resp = {
-	0x00,		// peripheral device is connected, direct access block device
-	0x80,       // removable
-	0x04,	 	// version = 00=> does not conform to any standard, 4=> SPC-2
-	0x02,		// response is in format specified by SPC-2
-	0x20,		// n-4 = 36-4=32= 0x20
-	0x00,		// sccs etc.
-	0x00,		// bque=1 and cmdque=0, indicates simple queuing 00 is obsolete,
-			    // but as in case of other device, we are just using 00
-	0x00,		// 00 obsolete, 0x80 for basic task queuing
-
-	{'N','E','S','I',' ','1','.','2'},	// this is the T10 assigned Vendor ID
-	{'S','D',' ','C','a','r','d',' ','S','t','o','r','a','g','e',' '},
-	{'0','0','0','1'}
-};
-#endif
 
 /********************************************************************
  * Function:        void ProcessIO(void)
@@ -129,12 +97,12 @@ const ROM InquiryResponse inq_resp = {
  *
  * Note:            None
  *******************************************************************/
-void ProcessIO(void)
+static void ProcessIO(void)
 {
     // User Application USB tasks
     if((USBDeviceState < CONFIGURED_STATE)||(USBSuspendControl==1)) return;
-
     MSDTasks();
+    CDCTxService();
 }//end ProcessIO
 
 
@@ -175,21 +143,21 @@ void ProcessIO(void)
  *****************************************************************************/
 void USBCBSuspend(void)
 {
-	//Example power saving code.  Insert appropriate code here for the desired
-	//application behavior.  If the microcontroller will be put to sleep, a
-	//process similar to that shown below may be used:
+    //Example power saving code.  Insert appropriate code here for the desired
+    //application behavior.  If the microcontroller will be put to sleep, a
+    //process similar to that shown below may be used:
 
-	//ConfigureIOPinsForLowPower();
-	//SaveStateOfAllInterruptEnableBits();
-	//DisableAllInterruptEnableBits();
-	//EnableOnlyTheInterruptsWhichWillBeUsedToWakeTheMicro();	//should enable at least USBActivityIF as a wake source
-	//Sleep();
-	//RestoreStateOfAllPreviouslySavedInterruptEnableBits();	//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
-	//RestoreIOPinsToNormal();									//Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
+    //ConfigureIOPinsForLowPower();
+    //SaveStateOfAllInterruptEnableBits();
+    //DisableAllInterruptEnableBits();
+    //EnableOnlyTheInterruptsWhichWillBeUsedToWakeTheMicro();   //should enable at least USBActivityIF as a wake source
+    //Sleep();
+    //RestoreStateOfAllPreviouslySavedInterruptEnableBits();    //Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
+    //RestoreIOPinsToNormal();                                  //Preferrably, this should be done in the USBCBWakeFromSuspend() function instead.
 
-	//IMPORTANT NOTE: Do not clear the USBActivityIF (ACTVIF) bit here.  This bit is
-	//cleared inside the usb_device.c file.  Clearing USBActivityIF here will cause
-	//things to not work as intended.
+    //IMPORTANT NOTE: Do not clear the USBActivityIF (ACTVIF) bit here.  This bit is
+    //cleared inside the usb_device.c file.  Clearing USBActivityIF here will cause
+    //things to not work as intended.
 
 
     #if defined(__C30__) || defined __XC16__
@@ -219,8 +187,8 @@ void USBCBSuspend(void)
  * Side Effects:    None
  *
  * Overview:        This function is called when the USB interrupt bit is set
- *					In this example the interrupt is only used when the device
- *					goes to sleep when it receives a USB suspend command
+ *                  In this example the interrupt is only used when the device
+ *                  goes to sleep when it receives a USB suspend command
  *
  * Note:            None
  *****************************************************************************/
@@ -254,25 +222,25 @@ void __attribute__ ((interrupt)) _USB1Interrupt(void)
  * Side Effects:    None
  *
  * Overview:        The host may put USB peripheral devices in low power
- *					suspend mode (by "sending" 3+ms of idle).  Once in suspend
- *					mode, the host may wake the device back up by sending non-
- *					idle state signaling.
+ *                  suspend mode (by "sending" 3+ms of idle).  Once in suspend
+ *                  mode, the host may wake the device back up by sending non-
+ *                  idle state signaling.
  *
- *					This call back is invoked when a wakeup from USB suspend
- *					is detected.
+ *                  This call back is invoked when a wakeup from USB suspend
+ *                  is detected.
  *
  * Note:            None
  *****************************************************************************/
 void USBCBWakeFromSuspend(void)
 {
-	// If clock switching or other power savings measures were taken when
-	// executing the USBCBSuspend() function, now would be a good time to
-	// switch back to normal full power run mode conditions.  The host allows
-	// a few milliseconds of wakeup time, after which the device must be
-	// fully back to normal, and capable of receiving and processing USB
-	// packets.  In order to do this, the USB module must receive proper
-	// clocking (IE: 48MHz clock must be available to SIE for full speed USB
-	// operation).
+    // If clock switching or other power savings measures were taken when
+    // executing the USBCBSuspend() function, now would be a good time to
+    // switch back to normal full power run mode conditions.  The host allows
+    // a few milliseconds of wakeup time, after which the device must be
+    // fully back to normal, and capable of receiving and processing USB
+    // packets.  In order to do this, the USB module must receive proper
+    // clocking (IE: 48MHz clock must be available to SIE for full speed USB
+    // operation).
 }
 
 /********************************************************************
@@ -320,21 +288,21 @@ void USBCBErrorHandler(void)
     // No need to clear UEIR to 0 here.
     // Callback caller is already doing that.
 
-	// Typically, user firmware does not need to do anything special
-	// if a USB error occurs.  For example, if the host sends an OUT
-	// packet to your device, but the packet gets corrupted (ex:
-	// because of a bad connection, or the user unplugs the
-	// USB cable during the transmission) this will typically set
-	// one or more USB error interrupt flags.  Nothing specific
-	// needs to be done however, since the SIE will automatically
-	// send a "NAK" packet to the host.  In response to this, the
-	// host will normally retry to send the packet again, and no
-	// data loss occurs.  The system will typically recover
-	// automatically, without the need for application firmware
-	// intervention.
+    // Typically, user firmware does not need to do anything special
+    // if a USB error occurs.  For example, if the host sends an OUT
+    // packet to your device, but the packet gets corrupted (ex:
+    // because of a bad connection, or the user unplugs the
+    // USB cable during the transmission) this will typically set
+    // one or more USB error interrupt flags.  Nothing specific
+    // needs to be done however, since the SIE will automatically
+    // send a "NAK" packet to the host.  In response to this, the
+    // host will normally retry to send the packet again, and no
+    // data loss occurs.  The system will typically recover
+    // automatically, without the need for application firmware
+    // intervention.
 
-	// Nevertheless, this callback function is provided, such as
-	// for debugging purposes.
+    // Nevertheless, this callback function is provided, such as
+    // for debugging purposes.
 }
 
 
@@ -350,24 +318,25 @@ void USBCBErrorHandler(void)
  * Side Effects:    None
  *
  * Overview:        When SETUP packets arrive from the host, some
- * 					firmware must process the request and respond
- *					appropriately to fulfill the request.  Some of
- *					the SETUP packets will be for standard
- *					USB "chapter 9" (as in, fulfilling chapter 9 of
- *					the official USB specifications) requests, while
- *					others may be specific to the USB device class
- *					that is being implemented.  For example, a HID
- *					class device needs to be able to respond to
- *					"GET REPORT" type of requests.  This
- *					is not a standard USB chapter 9 request, and
- *					therefore not handled by usb_device.c.  Instead
- *					this request should be handled by class specific
- *					firmware, such as that contained in usb_function_hid.c.
+ *                  firmware must process the request and respond
+ *                  appropriately to fulfill the request.  Some of
+ *                  the SETUP packets will be for standard
+ *                  USB "chapter 9" (as in, fulfilling chapter 9 of
+ *                  the official USB specifications) requests, while
+ *                  others may be specific to the USB device class
+ *                  that is being implemented.  For example, a HID
+ *                  class device needs to be able to respond to
+ *                  "GET REPORT" type of requests.  This
+ *                  is not a standard USB chapter 9 request, and
+ *                  therefore not handled by usb_device.c.  Instead
+ *                  this request should be handled by class specific
+ *                  firmware, such as that contained in usb_function_hid.c.
  *
  * Note:            None
  *******************************************************************/
 void USBCBCheckOtherReq(void)
 {
+    USBCheckCDCRequest();
     USBCheckMSDRequest();
 }//end
 
@@ -384,10 +353,10 @@ void USBCBCheckOtherReq(void)
  * Side Effects:    None
  *
  * Overview:        The USBCBStdSetDscHandler() callback function is
- *					called when a SETUP, bRequest: SET_DESCRIPTOR request
- *					arrives.  Typically SET_DESCRIPTOR requests are
- *					not used in most applications, and it is
- *					optional to support this type of request.
+ *                  called when a SETUP, bRequest: SET_DESCRIPTOR request
+ *                  arrives.  Typically SET_DESCRIPTOR requests are
+ *                  not used in most applications, and it is
+ *                  optional to support this type of request.
  *
  * Note:            None
  *******************************************************************/
@@ -410,10 +379,10 @@ void USBCBStdSetDscHandler(void)
  *
  * Overview:        This function is called when the device becomes
  *                  initialized, which occurs after the host sends a
- * 					SET_CONFIGURATION (wValue not = 0) request.  This
- *					callback function should initialize the endpoints
- *					for the device's usage according to the current
- *					configuration.
+ *                  SET_CONFIGURATION (wValue not = 0) request.  This
+ *                  callback function should initialize the endpoints
+ *                  for the device's usage according to the current
+ *                  configuration.
  *
  * Note:            None
  *******************************************************************/
@@ -427,6 +396,9 @@ void USBCBInitEP(void)
     #endif
 
     USBMSDInit();
+
+    //Enable the CDC data endpoints
+    CDCInitEP();
 }
 
 /********************************************************************
@@ -441,31 +413,31 @@ void USBCBInitEP(void)
  * Side Effects:    None
  *
  * Overview:        The USB specifications allow some types of USB
- * 					peripheral devices to wake up a host PC (such
- *					as if it is in a low power suspend to RAM state).
- *					This can be a very useful feature in some
- *					USB applications, such as an Infrared remote
- *					control	receiver.  If a user presses the "power"
- *					button on a remote control, it is nice that the
- *					IR receiver can detect this signaling, and then
- *					send a USB "command" to the PC to wake up.
+ *                  peripheral devices to wake up a host PC (such
+ *                  as if it is in a low power suspend to RAM state).
+ *                  This can be a very useful feature in some
+ *                  USB applications, such as an Infrared remote
+ *                  control receiver.  If a user presses the "power"
+ *                  button on a remote control, it is nice that the
+ *                  IR receiver can detect this signaling, and then
+ *                  send a USB "command" to the PC to wake up.
  *
- *					The USBCBSendResume() "callback" function is used
- *					to send this special USB signaling which wakes
- *					up the PC.  This function may be called by
- *					application firmware to wake up the PC.  This
- *					function will only be able to wake up the host if
+ *                  The USBCBSendResume() "callback" function is used
+ *                  to send this special USB signaling which wakes
+ *                  up the PC.  This function may be called by
+ *                  application firmware to wake up the PC.  This
+ *                  function will only be able to wake up the host if
  *                  all of the below are true:
  *
- *					1.  The USB driver used on the host PC supports
- *						the remote wakeup capability.
- *					2.  The USB configuration descriptor indicates
- *						the device is remote wakeup capable in the
- *						bmAttributes field.
- *					3.  The USB host PC is currently sleeping,
- *						and has previously sent your device a SET
- *						FEATURE setup packet which "armed" the
- *						remote wakeup capability.
+ *                  1.  The USB driver used on the host PC supports
+ *                      the remote wakeup capability.
+ *                  2.  The USB configuration descriptor indicates
+ *                      the device is remote wakeup capable in the
+ *                      bmAttributes field.
+ *                  3.  The USB host PC is currently sleeping,
+ *                      and has previously sent your device a SET
+ *                      FEATURE setup packet which "armed" the
+ *                      remote wakeup capability.
  *
  *                  If the host has not armed the device to perform remote wakeup,
  *                  then this function will return without actually performing a
@@ -474,7 +446,7 @@ void USBCBInitEP(void)
  *                  wakeup must not drive remote wakeup signaling onto the bus;
  *                  doing so will cause USB compliance testing failure.
  *
- *					This callback should send a RESUME signal that
+ *                  This callback should send a RESUME signal that
  *                  has the period of 1-15ms.
  *
  * Note:            This function does nothing and returns quickly, if the USB
@@ -638,8 +610,8 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size)
             if(MSDWasLastCBWValid() == FALSE)
             {
                 //Need to re-stall the endpoints, for persistent STALL behavior.
-    			USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
-      			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
+                USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
             }
             else
             {
@@ -656,3 +628,81 @@ BOOL USER_USB_CALLBACK_EVENT_HANDLER(USB_EVENT event, void *pdata, WORD size)
     }
     return TRUE;
 }
+
+static Byte getState(void)
+{
+    return (Byte)USBDeviceState;
+}
+
+static Boolean putUSB(String data, Uint8 length)
+{
+    if(USBUSARTIsTxTrfReady())
+        putUSBUSART(data, length);
+    else
+        return FALSE;
+    return TRUE;
+}
+
+static Boolean printUSB(String data)
+{
+    if(USBUSARTIsTxTrfReady())
+        putsUSBUSART(data);
+    else
+        return FALSE;
+    return TRUE;
+}
+
+static Int printfUSB(const String format, ...)
+{
+    if(USBUSARTIsTxTrfReady())
+    {
+        static char message[128] = {""}; // static so it is not put on stack
+        va_list argptr;
+        va_start(argptr, format);
+        int count = vsprintf(message, format, argptr);
+        va_end(argptr);
+        putsUSBUSART(message);
+        return count;
+    }
+    else
+        return FALSE;
+}
+
+static Boolean debugPrintUSB(String data)
+{
+    //return TRUE; // uncomment to disable debug printing
+    while(!printUSB(data));
+    return TRUE;
+}
+
+/**
+ * initialize() Information
+ *
+ * This function initializes the USB module.
+ */
+static void initialize(void)
+{
+    sdcard.init();
+    USBDeviceInit();
+}
+
+/**
+ * usb Information
+ *
+ * usb is the software wrapper for the NESI USB interface.
+ */
+const Usb usb = {
+    .init       = initialize,
+    .connect    = USBDeviceAttach,
+    .disconnect = USBDeviceDetach,
+    .attach     = USBDeviceAttach,
+    .detach     = USBDeviceDetach,
+    .eject      = USBDeviceDetach,
+    .process    = ProcessIO,
+    .state      = getState,
+    .read       = getsUSBUSART,
+    .write      = putUSB,
+    .print      = printUSB,
+    .printf     = printfUSB,
+    .debug      = debugPrintUSB
+};

@@ -9,8 +9,8 @@
       <itemPath>../../src/doc/MDDFS Library Help.pdf</itemPath>
       <itemPath>../../src/doc/C329 user manual.pdf</itemPath>
       <itemPath>../../src/doc/C329 data sheet.pdf</itemPath>
-      <itemPath>doc/Storyboard.pdf</itemPath>
-      <itemPath>doc/Storyboard.pptx</itemPath>
+      <itemPath>../../src/doc/ASCII table.pdf</itemPath>
+      <itemPath>../../src/doc/NESI v1.3 Schematic.pdf</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -20,6 +20,15 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="app" displayName="app" projectFiles="true">
+        <itemPath>../../src/app/main-blink_led.c</itemPath>
+        <itemPath>../../src/app/main-CS_iss.c</itemPath>
+        <itemPath>../../src/app/main-CS_zeroG.c</itemPath>
+        <itemPath>../../src/app/main-example.c</itemPath>
+        <itemPath>../../src/app/main-pix_on_button.c</itemPath>
+        <itemPath>../../src/app/main-usb_print_time.c</itemPath>
+        <itemPath>../../src/app/main-usb_echo.c</itemPath>
+      </logicalFolder>
       <logicalFolder name="f4" displayName="core" projectFiles="true">
         <itemPath>../../src/core/button.c</itemPath>
         <itemPath>../../src/core/button.h</itemPath>
@@ -83,10 +92,9 @@
         <itemPath>../../src/usb/usb_function_msd_multi_sector.c</itemPath>
         <itemPath>../../src/usb/usb_hal.h</itemPath>
         <itemPath>../../src/usb/usb_hal_pic24f.h</itemPath>
+        <itemPath>../../src/usb/usb_function_cdc.c</itemPath>
+        <itemPath>../../src/usb/usb_function_cdc.h</itemPath>
       </logicalFolder>
-      <itemPath>main-iss.c</itemPath>
-      <itemPath>main-zeroG.c</itemPath>
-      <itemPath>example_main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -99,6 +107,9 @@
     <Elem>../../src/dev</Elem>
     <Elem>../../src/mdd</Elem>
     <Elem>../../src/usb</Elem>
+    <Elem>docs</Elem>
+    <Elem>../../src/doc</Elem>
+    <Elem>../../src/app</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -132,6 +143,66 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../../src/app/main-CS_iss.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-CS_zeroG.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-blink_led.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-example.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-pix_on_button.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-usb_print_time.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <item path="../../src/usb/usb_function_msd_multi_sector.c"
             ex="true"
             overriding="false">
@@ -294,17 +365,18 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="UCNFG1" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="true"/>
-        <property key="memories.configurationmemory" value="true"/>
-        <property key="memories.eeprom" value="true"/>
+        <property key="memories.bootflash" value="false"/>
+        <property key="memories.configurationmemory" value="false"/>
+        <property key="memories.eeprom" value="false"/>
         <property key="memories.flashdata" value="true"/>
-        <property key="memories.id" value="true"/>
+        <property key="memories.id" value="false"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.end" value="0x2abf7"/>
         <property key="memories.programmemory.start" value="0x0"/>
-        <property key="poweroptions.powerenable" value="false"/>
+        <property key="poweroptions.powerenable" value="true"/>
         <property key="programmertogo.imagename" value=""/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmspeed" value="2"/>
@@ -318,36 +390,6 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </PICkit3PlatformTool>
-      <item path="example_main.c" ex="true" overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="main-iss.c" ex="false" overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
-      <item path="main-zeroG.c" ex="true" overriding="false">
-        <C30>
-        </C30>
-        <C30-AS>
-        </C30-AS>
-        <C30-LD>
-        </C30-LD>
-        <C30Global>
-        </C30Global>
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>
