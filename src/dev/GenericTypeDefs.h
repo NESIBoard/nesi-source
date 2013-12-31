@@ -60,7 +60,7 @@
 #endif
 
 /* get compiler defined type definitions (NULL, size_t, etc) */
-#include <stddef.h> 
+#include <stddef.h>
 
 typedef enum _BOOL { _FALSE = 0, _TRUE } BOOL;    /* Undefined size */
 typedef enum _BIT { CLEAR = 0, SET } BIT;
@@ -110,7 +110,7 @@ typedef union
     } bits;
 } UINT8_VAL, UINT8_BITS;
 
-typedef union 
+typedef union
 {
     UINT16 Val;
     UINT8 v[2] __PACKED;

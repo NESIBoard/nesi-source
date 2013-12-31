@@ -374,7 +374,7 @@ typedef enum
 
     EVENT_AUDIO_BASE    = 1000,      // Offset for Audio client driver events.
 
-	EVENT_USER_BASE     = 10000,    // Add integral values to this event number
+    EVENT_USER_BASE     = 10000,    // Add integral values to this event number
                                     // to create user-defined events.
 
     // There was a transfer error on the USB.  The data associated with this

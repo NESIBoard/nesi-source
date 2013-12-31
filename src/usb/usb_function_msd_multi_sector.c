@@ -140,7 +140,7 @@ Change History:
 /** V A R I A B L E S ************************************************/
 #pragma udata
 //State machine variables
-BYTE MSD_State;			// Takes values MSD_WAIT, MSD_DATA_IN or MSD_DATA_OUT
+BYTE MSD_State;         // Takes values MSD_WAIT, MSD_DATA_IN or MSD_DATA_OUT
 BYTE MSDCommandState;
 BYTE MSDReadState;
 BYTE MSDWriteState;
@@ -229,7 +229,7 @@ void USBMSDInit(void)
     MSDCommandState = MSD_COMMAND_WAIT;
     MSDReadState = MSD_READ10_WAIT;
     MSDWriteState = MSD_WRITE10_WAIT;
-	MSDHostNoData = FALSE;
+    MSDHostNoData = FALSE;
     gblNumBLKS.Val = 0;
     gblBLKLen.Val = 0;
     MSDCBWValid = TRUE;
@@ -260,18 +260,18 @@ void USBMSDInit(void)
 }
 
 /******************************************************************************
- 	Function:
- 		void USBCheckMSDRequest(void)
+    Function:
+        void USBCheckMSDRequest(void)
 
- 	Summary:
- 		This routine handles MSD specific request that happen on EP0.
+    Summary:
+        This routine handles MSD specific request that happen on EP0.
         This function should be called from the USBCBCheckOtherReq() call back
         function whenever implementing an MSD device.
 
- 	Description:
- 		This routine handles MSD specific request that happen on EP0.  These
+    Description:
+        This routine handles MSD specific request that happen on EP0.  These
         include, but are not limited to, the standard RESET and GET_MAX_LUN
- 		command requests.  This function should be called from the
+        command requests.  This function should be called from the
         USBCBCheckOtherReq() call back function whenever using an MSD device.
 
         Typical Usage:
@@ -284,17 +284,17 @@ void USBMSDInit(void)
         }
         </code>
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		None
+    Return Values:
+        None
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
  *****************************************************************************/
 void USBCheckMSDRequest(void)
@@ -302,22 +302,22 @@ void USBCheckMSDRequest(void)
     if(SetupPkt.Recipient != USB_SETUP_RECIPIENT_INTERFACE_BITFIELD) return;
     if(SetupPkt.bIntfID != MSD_INTF_ID) return;
 
-	switch(SetupPkt.bRequest)
+    switch(SetupPkt.bRequest)
     {
-	    case MSD_RESET:
-	        //First make sure all request parameters are correct:
-	        //MSD BOT specs require wValue to be == 0x0000 and wLength == 0x0000
-	        if((SetupPkt.wValue != 0) || (SetupPkt.wLength != 0))
-	        {
-    	        return; //Return without handling the request (results in STALL)
-    	    }
+        case MSD_RESET:
+            //First make sure all request parameters are correct:
+            //MSD BOT specs require wValue to be == 0x0000 and wLength == 0x0000
+            if((SetupPkt.wValue != 0) || (SetupPkt.wLength != 0))
+            {
+                return; //Return without handling the request (results in STALL)
+            }
 
-	        //Host would typically issue this after a STALL event on an MSD
-	        //bulk endpoint.  The MSD reset should re-initialize status
-	        //so as to prepare for a new CBW.  Any currently ongoing command
-	        //block should be aborted, but the STALL and DTS states need to be
-	        //maintained (host will re-initialize these separately using
-	        //CLEAR_FEATURE, endpoint halt).
+            //Host would typically issue this after a STALL event on an MSD
+            //bulk endpoint.  The MSD reset should re-initialize status
+            //so as to prepare for a new CBW.  Any currently ongoing command
+            //block should be aborted, but the STALL and DTS states need to be
+            //maintained (host will re-initialize these separately using
+            //CLEAR_FEATURE, endpoint halt).
             MSD_State = MSD_WAIT;
             MSDCommandState = MSD_COMMAND_WAIT;
             MSDReadState = MSD_READ10_WAIT;
@@ -335,8 +335,8 @@ void USBCheckMSDRequest(void)
             //Let USB stack know we took care of handling the EP0 SETUP request.
             //Allow zero byte status stage to proceed normally now.
             USBEP0Transmit(USB_EP0_NO_DATA);
-	    	break;
-	    case GET_MAX_LUN:
+            break;
+        case GET_MAX_LUN:
             //First make sure all request parameters are correct:
             //MSD BOT specs require wValue to be == 0x0000, and wLengh == 1
             if((SetupPkt.wValue != 0) || (SetupPkt.wLength != 1))
@@ -346,10 +346,10 @@ void USBCheckMSDRequest(void)
 
             //If the host asks for the maximum number of logical units
             //  then send out a packet with that information
-	    	CtrlTrfData[0] = MAX_LUN;
+            CtrlTrfData[0] = MAX_LUN;
             USBEP0SendRAMPtr((BYTE*)&CtrlTrfData[0],1,USB_EP0_INCLUDE_ZERO);
-	    	break;
-    }	//end switch(SetupPkt.bRequest)
+            break;
+    }   //end switch(SetupPkt.bRequest)
 }
 
 /*********************************************************************************
@@ -435,117 +435,117 @@ BYTE MSDTasks(void)
             //Check if we have received a new command block wrapper (CBW)
             if(!USBHandleBusy(USBMSDOutHandle))
             {
-        		//If we are in the MSD_WAIT state, and we received an OUT transaction
-        		//on the MSD OUT endpoint, then we must have just received an MSD
-        		//Command Block Wrapper (CBW).
-        		//First copy the the received data to to the gblCBW structure, so
-        		//that we keep track of the command, but free up the MSD OUT endpoint
-        		//buffer for fulfilling whatever request may have been received.
+                //If we are in the MSD_WAIT state, and we received an OUT transaction
+                //on the MSD OUT endpoint, then we must have just received an MSD
+                //Command Block Wrapper (CBW).
+                //First copy the the received data to to the gblCBW structure, so
+                //that we keep track of the command, but free up the MSD OUT endpoint
+                //buffer for fulfilling whatever request may have been received.
                 //gblCBW = msd_cbw; //we are doing this, but below method can yield smaller code size
-            	for(i = 0; i < MSD_CBW_SIZE; i++)
+                for(i = 0; i < MSD_CBW_SIZE; i++)
                 {
-                	*((BYTE*)&gblCBW.dCBWSignature + i) = *((BYTE*)&msd_cbw.dCBWSignature + i);
+                    *((BYTE*)&gblCBW.dCBWSignature + i) = *((BYTE*)&msd_cbw.dCBWSignature + i);
                 }
 
-        	    //If this CBW is valid?
-        		if((USBHandleGetLength(USBMSDOutHandle) == MSD_CBW_SIZE) && (gblCBW.dCBWSignature == MSD_VALID_CBW_SIGNATURE))
-            	{
-                	//The CBW was valid, set flag meaning any stalls after this point
-                	//should not be "persistent" (as in the case of non-valid CBWs).
-                	MSDCBWValid = TRUE;
+                //If this CBW is valid?
+                if((USBHandleGetLength(USBMSDOutHandle) == MSD_CBW_SIZE) && (gblCBW.dCBWSignature == MSD_VALID_CBW_SIGNATURE))
+                {
+                    //The CBW was valid, set flag meaning any stalls after this point
+                    //should not be "persistent" (as in the case of non-valid CBWs).
+                    MSDCBWValid = TRUE;
 
                     //Is this CBW meaningful?
-       				if((gblCBW.bCBWLUN <= MAX_LUN)                                      //Verify the command is addressed to a supported LUN
-               		&&(gblCBW.bCBWCBLength <= MSD_MAX_CB_SIZE)                          //Verify the claimed CB length is reasonable/valid
-               		&&(gblCBW.bCBWCBLength >= 0x01)                                     //Verify the claimed CB length is reasonable/valid
-               		&&((gblCBW.bCBWFlags & MSD_CBWFLAGS_RESERVED_BITS_MASK) == 0x00))   //Verify reserved bits are clear
-            		{
+                    if((gblCBW.bCBWLUN <= MAX_LUN)                                      //Verify the command is addressed to a supported LUN
+                    &&(gblCBW.bCBWCBLength <= MSD_MAX_CB_SIZE)                          //Verify the claimed CB length is reasonable/valid
+                    &&(gblCBW.bCBWCBLength >= 0x01)                                     //Verify the claimed CB length is reasonable/valid
+                    &&((gblCBW.bCBWFlags & MSD_CBWFLAGS_RESERVED_BITS_MASK) == 0x00))   //Verify reserved bits are clear
+                    {
 
-                		//The CBW was both valid and meaningful.
-                		//Begin preparing a valid Command Status Wrapper (CSW),
-                		//in anticipation of completing the request successfully.
-                		//If an error detected is later, we will change the status
-                		//before sending the CSW.
-                    	msd_csw.dCSWSignature = MSD_VALID_CSW_SIGNATURE;
-                    	msd_csw.dCSWTag = gblCBW.dCBWTag;
-                    	msd_csw.dCSWDataResidue = 0x0;
-                    	msd_csw.bCSWStatus = MSD_CSW_COMMAND_PASSED;
+                        //The CBW was both valid and meaningful.
+                        //Begin preparing a valid Command Status Wrapper (CSW),
+                        //in anticipation of completing the request successfully.
+                        //If an error detected is later, we will change the status
+                        //before sending the CSW.
+                        msd_csw.dCSWSignature = MSD_VALID_CSW_SIGNATURE;
+                        msd_csw.dCSWTag = gblCBW.dCBWTag;
+                        msd_csw.dCSWDataResidue = 0x0;
+                        msd_csw.bCSWStatus = MSD_CSW_COMMAND_PASSED;
 
-                    	//Since a new CBW just arrived, we should re-init the
-                    	//lower level state machines to their default states.
-                    	//Even if the prior operation didn't fully complete
-                    	//normally, we should abandon the prior operation, when
-                    	//a new CBW arrives.
-                    	MSDCommandState = MSD_COMMAND_WAIT;
-                    	MSDReadState = MSD_READ10_WAIT;
-                    	MSDWriteState = MSD_WRITE10_WAIT;
+                        //Since a new CBW just arrived, we should re-init the
+                        //lower level state machines to their default states.
+                        //Even if the prior operation didn't fully complete
+                        //normally, we should abandon the prior operation, when
+                        //a new CBW arrives.
+                        MSDCommandState = MSD_COMMAND_WAIT;
+                        MSDReadState = MSD_READ10_WAIT;
+                        MSDWriteState = MSD_WRITE10_WAIT;
 
-                    	//Keep track of retry attempts, in case of temporary
-                    	//failures during read or write of the media.
-                    	MSDRetryAttempt = 0;
+                        //Keep track of retry attempts, in case of temporary
+                        //failures during read or write of the media.
+                        MSDRetryAttempt = 0;
 
-                    	//Check the command.  With the exception of the REQUEST_SENSE
-                    	//command, we should reset the sense key info for each new command block.
-                    	//Assume the command will get processed successfully (and hence "NO SENSE"
-                    	//response, which is used for success cases), unless handler code
-                    	//later on detects some kind of error.  If it does, it should
-                    	//update the sense keys to reflect the type of error detected,
-                    	//prior to sending the CSW.
-                    	if(gblCBW.CBWCB[0] != MSD_REQUEST_SENSE)
-                    	{
-                      		gblSenseData[LUN_INDEX].SenseKey=S_NO_SENSE;
-        			        gblSenseData[LUN_INDEX].ASC=ASC_NO_ADDITIONAL_SENSE_INFORMATION;
-        			        gblSenseData[LUN_INDEX].ASCQ=ASCQ_NO_ADDITIONAL_SENSE_INFORMATION;
-    			        }
+                        //Check the command.  With the exception of the REQUEST_SENSE
+                        //command, we should reset the sense key info for each new command block.
+                        //Assume the command will get processed successfully (and hence "NO SENSE"
+                        //response, which is used for success cases), unless handler code
+                        //later on detects some kind of error.  If it does, it should
+                        //update the sense keys to reflect the type of error detected,
+                        //prior to sending the CSW.
+                        if(gblCBW.CBWCB[0] != MSD_REQUEST_SENSE)
+                        {
+                            gblSenseData[LUN_INDEX].SenseKey=S_NO_SENSE;
+                            gblSenseData[LUN_INDEX].ASC=ASC_NO_ADDITIONAL_SENSE_INFORMATION;
+                            gblSenseData[LUN_INDEX].ASCQ=ASCQ_NO_ADDITIONAL_SENSE_INFORMATION;
+                        }
 
-                    	//Isolate the data direction bit.  The direction bit is bit 7 of the bCBWFlags byte.
-	                   	//Then, based on the direction of the data transfer, prepare the MSD state machine
-                    	//so it knows how to proceed with processing the request.
+                        //Isolate the data direction bit.  The direction bit is bit 7 of the bCBWFlags byte.
+                        //Then, based on the direction of the data transfer, prepare the MSD state machine
+                        //so it knows how to proceed with processing the request.
                         //If bit7 = 0, then direction is OUT from host.  If bit7 = 1, direction is IN to host
-        				if (gblCBW.bCBWFlags & MSD_CBW_DIRECTION_BITMASK)
-        				{
-        					    MSD_State = MSD_DATA_IN;
-        				}
-        				else //else direction must be OUT from host
-            			{
-            			    MSD_State = MSD_DATA_OUT;
-        				}
+                        if (gblCBW.bCBWFlags & MSD_CBW_DIRECTION_BITMASK)
+                        {
+                                MSD_State = MSD_DATA_IN;
+                        }
+                        else //else direction must be OUT from host
+                        {
+                            MSD_State = MSD_DATA_OUT;
+                        }
 
-        				//Determine if the host is expecting there to be data transfer or not.
-        				//Doing this now will make for quicker error checking later.
-        				if(gblCBW.dCBWDataTransferLength != 0)
-                    	{
-	                    	MSDHostNoData = FALSE;
-	                    }
-	                    else
-	                    {
-		                    MSDHostNoData = TRUE;
-		                }
+                        //Determine if the host is expecting there to be data transfer or not.
+                        //Doing this now will make for quicker error checking later.
+                        if(gblCBW.dCBWDataTransferLength != 0)
+                        {
+                            MSDHostNoData = FALSE;
+                        }
+                        else
+                        {
+                            MSDHostNoData = TRUE;
+                        }
 
                         //Copy the received command to the lower level command
                         //state machine, so it knows what to do.
                         MSDCommandState = gblCBW.CBWCB[0];
-        			}
-        			else
-        			{
-            			//else the CBW wasn't meaningful.  Section 6.4 of BOT specs v1.0 says,
-            			//"The response of a device to a CBW that is not meaningful is not specified."
-            			//Lets STALL the bulk endpoints, so as to promote the possibility of recovery.
-            			USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
-              			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
                     }
-        		}//end of: if((USBHandleGetLength(USBMSDOutHandle) == MSD_CBW_SIZE) && (gblCBW.dCBWSignature == MSD_VALID_CBW_SIGNATURE))
-        		else  //The CBW was not valid.
-        		{
-            		//Section 6.6.1 of the BOT specifications rev. 1.0 says the device shall STALL bulk IN and OUT
-	        		//endpoints (or should discard OUT data if not stalled), and should stay in this state until a
-	        		//"Reset Recovery" (MSD Reset + clear endpoint halt commands on EP0, see section 5.3.4)
-          			USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
-          			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-          			MSDCBWValid = FALSE;    //Flag so as to enable a "persistent"
-          			//stall (cannot be cleared by clear endpoint halt, unless preceded
-          			//by an MSD reset).
-        		}
+                    else
+                    {
+                        //else the CBW wasn't meaningful.  Section 6.4 of BOT specs v1.0 says,
+                        //"The response of a device to a CBW that is not meaningful is not specified."
+                        //Lets STALL the bulk endpoints, so as to promote the possibility of recovery.
+                        USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
+                        USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                    }
+                }//end of: if((USBHandleGetLength(USBMSDOutHandle) == MSD_CBW_SIZE) && (gblCBW.dCBWSignature == MSD_VALID_CBW_SIGNATURE))
+                else  //The CBW was not valid.
+                {
+                    //Section 6.6.1 of the BOT specifications rev. 1.0 says the device shall STALL bulk IN and OUT
+                    //endpoints (or should discard OUT data if not stalled), and should stay in this state until a
+                    //"Reset Recovery" (MSD Reset + clear endpoint halt commands on EP0, see section 5.3.4)
+                    USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
+                    USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                    MSDCBWValid = FALSE;    //Flag so as to enable a "persistent"
+                    //stall (cannot be cleared by clear endpoint halt, unless preceded
+                    //by an MSD reset).
+                }
             }//if(!USBHandleBusy(USBMSDOutHandle))
             break;
         }//end of: case MSD_WAIT:
@@ -559,11 +559,11 @@ BYTE MSDTasks(void)
         case MSD_DATA_OUT:
             if(MSDProcessCommand() == MSD_COMMAND_WAIT)
             {
-    			/* Finished receiving the data prepare and send the status */
-    		  	if ((msd_csw.bCSWStatus == MSD_CSW_COMMAND_PASSED)&&(msd_csw.dCSWDataResidue!=0))
-    		  	{
-    		  		msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-    		    }
+                /* Finished receiving the data prepare and send the status */
+                if ((msd_csw.bCSWStatus == MSD_CSW_COMMAND_PASSED)&&(msd_csw.dCSWDataResidue!=0))
+                {
+                    msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+                }
                 MSD_State = MSD_SEND_CSW;
             }
             break;
@@ -583,15 +583,15 @@ BYTE MSDTasks(void)
             {
                 USBMSDOutHandle = USBRxOnePacket(MSD_DATA_OUT_EP,(BYTE*)&msd_cbw,MSD_OUT_EP_SIZE);
             }
-           	MSD_State=MSD_WAIT;
+            MSD_State=MSD_WAIT;
             break;
         default:
             //Illegal condition that should not happen, but might occur if the
             //device firmware incorrectly calls MSDTasks() prior to calling
             //USBMSDInit() during the set-configuration portion of enumeration.
             MSD_State=MSD_WAIT;
-			msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+            msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+            USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
     }//switch(MSD_State)
 
     //Safe to re-enable USB interrupts now.
@@ -602,39 +602,39 @@ BYTE MSDTasks(void)
 
 
 /******************************************************************************
- 	Function:
- 		BYTE MSDProcessCommand(void)
+    Function:
+        BYTE MSDProcessCommand(void)
 
- 	Description:
- 		This function processes a command received through the MSD
- 		class driver
+    Description:
+        This function processes a command received through the MSD
+        class driver
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		BYTE - the current state of the MSDProcessCommand state
- 		machine.  The valid values are defined in MSD.h under the
- 		MSDProcessCommand state machine declaration section
+    Return Values:
+        BYTE - the current state of the MSDProcessCommand state
+        machine.  The valid values are defined in MSD.h under the
+        MSDProcessCommand state machine declaration section
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
  *****************************************************************************/
 BYTE MSDProcessCommand(void)
 {
-  	//Check if the media is either not present, or has been flagged by firmware
-  	//to pretend to be non-present (ex: SoftDetached).
-  	if((LUNMediaDetect() == FALSE) || (SoftDetach[gblCBW.bCBWLUN] == TRUE))
+    //Check if the media is either not present, or has been flagged by firmware
+    //to pretend to be non-present (ex: SoftDetached).
+    if((LUNMediaDetect() == FALSE) || (SoftDetach[gblCBW.bCBWLUN] == TRUE))
     {
         //Clear flag so we know the media need initialization, if it becomes
         //present in the future.
         gblMediaPresent &= ~((WORD)1<<gblCBW.bCBWLUN);
         MSDProcessCommandMediaAbsent();
-   	}
+    }
     else
     {
         //Check if the media is present and hasn't been already flagged as initialized.
@@ -652,9 +652,9 @@ BYTE MSDProcessCommand(void)
                 //we should still notify the host that the media may have changed,
                 //from the host's perspective, since we just initialized it for
                 //the first time.
-        		gblSenseData[LUN_INDEX].SenseKey = S_UNIT_ATTENTION;
-        		gblSenseData[LUN_INDEX].ASC = ASC_NOT_READY_TO_READY_CHANGE;
-        		gblSenseData[LUN_INDEX].ASCQ = ASCQ_MEDIUM_MAY_HAVE_CHANGED;
+                gblSenseData[LUN_INDEX].SenseKey = S_UNIT_ATTENTION;
+                gblSenseData[LUN_INDEX].ASC = ASC_NOT_READY_TO_READY_CHANGE;
+                gblSenseData[LUN_INDEX].ASCQ = ASCQ_MEDIUM_MAY_HAVE_CHANGED;
                 //Signify a soft error to the host, so it knows to check the
                 //sense keys to learn that the media just changed.
                 msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED; //No real "error" per se has occurred
@@ -679,31 +679,31 @@ BYTE MSDProcessCommand(void)
 }
 
 /******************************************************************************
- 	Function:
- 		void MSDProcessCommandMediaAbsent(void)
+    Function:
+        void MSDProcessCommandMediaAbsent(void)
 
- 	Description:
- 		This function processes a command received through the MSD
- 		class driver, when the removable MSD media (ex: MMC/SD card) is not
- 		present, or has been "soft detached" deliberately by the application
- 		firmware.
+    Description:
+        This function processes a command received through the MSD
+        class driver, when the removable MSD media (ex: MMC/SD card) is not
+        present, or has been "soft detached" deliberately by the application
+        firmware.
 
- 	PreCondition:
- 		The MSD function should have already been initialized (the media isn't
- 		required to be initialized however).  Additionally, a valid MSD Command
- 		Block Wrapper (CBW) should have been received and partially parsed
- 		prior to calling this function.
+    PreCondition:
+        The MSD function should have already been initialized (the media isn't
+        required to be initialized however).  Additionally, a valid MSD Command
+        Block Wrapper (CBW) should have been received and partially parsed
+        prior to calling this function.
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		BYTE - the current state of the MSDProcessCommand state
- 		machine.  The valid values are defined in usb_function_msd.h under the
- 		MSDProcessCommand state machine declaration section
+    Return Values:
+        BYTE - the current state of the MSDProcessCommand state
+        machine.  The valid values are defined in usb_function_msd.h under the
+        MSDProcessCommand state machine declaration section
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 void MSDProcessCommandMediaAbsent(void)
@@ -719,8 +719,8 @@ void MSDProcessCommandMediaAbsent(void)
             //command failed was because the media was not present.
             ResetSenseData();
             gblSenseData[LUN_INDEX].SenseKey=S_NOT_READY;
-    		gblSenseData[LUN_INDEX].ASC=ASC_MEDIUM_NOT_PRESENT;
-    		gblSenseData[LUN_INDEX].ASCQ=ASCQ_MEDIUM_NOT_PRESENT;
+            gblSenseData[LUN_INDEX].ASC=ASC_MEDIUM_NOT_PRESENT;
+            gblSenseData[LUN_INDEX].ASCQ=ASCQ_MEDIUM_NOT_PRESENT;
 
             //After initializing the sense keys above, the subsequent handling
             //code for this state is the same with or without media.
@@ -733,7 +733,7 @@ void MSDProcessCommandMediaAbsent(void)
             //request.  Since this is a removable media device, and the media isn't
             //present, we need to indicate an error to let the host know (to
             //check the sense keys, which will tell it the media isn't present).
-    		msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
+            msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
             MSDCommandState = MSD_COMMAND_WAIT;
             break;
         case MSD_INQUIRY:
@@ -747,36 +747,36 @@ void MSDProcessCommandMediaAbsent(void)
             MSDProcessCommandMediaPresent();
             break;
         default:
-		    //An unsupported command was received.  Since we are uncertain how
-		    //many bytes we should send/or receive, we should set sense key data
-		    //and then STALL, to force the host to perform error recovery.
-		    MSDErrorHandler(MSD_ERROR_UNSUPPORTED_COMMAND);
+            //An unsupported command was received.  Since we are uncertain how
+            //many bytes we should send/or receive, we should set sense key data
+            //and then STALL, to force the host to perform error recovery.
+            MSDErrorHandler(MSD_ERROR_UNSUPPORTED_COMMAND);
             break;
     }
 }//void MSDProcessCommandMediaAbsent(void)
 
 
 /******************************************************************************
- 	Function:
- 		void MSDProcessCommandMediaPresent(void)
+    Function:
+        void MSDProcessCommandMediaPresent(void)
 
- 	Description:
- 		This function processes a command received through the MSD
- 		class driver
+    Description:
+        This function processes a command received through the MSD
+        class driver
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		BYTE - the current state of the MSDProcessCommand state
- 		machine.  The valid values are defined in MSD.h under the
- 		MSDProcessCommand state machine declaration section
+    Return Values:
+        BYTE - the current state of the MSDProcessCommand state
+        machine.  The valid values are defined in MSD.h under the
+        MSDProcessCommand state machine declaration section
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
  *****************************************************************************/
 void MSDProcessCommandMediaPresent(void)
@@ -787,30 +787,30 @@ void MSDProcessCommandMediaPresent(void)
     //Check what command we are currently processing, to decide how to handle it.
     switch(MSDCommandState)
     {
-		case MSD_READ_10:
-		    //The host issues a "Read 10" request when it wants to read some number
-		    //of 10-bit length blocks (512 byte blocks) of data from the media.
-		    //Since this is a common request and is part of the "critical path"
-		    //performance wise, we put this at the top of the state machine checks.
-        	if(MSDReadHandler() == MSD_READ10_WAIT)
-        	{
-			    MSDCommandState = MSD_COMMAND_WAIT;
+        case MSD_READ_10:
+            //The host issues a "Read 10" request when it wants to read some number
+            //of 10-bit length blocks (512 byte blocks) of data from the media.
+            //Since this is a common request and is part of the "critical path"
+            //performance wise, we put this at the top of the state machine checks.
+            if(MSDReadHandler() == MSD_READ10_WAIT)
+            {
+                MSDCommandState = MSD_COMMAND_WAIT;
             }
             break;
-    	case MSD_WRITE_10:
-		    //The host issues a "Write 10" request when it wants to write some number
-		    //of 10-bit length blocks (512 byte blocks) of data to the media.
-		    //Since this is a common request and is part of the "critical path"
-		    //performance wise, we put this near the top of the state machine checks.
-        	if(MSDWriteHandler() == MSD_WRITE10_WAIT)
-        	{
-			    MSDCommandState = MSD_COMMAND_WAIT;
+        case MSD_WRITE_10:
+            //The host issues a "Write 10" request when it wants to write some number
+            //of 10-bit length blocks (512 byte blocks) of data to the media.
+            //Since this is a common request and is part of the "critical path"
+            //performance wise, we put this near the top of the state machine checks.
+            if(MSDWriteHandler() == MSD_WRITE10_WAIT)
+            {
+                MSDCommandState = MSD_COMMAND_WAIT;
             }
-		    break;
-    	case MSD_INQUIRY:
-    	{
-        	//The host wants to learn more about our MSD device (spec version,
-        	//supported abilities, etc.)
+            break;
+        case MSD_INQUIRY:
+        {
+            //The host wants to learn more about our MSD device (spec version,
+            //supported abilities, etc.)
 
             //Error check: If host doesn't want any data, then just advance to CSW phase.
             if(MSDHostNoData == TRUE)
@@ -823,21 +823,21 @@ void MSDProcessCommandMediaPresent(void)
             //with.  Note: Value provided in CBWCB is in big endian format)
             TransferLength.byte.HB = gblCBW.CBWCB[3]; //MSB
             TransferLength.byte.LB = gblCBW.CBWCB[4]; //LSB
-        	//Check for possible errors.
+            //Check for possible errors.
             if(MSDCheckForErrorCases(TransferLength.Val) != MSD_ERROR_CASE_NO_ERROR)
             {
                 break;
             }
 
-          	//Compute and load proper csw residue and device in number of byte.
+            //Compute and load proper csw residue and device in number of byte.
             MSDComputeDeviceInAndResidue(sizeof(InquiryResponse));
 
             //If we get to here, this implies no errors were found and the command is legit.
 
             //copy the inquiry results from the defined ROM buffer
             //  into the USB buffer so that it can be transmitted
-        	memcpypgm2ram((void *)&msd_buffer[0], (ROM void*)&inq_resp, sizeof(InquiryResponse));   //Inquiry response is 36 bytes total
-        	MSDCommandState = MSD_COMMAND_RESPONSE;
+            memcpypgm2ram((void *)&msd_buffer[0], (ROM void*)&inq_resp, sizeof(InquiryResponse));   //Inquiry response is 36 bytes total
+            MSDCommandState = MSD_COMMAND_RESPONSE;
             break;
         }
         case MSD_READ_CAPACITY:
@@ -852,21 +852,21 @@ void MSDProcessCommandMediaPresent(void)
             sectorSize.Val = LUNReadSectorSize();
 
             //Copy the data to the buffer.  Host expects the response in big endian format.
-        	msd_buffer[0]=capacity.v[3];
-        	msd_buffer[1]=capacity.v[2];
-        	msd_buffer[2]=capacity.v[1];
-        	msd_buffer[3]=capacity.v[0];
+            msd_buffer[0]=capacity.v[3];
+            msd_buffer[1]=capacity.v[2];
+            msd_buffer[2]=capacity.v[1];
+            msd_buffer[3]=capacity.v[0];
 
-        	msd_buffer[4]=sectorSize.v[3];
-        	msd_buffer[5]=sectorSize.v[2];
-        	msd_buffer[6]=sectorSize.v[1];
-        	msd_buffer[7]=sectorSize.v[0];
+            msd_buffer[4]=sectorSize.v[3];
+            msd_buffer[5]=sectorSize.v[2];
+            msd_buffer[6]=sectorSize.v[1];
+            msd_buffer[7]=sectorSize.v[0];
 
-          	//Compute and load proper csw residue and device in number of byte.
+            //Compute and load proper csw residue and device in number of byte.
             TransferLength.Val = 0x08;      //READ_CAPACITY always has an 8-byte response.
             MSDComputeDeviceInAndResidue(0x08);
 
-        	MSDCommandState = MSD_COMMAND_RESPONSE;
+            MSDCommandState = MSD_COMMAND_RESPONSE;
             break;
         }
         case MSD_REQUEST_SENSE:
@@ -882,43 +882,43 @@ void MSDProcessCommandMediaPresent(void)
                 break;
             }
 
-          	//Compute and load proper csw residue and device in number of byte.
+            //Compute and load proper csw residue and device in number of byte.
             TransferLength.Val = sizeof(RequestSenseResponse);      //REQUEST_SENSE has an 18-byte response.
             MSDComputeDeviceInAndResidue(sizeof(RequestSenseResponse));
 
             //Copy the requested response data from flash to the USB ram buffer.
-          	for(i=0;i<sizeof(RequestSenseResponse);i++)
-          	{
-          		msd_buffer[i]=gblSenseData[LUN_INDEX]._byte[i];
+            for(i=0;i<sizeof(RequestSenseResponse);i++)
+            {
+                msd_buffer[i]=gblSenseData[LUN_INDEX]._byte[i];
             }
-          	MSDCommandState = MSD_COMMAND_RESPONSE;
+            MSDCommandState = MSD_COMMAND_RESPONSE;
             break;
-	    case MSD_MODE_SENSE:
-        	msd_buffer[0]=0x02;
-        	msd_buffer[1]=0x00;
-        	msd_buffer[2]=0x00;
-        	msd_buffer[3]=0x00;
+        case MSD_MODE_SENSE:
+            msd_buffer[0]=0x02;
+            msd_buffer[1]=0x00;
+            msd_buffer[2]=0x00;
+            msd_buffer[3]=0x00;
 
-           	//Compute and load proper csw residue and device in number of byte.
+            //Compute and load proper csw residue and device in number of byte.
             TransferLength.Val = 0x04;
             MSDComputeDeviceInAndResidue(0x04);
-        	MSDCommandState = MSD_COMMAND_RESPONSE;
-    	    break;
-		case MSD_PREVENT_ALLOW_MEDIUM_REMOVAL:
+            MSDCommandState = MSD_COMMAND_RESPONSE;
+            break;
+        case MSD_PREVENT_ALLOW_MEDIUM_REMOVAL:
             if(LUNMediaDetect())
             {
-        		msd_csw.dCSWDataResidue = 0x00;
-        	}
+                msd_csw.dCSWDataResidue = 0x00;
+            }
             else
             {
-        		gblSenseData[LUN_INDEX].SenseKey=S_NOT_READY;
-        		gblSenseData[LUN_INDEX].ASC=ASC_MEDIUM_NOT_PRESENT;
-        		gblSenseData[LUN_INDEX].ASCQ=ASCQ_MEDIUM_NOT_PRESENT;
-        		msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
-        	}
-			MSDCommandState = MSD_COMMAND_WAIT;
+                gblSenseData[LUN_INDEX].SenseKey=S_NOT_READY;
+                gblSenseData[LUN_INDEX].ASC=ASC_MEDIUM_NOT_PRESENT;
+                gblSenseData[LUN_INDEX].ASCQ=ASCQ_MEDIUM_NOT_PRESENT;
+                msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
+            }
+            MSDCommandState = MSD_COMMAND_WAIT;
             break;
-		case MSD_TEST_UNIT_READY:
+        case MSD_TEST_UNIT_READY:
             //The host will typically send this command periodically to check if
             //it is ready to be used and to obtain polled notification of changes
             //in status (ex: user removed media from a removable media MSD volume).
@@ -941,16 +941,16 @@ void MSDProcessCommandMediaPresent(void)
             }
             else
             {
-            	ResetSenseData();
-            	msd_csw.dCSWDataResidue=0x00;
-    			MSDCommandState = MSD_COMMAND_WAIT;
+                ResetSenseData();
+                msd_csw.dCSWDataResidue=0x00;
+                MSDCommandState = MSD_COMMAND_WAIT;
             }
             break;
-		case MSD_VERIFY:
+        case MSD_VERIFY:
             //Fall through to STOP_START
-		case MSD_STOP_START:
-        	msd_csw.dCSWDataResidue=0x00;
-			MSDCommandState = MSD_COMMAND_WAIT;
+        case MSD_STOP_START:
+            msd_csw.dCSWDataResidue=0x00;
+            MSDCommandState = MSD_COMMAND_WAIT;
             break;
         case MSD_COMMAND_RESPONSE:
             //This command state didn't originate from the host.  This state was
@@ -1019,54 +1019,54 @@ void MSDProcessCommandMediaPresent(void)
             }
             break;
         case MSD_COMMAND_ERROR:
-		default:
-		    //An unsupported command was received.  Since we are uncertain how many
-		    //bytes we should send/or receive, we should set sense key data and then
-		    //STALL, to force the host to perform error recovery.
-		    MSDErrorHandler(MSD_ERROR_UNSUPPORTED_COMMAND);
- 		    break;
-	} // end switch
+        default:
+            //An unsupported command was received.  Since we are uncertain how many
+            //bytes we should send/or receive, we should set sense key data and then
+            //STALL, to force the host to perform error recovery.
+            MSDErrorHandler(MSD_ERROR_UNSUPPORTED_COMMAND);
+            break;
+    } // end switch
 }//void MSDProcessCommandMediaPresent(void)
 
 
 /******************************************************************************
- 	Function:
- 		static void MSDComputeDeviceInAndResidue(WORD DiExpected)
+    Function:
+        static void MSDComputeDeviceInAndResidue(WORD DiExpected)
 
- 	Description:
- 		This is a private function that performs Hi > Di data size checking
- 		and handling.  This function also computes the proper CSW data residue
- 		and updates the global variable.
+    Description:
+        This is a private function that performs Hi > Di data size checking
+        and handling.  This function also computes the proper CSW data residue
+        and updates the global variable.
 
- 	PreCondition:
- 		Should only be called in the context of the
- 		MSDProcessCommandMediaPresent() handler function, after receiving a new
- 		command that needs processing.  Before calling this function, make sure
- 		the gblCBW.dCBWDataTransferLength and TransferLength.Val variables have
- 		been pre-loaded with the expected host and device data size values.
+    PreCondition:
+        Should only be called in the context of the
+        MSDProcessCommandMediaPresent() handler function, after receiving a new
+        command that needs processing.  Before calling this function, make sure
+        the gblCBW.dCBWDataTransferLength and TransferLength.Val variables have
+        been pre-loaded with the expected host and device data size values.
 
- 	Parameters:
- 		WORD DiExpected - Input: Firmware can specify an additional value that
- 		might be smaller than the TransferLength.Val value.  The function will
- 		update TransferLength.Val with the smaller of the original value, or
- 		DiExpected.
+    Parameters:
+        WORD DiExpected - Input: Firmware can specify an additional value that
+        might be smaller than the TransferLength.Val value.  The function will
+        update TransferLength.Val with the smaller of the original value, or
+        DiExpected.
 
- 	Return Values:
- 		None
+    Return Values:
+        None
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 static void MSDComputeDeviceInAndResidue(WORD DiExpected)
 {
-  	//Error check number of bytes to send.  Check for Hi < Di
-  	if(gblCBW.dCBWDataTransferLength < DiExpected)
-  	{
-      	//The host has requested less data than the entire response.  We
-      	//send only the host requested quantity of bytes.
-      	msd_csw.dCSWDataResidue = 0;
-      	TransferLength.Val = gblCBW.dCBWDataTransferLength;
+    //Error check number of bytes to send.  Check for Hi < Di
+    if(gblCBW.dCBWDataTransferLength < DiExpected)
+    {
+        //The host has requested less data than the entire response.  We
+        //send only the host requested quantity of bytes.
+        msd_csw.dCSWDataResidue = 0;
+        TransferLength.Val = gblCBW.dCBWDataTransferLength;
     }
     else
     {
@@ -1081,26 +1081,26 @@ static void MSDComputeDeviceInAndResidue(WORD DiExpected)
 
 
 /******************************************************************************
- 	Function:
- 		BYTE MSDReadHandler(void)
+    Function:
+        BYTE MSDReadHandler(void)
 
- 	Description:
- 		This function processes a read command received through
- 		the MSD class driver
+    Description:
+        This function processes a read command received through
+        the MSD class driver
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		BYTE - the current state of the MSDReadHandler state
- 		machine.  The valid values are defined in MSD.h under the
- 		MSDReadHandler state machine declaration section
+    Return Values:
+        BYTE - the current state of the MSDReadHandler state
+        machine.  The valid values are defined in MSD.h under the
+        MSDReadHandler state machine declaration section
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 #pragma idata
@@ -1127,13 +1127,13 @@ BYTE MSDReadHandler(void)
             //Extract the LBA from the CBW.  Note: Also need to perform endian
             //swap, since the multi-byte CBW fields are stored big endian, but
             //the Microchip C compilers are little endian.
-        	LBA.v[3]=gblCBW.CBWCB[2];
-        	LBA.v[2]=gblCBW.CBWCB[3];
-        	LBA.v[1]=gblCBW.CBWCB[4];
-        	LBA.v[0]=gblCBW.CBWCB[5];
+            LBA.v[3]=gblCBW.CBWCB[2];
+            LBA.v[2]=gblCBW.CBWCB[3];
+            LBA.v[1]=gblCBW.CBWCB[4];
+            LBA.v[0]=gblCBW.CBWCB[5];
 
-        	TransferLength.byte.HB = gblCBW.CBWCB[7];   //MSB of Transfer Length (in number of blocks, not bytes)
-        	TransferLength.byte.LB = gblCBW.CBWCB[8];   //LSB of Transfer Length (in number of blocks, not bytes)
+            TransferLength.byte.HB = gblCBW.CBWCB[7];   //MSB of Transfer Length (in number of blocks, not bytes)
+            TransferLength.byte.LB = gblCBW.CBWCB[8];   //LSB of Transfer Length (in number of blocks, not bytes)
 
             //Check for possible error cases before proceeding
             if(MSDCheckForErrorCases(TransferLength.Val * (DWORD)MEDIA_SECTOR_SIZE) != MSD_ERROR_CASE_NO_ERROR)
@@ -1143,10 +1143,10 @@ BYTE MSDReadHandler(void)
 
             //Assume success initially, msd_csw.bCSWStatus will get set to 0x01
             //or 0x02 later if an error is detected during the actual read sequence.
-        	msd_csw.bCSWStatus=0x0;
-        	msd_csw.dCSWDataResidue=gblCBW.dCBWDataTransferLength;
+            msd_csw.bCSWStatus=0x0;
+            msd_csw.dCSWDataResidue=gblCBW.dCBWDataTransferLength;
 
-        	//Set up our fetch info data structure.
+            //Set up our fetch info data structure.
             AsyncReadWriteInfo.wNumBytes = MSD_IN_EP_SIZE;
             AsyncReadWriteInfo.pBuffer = (BYTE*)ptrNextData;
             AsyncReadWriteInfo.dwAddress = LBA.Val;
@@ -1162,23 +1162,23 @@ BYTE MSDReadHandler(void)
             //a new packet of data yet.  If not, keep calling it until we get some data.
             if(NewDataAlreadyAvailable == FALSE)
             {
-             	//Try to fetch a new packet of data
-             	if(fetchStatus == ASYNC_READ_NEW_PACKET_READY) //Check if the MDD_SDSPI_AsyncReadTasks() function is about to return on data on the next call
-             	{
-                	fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
-                	NewDataAlreadyAvailable = TRUE;
-            	}
-            	else
-            	{
-                	fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
+                //Try to fetch a new packet of data
+                if(fetchStatus == ASYNC_READ_NEW_PACKET_READY) //Check if the MDD_SDSPI_AsyncReadTasks() function is about to return on data on the next call
+                {
+                    fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
+                    NewDataAlreadyAvailable = TRUE;
+                }
+                else
+                {
+                    fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
                 }
             }
 
-        	//Check if we are done handling the whole READ10 request.
-        	if((fetchStatus == ASYNC_READ_COMPLETE) && (msd_csw.dCSWDataResidue == 0))
-        	{
-            	MSDReadState = MSD_READ10_AWAITING_COMPLETION;
-            	break;
+            //Check if we are done handling the whole READ10 request.
+            if((fetchStatus == ASYNC_READ_COMPLETE) && (msd_csw.dCSWDataResidue == 0))
+            {
+                MSDReadState = MSD_READ10_AWAITING_COMPLETION;
+                break;
             }
             else if(fetchStatus == ASYNC_READ_ERROR)
             {
@@ -1198,18 +1198,18 @@ BYTE MSDReadHandler(void)
                 //Advance state machine now that the fetch operation is returning data.
                 AsyncReadWriteInfo.pBuffer = (BYTE*)ptrNextData; //Swap pointer, so we use the other buffer (the one not currently in use by USB).
                 //We are sending a USB packet worth of data.  Decrement counter.
-            	msd_csw.dCSWDataResidue-=MSD_IN_EP_SIZE;
-            	//Get the next operation started, so it can occur concurrently
-            	//with the above USB transfer, for maximum transfer speeds.
-   	            if(fetchStatus == ASYNC_READ_NEW_PACKET_READY)
-   	            {
-                	fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
-                	NewDataAlreadyAvailable = TRUE;
+                msd_csw.dCSWDataResidue-=MSD_IN_EP_SIZE;
+                //Get the next operation started, so it can occur concurrently
+                //with the above USB transfer, for maximum transfer speeds.
+                if(fetchStatus == ASYNC_READ_NEW_PACKET_READY)
+                {
+                    fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
+                    NewDataAlreadyAvailable = TRUE;
                 }
                 else
                 {
-                 	fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
-                	NewDataAlreadyAvailable = FALSE;
+                    fetchStatus = MDD_SDSPI_AsyncReadTasks(&AsyncReadWriteInfo);
+                    NewDataAlreadyAvailable = FALSE;
                 }
             }
             break;
@@ -1232,8 +1232,8 @@ BYTE MSDReadHandler(void)
             //Set error status sense keys, so the host can check them later
             //to determine how to proceed.
             gblSenseData[LUN_INDEX].SenseKey=S_MEDIUM_ERROR;
-	        gblSenseData[LUN_INDEX].ASC=ASC_NO_ADDITIONAL_SENSE_INFORMATION;
-	        gblSenseData[LUN_INDEX].ASCQ=ASCQ_NO_ADDITIONAL_SENSE_INFORMATION;
+            gblSenseData[LUN_INDEX].ASC=ASC_NO_ADDITIONAL_SENSE_INFORMATION;
+            gblSenseData[LUN_INDEX].ASCQ=ASCQ_NO_ADDITIONAL_SENSE_INFORMATION;
             //Make sure the IN endpoint is available before advancing the state machine.
             //Host will expect CSW next.
             if(USBHandleBusy(USBMSDInHandle) != 0)
@@ -1251,26 +1251,26 @@ BYTE MSDReadHandler(void)
 
 
 /******************************************************************************
- 	Function:
- 		BYTE MSDWriteHandler(void)
+    Function:
+        BYTE MSDWriteHandler(void)
 
- 	Description:
- 		This function processes a write command received through
- 		the MSD class driver
+    Description:
+        This function processes a write command received through
+        the MSD class driver
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		BYTE - the current state of the MSDWriteHandler state
- 		machine.  The valid values are defined in MSD.h under the
- 		MSDWriteHandler state machine declaration section
+    Return Values:
+        BYTE - the current state of the MSDWriteHandler state
+        machine.  The valid values are defined in MSD.h under the
+        MSDWriteHandler state machine declaration section
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
  *****************************************************************************/
 BYTE MSDWriteHandler(void)
@@ -1289,14 +1289,14 @@ BYTE MSDWriteHandler(void)
     switch(MSDWriteState)
     {
         case MSD_WRITE10_WAIT:
-         	/* Read the LBA, TransferLength fields from Command Block
+            /* Read the LBA, TransferLength fields from Command Block
                NOTE: CB is Big-Endian */
-        	LBA.v[3]=gblCBW.CBWCB[2];
-        	LBA.v[2]=gblCBW.CBWCB[3];
-        	LBA.v[1]=gblCBW.CBWCB[4];
-        	LBA.v[0]=gblCBW.CBWCB[5];
-        	TransferLength.v[1]=gblCBW.CBWCB[7];    //TransferLength is in units of LBAs to transfer.
-        	TransferLength.v[0]=gblCBW.CBWCB[8];
+            LBA.v[3]=gblCBW.CBWCB[2];
+            LBA.v[2]=gblCBW.CBWCB[3];
+            LBA.v[1]=gblCBW.CBWCB[4];
+            LBA.v[0]=gblCBW.CBWCB[5];
+            TransferLength.v[1]=gblCBW.CBWCB[7];    //TransferLength is in units of LBAs to transfer.
+            TransferLength.v[0]=gblCBW.CBWCB[8];
             msd_csw.dCSWDataResidue = gblCBW.dCBWDataTransferLength;
 
             //Do some error case checking.
@@ -1307,35 +1307,35 @@ BYTE MSDWriteHandler(void)
                 break;
             }
 
-      		//Check if the media is write protected before deciding what
-      		//to do with the data.
-      		if(LUNWriteProtectState())
+            //Check if the media is write protected before deciding what
+            //to do with the data.
+            if(LUNWriteProtectState())
             {
                 //The media appears to be write protected.
-          	    //Let host know error occurred.  The bCSWStatus flag is also used by
-          	    //the write handler, to know not to even attempt the write sequence.
-          	    msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
+                //Let host know error occurred.  The bCSWStatus flag is also used by
+                //the write handler, to know not to even attempt the write sequence.
+                msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;
 
                 //Set sense keys so the host knows what caused the error.
-          	    gblSenseData[LUN_INDEX].SenseKey=S_DATA_PROTECT;
-          	    gblSenseData[LUN_INDEX].ASC=ASC_WRITE_PROTECTED;
-          	    gblSenseData[LUN_INDEX].ASCQ=ASCQ_WRITE_PROTECTED;
+                gblSenseData[LUN_INDEX].SenseKey=S_DATA_PROTECT;
+                gblSenseData[LUN_INDEX].ASC=ASC_WRITE_PROTECTED;
+                gblSenseData[LUN_INDEX].ASCQ=ASCQ_WRITE_PROTECTED;
 
                 //Stall the OUT endpoint, so as to promptly inform the host
                 //that the data cannot be accepted, due to write protected media.
-          		USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-          		MSDWriteState = MSD_WRITE10_WAIT;
-          	    return MSDWriteState;
-          	}
+                USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                MSDWriteState = MSD_WRITE10_WAIT;
+                return MSDWriteState;
+            }
 
-        	//Initialize our ASYNC_IO structure, so the MDD_SDSPI_AsyncWriteTasks()
-        	//API will know what to do.
-        	AsyncReadWriteInfo.bStateVariable = ASYNC_WRITE_QUEUED;
-        	AsyncReadWriteInfo.dwAddress = LBA.Val;
-        	AsyncReadWriteInfo.dwBytesRemaining = gblCBW.dCBWDataTransferLength;
-        	AsyncReadWriteInfo.pBuffer = (BYTE*)&msd_buffer[0];
-        	AsyncReadWriteInfo.wNumBytes = MSD_OUT_EP_SIZE;
-        	LastWriteStatus = ASYNC_WRITE_BUSY;
+            //Initialize our ASYNC_IO structure, so the MDD_SDSPI_AsyncWriteTasks()
+            //API will know what to do.
+            AsyncReadWriteInfo.bStateVariable = ASYNC_WRITE_QUEUED;
+            AsyncReadWriteInfo.dwAddress = LBA.Val;
+            AsyncReadWriteInfo.dwBytesRemaining = gblCBW.dCBWDataTransferLength;
+            AsyncReadWriteInfo.pBuffer = (BYTE*)&msd_buffer[0];
+            AsyncReadWriteInfo.wNumBytes = MSD_OUT_EP_SIZE;
+            LastWriteStatus = ASYNC_WRITE_BUSY;
 
 
             //Initialize other parameters
@@ -1362,97 +1362,97 @@ BYTE MSDWriteHandler(void)
                 //this point in the code.
                 msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
                 USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-          		MSDWriteState = MSD_WRITE10_WAIT;
-          		break;
+                MSDWriteState = MSD_WRITE10_WAIT;
+                break;
             }
 
             NextHandleToCheck = MSDOutHandle1;
             USBMSDOutHandle = NextHandleToCheck;
 
 
-        	MSDWriteState = MSD_WRITE10_RX_SECTOR;
+            MSDWriteState = MSD_WRITE10_RX_SECTOR;
             //Fall through to MSD_WRITE10_RX_SECTOR
         case MSD_WRITE10_RX_SECTOR:
         {
-      	    //Check if we have pending data to receive, and have actually received it.
-      	    //Also make sure we have some room in our receive buffer RAM before
-      	    //processing the newest data and re-arming the EP to receive even more
-      	    //data.
-      	    if((PacketsRemainingToBeReceived != 0) && (!USBHandleBusy(NextHandleToCheck)) && (BufferredBytes < (2u * MSD_OUT_EP_SIZE )))
-      	    {
-          	    //We just finished receiving a packet worth of data.  Make sure
-          	    //it was the expected size.
-          		if(USBHandleGetLength(NextHandleToCheck) != MSD_OUT_EP_SIZE)
-          		{
-              		//The host sent us an unexpected short packet.  This is
-              		//presumably an error, possibly a phase error (ex: host
-              		//send a CBW, instead of a data packet), since bulk
-              		//endpoint sizes are required to be a power of 2, which
-              		//happens to be exact integer divider of the write block
-              		//size (512).
-              		msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-              		USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-              		MSDWriteState = MSD_WRITE10_WAIT;
-              		break;
+            //Check if we have pending data to receive, and have actually received it.
+            //Also make sure we have some room in our receive buffer RAM before
+            //processing the newest data and re-arming the EP to receive even more
+            //data.
+            if((PacketsRemainingToBeReceived != 0) && (!USBHandleBusy(NextHandleToCheck)) && (BufferredBytes < (2u * MSD_OUT_EP_SIZE )))
+            {
+                //We just finished receiving a packet worth of data.  Make sure
+                //it was the expected size.
+                if(USBHandleGetLength(NextHandleToCheck) != MSD_OUT_EP_SIZE)
+                {
+                    //The host sent us an unexpected short packet.  This is
+                    //presumably an error, possibly a phase error (ex: host
+                    //send a CBW, instead of a data packet), since bulk
+                    //endpoint sizes are required to be a power of 2, which
+                    //happens to be exact integer divider of the write block
+                    //size (512).
+                    msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+                    USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                    MSDWriteState = MSD_WRITE10_WAIT;
+                    break;
                 }
-          		BufferredBytes += MSD_OUT_EP_SIZE;
-          		//Reduce number of future packets we expect to receive for this
-          		//Write10 request.
-          		PacketsRemainingToBeReceived--;
+                BufferredBytes += MSD_OUT_EP_SIZE;
+                //Reduce number of future packets we expect to receive for this
+                //Write10 request.
+                PacketsRemainingToBeReceived--;
 
-          	    if(NextHandleToCheck == MSDOutHandle1)
-          	    {
-          	        NextHandleToCheck = MSDOutHandle2;
-          	    }
-          	    else
-          	    {
-              	    NextHandleToCheck = MSDOutHandle1;
-              	}
+                if(NextHandleToCheck == MSDOutHandle1)
+                {
+                    NextHandleToCheck = MSDOutHandle2;
+                }
+                else
+                {
+                    NextHandleToCheck = MSDOutHandle1;
+                }
 
-              	//Re-arm the endpoint now, if we still need more data from the
-              	//host to finish the Write10 request.
-              	if(PacketRequestCounter != 0)
-              	{
-                  	USBMSDOutHandle = USBRxOnePacket(MSD_DATA_OUT_EP, pUSBReceive, MSD_OUT_EP_SIZE);
+                //Re-arm the endpoint now, if we still need more data from the
+                //host to finish the Write10 request.
+                if(PacketRequestCounter != 0)
+                {
+                    USBMSDOutHandle = USBRxOnePacket(MSD_DATA_OUT_EP, pUSBReceive, MSD_OUT_EP_SIZE);
                     //Decrement remaining packets to be requested, so we know when
                     //to stop requesting more data.
                     PacketRequestCounter--;
 
-              		//Increment next receive location pointer, but check for wraparound
-              		pUSBReceive += MSD_OUT_EP_SIZE;
-              		if(pUSBReceive >= (BYTE*)&msd_buffer[4u * (WORD)MSD_OUT_EP_SIZE])
-              		{
-                  		pUSBReceive = (BYTE*)&msd_buffer[0];
+                    //Increment next receive location pointer, but check for wraparound
+                    pUSBReceive += MSD_OUT_EP_SIZE;
+                    if(pUSBReceive >= (BYTE*)&msd_buffer[4u * (WORD)MSD_OUT_EP_SIZE])
+                    {
+                        pUSBReceive = (BYTE*)&msd_buffer[0];
                     }
                 }
-          	}
-
-
-          	if(LastWriteStatus == ASYNC_WRITE_BUSY)
-          	{
-              	//Just keep calling the function until it is ready to receive new
-              	//data to write to the media.
-              	if(msd_csw.bCSWStatus == 0x00)
-              	{
-              	    LastWriteStatus = MDD_SDSPI_AsyncWriteTasks(&AsyncReadWriteInfo);
-              	}
             }
 
-      	    if(LastWriteStatus == ASYNC_WRITE_ERROR)
-      	    {
-          	    //Some unexpected error occurred.  Notify the host.
-          		msd_csw.bCSWStatus = 0x01;
-          		USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-          		MSDWriteState = MSD_WRITE10_WAIT;
-          	    break;
-          	}
-      	    if(LastWriteStatus == ASYNC_WRITE_COMPLETE)
-      	    {
-          	    //The media is now fully done with all packets of the write request.
-          	    MSDWriteState = MSD_WRITE10_WAIT;
+
+            if(LastWriteStatus == ASYNC_WRITE_BUSY)
+            {
+                //Just keep calling the function until it is ready to receive new
+                //data to write to the media.
+                if(msd_csw.bCSWStatus == 0x00)
+                {
+                    LastWriteStatus = MDD_SDSPI_AsyncWriteTasks(&AsyncReadWriteInfo);
+                }
+            }
+
+            if(LastWriteStatus == ASYNC_WRITE_ERROR)
+            {
+                //Some unexpected error occurred.  Notify the host.
+                msd_csw.bCSWStatus = 0x01;
+                USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+                MSDWriteState = MSD_WRITE10_WAIT;
+                break;
+            }
+            if(LastWriteStatus == ASYNC_WRITE_COMPLETE)
+            {
+                //The media is now fully done with all packets of the write request.
+                MSDWriteState = MSD_WRITE10_WAIT;
                 USBMSDOutHandle = USBGetNextHandle(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-          	    break;
-          	}
+                break;
+            }
 
             //Check if the media write state machine wants data, and we have
             //data ready to send it.
@@ -1462,7 +1462,7 @@ BYTE MSDWriteHandler(void)
                 AsyncReadWriteInfo.pBuffer = pNextData;
                 if(msd_csw.bCSWStatus == 0x00)
                 {
-              		msd_csw.dCSWDataResidue -= MSD_OUT_EP_SIZE;
+                    msd_csw.dCSWDataResidue -= MSD_OUT_EP_SIZE;
                     LastWriteStatus = MDD_SDSPI_AsyncWriteTasks(&AsyncReadWriteInfo);
                 }
 
@@ -1500,71 +1500,71 @@ BYTE MSDWriteHandler(void)
 
 
 /******************************************************************************
- 	Function:
- 		void ResetSenseData(void)
+    Function:
+        void ResetSenseData(void)
 
- 	Description:
- 		This routine resets the Sense Data, initializing the
- 		structure RequestSenseResponse gblSenseData.
+    Description:
+        This routine resets the Sense Data, initializing the
+        structure RequestSenseResponse gblSenseData.
 
- 	PreCondition:
- 		None
+    PreCondition:
+        None
 
- 	Parameters:
- 		None
+    Parameters:
+        None
 
- 	Return Values:
- 		None
+    Return Values:
+        None
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 void ResetSenseData(void)
 {
-	gblSenseData[LUN_INDEX].ResponseCode=S_CURRENT;
-	gblSenseData[LUN_INDEX].VALID=0;			// no data in the information field
-	gblSenseData[LUN_INDEX].Obsolete=0x0;
-	gblSenseData[LUN_INDEX].SenseKey=S_NO_SENSE;
-	//gblSenseData.Resv;
-	gblSenseData[LUN_INDEX].ILI=0;
-	gblSenseData[LUN_INDEX].EOM=0;
-	gblSenseData[LUN_INDEX].FILEMARK=0;
-	gblSenseData[LUN_INDEX].InformationB0=0x00;
-	gblSenseData[LUN_INDEX].InformationB1=0x00;
-	gblSenseData[LUN_INDEX].InformationB2=0x00;
-	gblSenseData[LUN_INDEX].InformationB3=0x00;
-	gblSenseData[LUN_INDEX].AddSenseLen=0x0a;	// n-7 (n=17 (0..17))
-	gblSenseData[LUN_INDEX].CmdSpecificInfo.Val=0x0;
-	gblSenseData[LUN_INDEX].ASC=0x0;
-	gblSenseData[LUN_INDEX].ASCQ=0x0;
-	gblSenseData[LUN_INDEX].FRUC=0x0;
-	gblSenseData[LUN_INDEX].SenseKeySpecific[0]=0x0;
-	gblSenseData[LUN_INDEX].SenseKeySpecific[1]=0x0;
-	gblSenseData[LUN_INDEX].SenseKeySpecific[2]=0x0;
+    gblSenseData[LUN_INDEX].ResponseCode=S_CURRENT;
+    gblSenseData[LUN_INDEX].VALID=0;            // no data in the information field
+    gblSenseData[LUN_INDEX].Obsolete=0x0;
+    gblSenseData[LUN_INDEX].SenseKey=S_NO_SENSE;
+    //gblSenseData.Resv;
+    gblSenseData[LUN_INDEX].ILI=0;
+    gblSenseData[LUN_INDEX].EOM=0;
+    gblSenseData[LUN_INDEX].FILEMARK=0;
+    gblSenseData[LUN_INDEX].InformationB0=0x00;
+    gblSenseData[LUN_INDEX].InformationB1=0x00;
+    gblSenseData[LUN_INDEX].InformationB2=0x00;
+    gblSenseData[LUN_INDEX].InformationB3=0x00;
+    gblSenseData[LUN_INDEX].AddSenseLen=0x0a;   // n-7 (n=17 (0..17))
+    gblSenseData[LUN_INDEX].CmdSpecificInfo.Val=0x0;
+    gblSenseData[LUN_INDEX].ASC=0x0;
+    gblSenseData[LUN_INDEX].ASCQ=0x0;
+    gblSenseData[LUN_INDEX].FRUC=0x0;
+    gblSenseData[LUN_INDEX].SenseKeySpecific[0]=0x0;
+    gblSenseData[LUN_INDEX].SenseKeySpecific[1]=0x0;
+    gblSenseData[LUN_INDEX].SenseKeySpecific[2]=0x0;
 }
 
 
 
 /******************************************************************************
- 	Function:
- 		BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
+    Function:
+        BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
 
- 	Description:
- 	   This function can be called to check for various error cases, primarily
- 	   the "Thirteen Cases" errors described in the MSD BOT v1.0 specs.  If an
- 	   error is detected, the function internally calls the MSDErrorHandler()
- 	   handler function, to take care of appropriately responding to the host,
- 	   based on the error condition.
- 	PreCondition:
- 	    None
+    Description:
+       This function can be called to check for various error cases, primarily
+       the "Thirteen Cases" errors described in the MSD BOT v1.0 specs.  If an
+       error is detected, the function internally calls the MSDErrorHandler()
+       handler function, to take care of appropriately responding to the host,
+       based on the error condition.
+    PreCondition:
+        None
 
- 	Parameters:
- 		DWORD DeviceBytes - Input: This is the total number of bytes the MSD
- 		            device firmware is expecting in the MSD transfer.
- 	Return Values:
- 		BYTE - Returns a byte containing the error code.  The possible error
- 		    cases that can be detected and reported are:
+    Parameters:
+        DWORD DeviceBytes - Input: This is the total number of bytes the MSD
+                    device firmware is expecting in the MSD transfer.
+    Return Values:
+        BYTE - Returns a byte containing the error code.  The possible error
+            cases that can be detected and reported are:
             MSD_ERROR_CASE_NO_ERROR - None of the "Thirteen cases" errors were detected
             MSD_ERROR_CASE_2
             MSD_ERROR_CASE_3
@@ -1577,8 +1577,8 @@ void ResetSenseData(void)
             MSD_ERROR_CASE_10
             MSD_ERROR_CASE_13
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
@@ -1642,41 +1642,41 @@ BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
     }
 
     //Check host's expected data direction
-	if(MSD_State == MSD_DATA_OUT)
-	{
-    	//First check for Ho <> Di (Case 10)
-    	if((MSDCommandState != MSD_WRITE_10) && (DeviceNoData == FALSE))
-    	    MSDErrorCase = MSD_ERROR_CASE_10;
-   	   	//Check for Hn < Do  (Case 3)
-    	else if(MSDHostNoData == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_3;
-    	//Check for Ho > Dn  (Case 9)
-    	else if(DeviceNoData == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_9;
-    	//Check for Ho > Do  (Case 11)
-    	else if(HostMoreDataThanDevice == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_11;
-    	//Check for Ho < Do  (Case 13)
-    	else //if(gblCBW.dCBWDataTransferLength < DeviceBytes)
-    	    MSDErrorCase = MSD_ERROR_CASE_13;
+    if(MSD_State == MSD_DATA_OUT)
+    {
+        //First check for Ho <> Di (Case 10)
+        if((MSDCommandState != MSD_WRITE_10) && (DeviceNoData == FALSE))
+            MSDErrorCase = MSD_ERROR_CASE_10;
+        //Check for Hn < Do  (Case 3)
+        else if(MSDHostNoData == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_3;
+        //Check for Ho > Dn  (Case 9)
+        else if(DeviceNoData == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_9;
+        //Check for Ho > Do  (Case 11)
+        else if(HostMoreDataThanDevice == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_11;
+        //Check for Ho < Do  (Case 13)
+        else //if(gblCBW.dCBWDataTransferLength < DeviceBytes)
+            MSDErrorCase = MSD_ERROR_CASE_13;
     }
     else //else the MSD_State must be == MSD_DATA_IN
     {
-    	//First check for Hi <> Do (Case 8)
-    	if(MSDCommandState == MSD_WRITE_10)
-    	    MSDErrorCase = MSD_ERROR_CASE_8;
-    	//Check for Hn < Di  (Case 2)
-    	else if(MSDHostNoData == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_2;
-    	//Check for Hi > Dn  (Case 4)
-    	else if(DeviceNoData == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_4;
-    	//Check for Hi > Di  (Case 5)
-    	else if(HostMoreDataThanDevice == TRUE)
-    	    MSDErrorCase = MSD_ERROR_CASE_5;
+        //First check for Hi <> Do (Case 8)
+        if(MSDCommandState == MSD_WRITE_10)
+            MSDErrorCase = MSD_ERROR_CASE_8;
+        //Check for Hn < Di  (Case 2)
+        else if(MSDHostNoData == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_2;
+        //Check for Hi > Dn  (Case 4)
+        else if(DeviceNoData == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_4;
+        //Check for Hi > Di  (Case 5)
+        else if(HostMoreDataThanDevice == TRUE)
+            MSDErrorCase = MSD_ERROR_CASE_5;
         //Check for Hi < Di  (Case 7)
-    	else //if(gblCBW.dCBWDataTransferLength < DeviceBytes)
-    	    MSDErrorCase = MSD_ERROR_CASE_7;
+        else //if(gblCBW.dCBWDataTransferLength < DeviceBytes)
+            MSDErrorCase = MSD_ERROR_CASE_7;
     }
     //Now call the MSDErrorHandler(), based on the error that was detected.
     MSDErrorHandler(MSDErrorCase);
@@ -1685,25 +1685,25 @@ BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
 
 
 /******************************************************************************
- 	Function:
- 		void MSDErrorHandler(BYTE ErrorCase)
+    Function:
+        void MSDErrorHandler(BYTE ErrorCase)
 
- 	Description:
- 	    Once an error condition has been detected, this function can be called
- 	    to set the proper states and perform the proper tasks needed to let the
- 	    host know about the error.
- 	PreCondition:
- 		Firmware should have already determined an error occurred, and it should
- 		know what the error code was before calling this handler.
+    Description:
+        Once an error condition has been detected, this function can be called
+        to set the proper states and perform the proper tasks needed to let the
+        host know about the error.
+    PreCondition:
+        Firmware should have already determined an error occurred, and it should
+        know what the error code was before calling this handler.
 
- 	Parameters:
- 		BYTE ErrorCase - Input: This is the error code that the firmware
- 		                    detected.  This error code will determine how the
- 		                    handler will behave (ex: what status to send to host,
- 		                    what endpoint(s) should be stalled, etc.).
- 		                    The implemented error case possibilities are (suffix
- 		                    numbers correspond to the "Thirteen cases" numbers
- 		                    described in the MSD BOT specs v1.0):
+    Parameters:
+        BYTE ErrorCase - Input: This is the error code that the firmware
+                            detected.  This error code will determine how the
+                            handler will behave (ex: what status to send to host,
+                            what endpoint(s) should be stalled, etc.).
+                            The implemented error case possibilities are (suffix
+                            numbers correspond to the "Thirteen cases" numbers
+                            described in the MSD BOT specs v1.0):
 
                             MSD_ERROR_CASE_2
                             MSD_ERROR_CASE_3
@@ -1717,76 +1717,76 @@ BYTE MSDCheckForErrorCases(DWORD DeviceBytes)
                             MSD_ERROR_CASE_13
                             MSD_ERROR_UNSUPPORTED_COMMAND
 
- 	Return Values:
- 		None
+    Return Values:
+        None
 
- 	Remarks:
- 		None
+    Remarks:
+        None
 
   *****************************************************************************/
 void MSDErrorHandler(BYTE ErrorCase)
 {
     BYTE OldMSD_State;
 
-	//Both MSD bulk IN and OUT endpoints should not be busy when these error cases are detected
-	//If for some reason this isn't true, then we should preserve the state machines states for now.
+    //Both MSD bulk IN and OUT endpoints should not be busy when these error cases are detected
+    //If for some reason this isn't true, then we should preserve the state machines states for now.
     if((USBHandleBusy(USBMSDInHandle)) || (USBHandleBusy(USBMSDOutHandle)))
     {
-    	return;
+        return;
     }
 
     //Save the old state before we change it.  The old state is needed to determine
     //the proper handling behavior in the case of receiving unsupported commands.
     OldMSD_State = MSD_State;
 
-	//Reset main state machines back to idle values.
-	MSDCommandState = MSD_COMMAND_WAIT;
-	MSDReadState = MSD_READ10_WAIT;
-	MSDWriteState = MSD_WRITE10_WAIT;
-	//After the conventional 13 test cases failures, the host still expects a valid CSW packet
+    //Reset main state machines back to idle values.
+    MSDCommandState = MSD_COMMAND_WAIT;
+    MSDReadState = MSD_READ10_WAIT;
+    MSDWriteState = MSD_WRITE10_WAIT;
+    //After the conventional 13 test cases failures, the host still expects a valid CSW packet
     msd_csw.dCSWDataResidue = gblCBW.dCBWDataTransferLength; //Indicate the unconsumed/unsent data
-   	msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;    //Gets changed later to phase error for errors that user phase error
-	MSD_State = MSD_SEND_CSW;
+    msd_csw.bCSWStatus = MSD_CSW_COMMAND_FAILED;    //Gets changed later to phase error for errors that user phase error
+    MSD_State = MSD_SEND_CSW;
 
     //Now do other error related handling tasks, which depend on the specific
-    //error	type that was detected.
-	switch(ErrorCase)
-	{
-		case MSD_ERROR_CASE_2://Also CASE_3
-			msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-        	break;
-		case MSD_ERROR_CASE_4://Also CASE_5
-       		USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);	//STALL the bulk IN MSD endpoint
-			break;
-		case MSD_ERROR_CASE_7://Also CASE_8
-       		msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-       		USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);	//STALL the bulk IN MSD endpoint
-       		break;
-		case MSD_ERROR_CASE_9://Also CASE_11
-			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST); //Stall the bulk OUT endpoint
-			break;
-		case MSD_ERROR_CASE_10://Also CASE_13
-	        msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
-			USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-			break;
+    //error type that was detected.
+    switch(ErrorCase)
+    {
+        case MSD_ERROR_CASE_2://Also CASE_3
+            msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+            break;
+        case MSD_ERROR_CASE_4://Also CASE_5
+            USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);   //STALL the bulk IN MSD endpoint
+            break;
+        case MSD_ERROR_CASE_7://Also CASE_8
+            msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+            USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);   //STALL the bulk IN MSD endpoint
+            break;
+        case MSD_ERROR_CASE_9://Also CASE_11
+            USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST); //Stall the bulk OUT endpoint
+            break;
+        case MSD_ERROR_CASE_10://Also CASE_13
+            msd_csw.bCSWStatus = MSD_CSW_PHASE_ERROR;
+            USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+            break;
 
         case MSD_ERROR_UNSUPPORTED_COMMAND:
-        	ResetSenseData();
-			gblSenseData[LUN_INDEX].SenseKey=S_ILLEGAL_REQUEST;
-			gblSenseData[LUN_INDEX].ASC=ASC_INVALID_COMMAND_OPCODE;
-			gblSenseData[LUN_INDEX].ASCQ=ASCQ_INVALID_COMMAND_OPCODE;
+            ResetSenseData();
+            gblSenseData[LUN_INDEX].SenseKey=S_ILLEGAL_REQUEST;
+            gblSenseData[LUN_INDEX].ASC=ASC_INVALID_COMMAND_OPCODE;
+            gblSenseData[LUN_INDEX].ASCQ=ASCQ_INVALID_COMMAND_OPCODE;
             if((OldMSD_State == MSD_DATA_OUT) && (gblCBW.dCBWDataTransferLength != 0))
             {
-			    USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
-			}
-			else
-			{
-        	    USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
+                USBStallEndpoint(MSD_DATA_OUT_EP, OUT_FROM_HOST);
+            }
+            else
+            {
+                USBStallEndpoint(MSD_DATA_IN_EP, IN_TO_HOST);
             }
             break;
-		default:	//Shouldn't get hit, don't call MSDErrorHandler() if there is no error
-			break;
-	}//switch(ErrorCase)
+        default:    //Shouldn't get hit, don't call MSDErrorHandler() if there is no error
+            break;
+    }//switch(ErrorCase)
 }
 
 

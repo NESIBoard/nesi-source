@@ -234,11 +234,11 @@ typedef struct
     WORD            time;           // The file's last update time
     WORD            date;           // The file's last update date
     char            name[FILE_NAME_SIZE_8P3];       // The short name of the file
-	#ifdef SUPPORT_LFN
-    	BOOL			AsciiEncodingType;          // Ascii file name or Non-Ascii file name indicator
-		unsigned short int *utf16LFNptr;	        // Pointer to long file name in UTF16 format
-		unsigned short int utf16LFNlength;          // LFN length in terms of words excluding the NULL word at the last.
-	#endif
+    #ifdef SUPPORT_LFN
+        BOOL            AsciiEncodingType;          // Ascii file name or Non-Ascii file name indicator
+        unsigned short int *utf16LFNptr;            // Pointer to long file name in UTF16 format
+        unsigned short int utf16LFNlength;          // LFN length in terms of words excluding the NULL word at the last.
+    #endif
     WORD            entry;          // The position of the file's directory entry in it's directory
     WORD            chk;            // File structure checksum
     WORD            attributes;     // The file attributes
@@ -299,11 +299,11 @@ typedef struct
     unsigned char   attributes;                     // The attributes of the file that has been found
     unsigned long   filesize;                       // The size of the file that has been found
     unsigned long   timestamp;                      // The last modified time of the file that has been found (create time for directories)
-	#ifdef SUPPORT_LFN
-		BOOL			AsciiEncodingType;          // Ascii file name or Non-Ascii file name indicator
-		unsigned short int *utf16LFNfound;		    // Pointer to long file name found in UTF16 format
-		unsigned short int utf16LFNfoundLength;     // LFN Found length in terms of words including the NULL word at the last.
-	#endif
+    #ifdef SUPPORT_LFN
+        BOOL            AsciiEncodingType;          // Ascii file name or Non-Ascii file name indicator
+        unsigned short int *utf16LFNfound;          // Pointer to long file name found in UTF16 format
+        unsigned short int utf16LFNfoundLength;     // LFN Found length in terms of words including the NULL word at the last.
+    #endif
     unsigned int    entry;                          // The directory entry of the last file found that matches the specified attributes. (Internal use only)
     char            searchname[FILE_NAME_SIZE_8P3 + 2]; // The 8.3 format name specified when the user began the search. (Internal use only)
     unsigned char   searchattr;                     // The attributes specified when the user began the search. (Internal use only)

@@ -7,9 +7,9 @@
 #define GetInstructionClock()   (GetSystemClock() / 2)
 
 // Clock values
-#define MILLISECONDS_PER_TICK       10                      // Definition for use with a tick timer
-#define TIMER_PRESCALER             TIMER_PRESCALER_8       // Definition for use with a tick timer
-#define TIMER_PERIOD                20000                   // Definition for use with a tick timer
+#define MILLISECONDS_PER_TICK   10                 // Definition for use with a tick timer
+#define TIMER_PRESCALER         TIMER_PRESCALER_8  // Definition for use with a tick timer
+#define TIMER_PERIOD            20000              // Definition for use with a tick timer
 
 
 // Select your interface type
@@ -27,12 +27,11 @@
    an SD-card-based physical layer                                   */
 
 // Description: SD-SPI Chip Select Output bit
-//#define SD_CS	            LATDbits.LATD9  /* secondary */
-#define SD_CS	            LATDbits.LATD2  /* primary */
+//#define SD_CS               LATDbits.LATD9  /* secondary */
+#define SD_CS               LATDbits.LATD2  /* primary */
 // Description: SD-SPI Chip Select TRIS bit
 //#define SD_CS_TRIS          TRISDbits.TRISD9  /* secondary */
 #define SD_CS_TRIS          TRISDbits.TRISD2  /* primary */
-
 // Description: SD-SPI Card Detect Input bit
 //#define SD_CD               PORTDbits.RD8  /* secondary */
 #define SD_CD               PORTDbits.RD7  /* primary */

@@ -1,6 +1,6 @@
 ;==========================================================================
 ;  PIC24FJ256GB106 Standard Assembly Include File
-; 
+;
 ;  (c) Copyright 2012 Microchip Technology, All rights reserved
 ;==========================================================================
 

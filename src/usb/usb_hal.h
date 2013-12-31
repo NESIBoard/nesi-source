@@ -39,17 +39,17 @@ Description:
 
  This file defines the interface to the USB hardware abstraction layer.
 
- Filename:        usb_hal.h
- Dependencies:    none
- Processor:       PIC18, PIC24, or PIC32 USB Microcontrollers
- Hardware:        The code is natively intended to be used on the following
-     				hardware platforms: PICDEM™ FS USB Demo Board,
-     				PIC18F87J50 FS USB Plug-In Module, or
-     				Explorer 16 + PIC24 USB PIM.  The firmware may be
-     				modified for use on other USB platforms by editing the
-     				HardwareProfile.h file.
- Compiler:        Microchip C18 (for PIC18) or C30 (for PIC24)
- Company:         Microchip Technology, Inc.
+ Filename:      usb_hal.h
+ Dependencies:  none
+ Processor:     PIC18, PIC24, or PIC32 USB Microcontrollers
+ Hardware:      The code is natively intended to be used on the following
+                hardware platforms: PICDEM™ FS USB Demo Board,
+                PIC18F87J50 FS USB Plug-In Module, or
+                Explorer 16 + PIC24 USB PIM.  The firmware may be
+                modified for use on other USB platforms by editing the
+                HardwareProfile.h file.
+ Compiler:      Microchip C18 (for PIC18) or C30 (for PIC24)
+ Company:       Microchip Technology, Inc.
 
  Software License Agreement:
 

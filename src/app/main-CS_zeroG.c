@@ -56,7 +56,7 @@ void longRoutine(void)
     unsigned value_Q2 = resistiveSensors.getQ2(10,100); // get 10 samples, 100ms between samples
     unsigned value_Q3 = resistiveSensors.getQ3(10,100); // get 10 samples, 100ms between samples
     unsigned value_Q4 = resistiveSensors.getQ4(10,100); // get 10 samples, 100ms between samples
-    unsigned value_co2 = co2.get(10,100);       // get 10 samples, 100ms between samples
+    unsigned value_co2 = co2.get(10,100);               // get 10 samples, 100ms between samples
 
     // power down CO2 sensor during power intensive operations
     co2.off();
@@ -110,7 +110,7 @@ void shortRoutine(void)
     unsigned value_Q2 = resistiveSensors.getQ2(10,100); // get 10 samples, 100ms between samples
     unsigned value_Q3 = resistiveSensors.getQ3(10,100); // get 10 samples, 100ms between samples
     unsigned value_Q4 = resistiveSensors.getQ4(10,100); // get 10 samples, 100ms between samples
-    unsigned value_co2 = co2.get(10,100);       // get 10 samples, 100ms between samples
+    unsigned value_co2 = co2.get(10,100);               // get 10 samples, 100ms between samples
 
     // power down CO2 sensor during power intensive operations
     co2.off();

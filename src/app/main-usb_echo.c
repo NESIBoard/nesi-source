@@ -15,7 +15,7 @@ int main(void)
         if((bytesRead = usb.read(input,64)))
         {
             input[bytesRead] = '\0'; // terminate string
-            usb.printf("At time %s, %d bytes of data recieved:\r\n\"%s\"\r\n\r\n",
+            usb.printf("At time %s, %d bytes of data received:\r\n\"%s\"\r\n\r\n",
                     dateTime.getStamp(), bytesRead, input);
         }
     }

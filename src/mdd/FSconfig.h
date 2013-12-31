@@ -42,20 +42,20 @@
 // Description: If this macro is disabled then only 8.3 format file name is enabled.
 //              If this macro is enabled then long file names up to 256 characters are
 //              supported.
-#define	SUPPORT_LFN
+#define SUPPORT_LFN
 
 // Summary: A macro indicating the maximum number of concurrently open files
 // Description: The FS_MAX_FILES_OPEN #define is only applicable when dynamic memory allocation is not used (FS_DYNAMIC_MEM is not defined).
 //              This macro defines the maximum number of open files at any given time.  The amount of RAM used by FSFILE objects will
 //              be equal to the size of an FSFILE object multiplied by this macro value.  This value should be kept as small as possible
 //              as dictated by the application.  This will reduce memory usage.
-#define FS_MAX_FILES_OPEN 	3
+#define FS_MAX_FILES_OPEN   3
 
 
 // Summary: A macro defining the size of a sector
 // Description: The MEDIA_SECTOR_SIZE macro will define the size of a sector on the FAT file system.  This value must equal 512 bytes,
 //              1024 bytes, 2048 bytes, or 4096 bytes.  The value of a sector will usually be 512 bytes.
-#define MEDIA_SECTOR_SIZE 	512
+#define MEDIA_SECTOR_SIZE   512
 
 
 
@@ -136,15 +136,15 @@
 
 
 #ifdef __18CXX
-	#ifdef USEREALTIMECLOCK
-		#error The PIC18 architecture does not have a Real-time clock and calander module
-	#endif
+    #ifdef USEREALTIMECLOCK
+        #error The PIC18 architecture does not have a Real-time clock and calander module
+    #endif
 #endif
 
 #ifdef ALLOW_PGMFUNCTIONS
-	#ifndef __18CXX
-		#error The pgm functions are unneccessary when not using PIC18
-	#endif
+    #ifndef __18CXX
+        #error The pgm functions are unneccessary when not using PIC18
+    #endif
 #endif
 
 #ifndef USEREALTIMECLOCK
@@ -165,16 +165,16 @@
     // Summary: A macro indicating that FSFILE objects will be allocated dynamically
     // Description: The FS_DYNAMIC_MEM macro will cause FSFILE objects to be allocated from a dynamic heap.  If it is undefined,
     //              the file objects will be allocated using a static array.
-	#define FS_DYNAMIC_MEM
-	#ifdef __18CXX
+    #define FS_DYNAMIC_MEM
+    #ifdef __18CXX
         // Description: Function pointer to a dynamic memory allocation function
-		#define FS_malloc	SRAMalloc
+        #define FS_malloc   SRAMalloc
         // Description: Function pointer to a dynamic memory free function
-		#define FS_free		SRAMfree
-	#else
-		#define FS_malloc	malloc
-		#define FS_free		free
-	#endif
+        #define FS_free     SRAMfree
+    #else
+        #define FS_malloc   malloc
+        #define FS_free     free
+    #endif
 #endif
 
 // Function definitions

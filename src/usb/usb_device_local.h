@@ -1,17 +1,17 @@
 /********************************************************************
   File Information:
-    FileName:     	usb_device_local.h
-    Dependencies:	See INCLUDES section
-    Processor:		PIC18,PIC24, PIC32 and dsPIC33E USB Microcontrollers
-    Hardware:		The code is natively intended to be used on the following
-    				hardware platforms: PICDEM� FS USB Demo Board,
-    				PIC18F87J50 FS USB Plug-In Module, or
-    				Explorer 16 + compatible USB PIM.  The firmware may be
-    				modified for use on other USB platforms by editing the
-    				HardwareProfile.h file.
-    Complier:  	    Microchip C18 (for PIC18),C30 (for PIC24 and dsPIC33E)
+    FileName:       usb_device_local.h
+    Dependencies:   See INCLUDES section
+    Processor:      PIC18,PIC24, PIC32 and dsPIC33E USB Microcontrollers
+    Hardware:       The code is natively intended to be used on the following
+                    hardware platforms: PICDEM� FS USB Demo Board,
+                    PIC18F87J50 FS USB Plug-In Module, or
+                    Explorer 16 + compatible USB PIM.  The firmware may be
+                    modified for use on other USB platforms by editing the
+                    HardwareProfile.h file.
+    Complier:       Microchip C18 (for PIC18),C30 (for PIC24 and dsPIC33E)
                     and C32 (for PIC32)
-    Company:		Microchip Technology, Inc.
+    Company:        Microchip Technology, Inc.
 
     Software License Agreement:
 

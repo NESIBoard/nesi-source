@@ -45,11 +45,11 @@ static Uint16 readValue(void)
     AD1CHS0 = 4;               // set channel to sample
     AD1CON1bits.DONE = NO;     // clear the done bit before starting
 
-    AD1CON1bits.SAMP = ON;	   // start the sampling sequence
+    AD1CON1bits.SAMP = ON;     // start the sampling sequence
     while (!AD1CON1bits.DONE); // wait for conversion to finish
     AD1CON1bits.ADON = OFF;    // turn the A/D converter off
 
-    return ADC1BUF0;	       // return the converted result
+    return ADC1BUF0;           // return the converted result
 }
 
 /**

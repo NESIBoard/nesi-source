@@ -526,7 +526,7 @@ BOOL USBSleepOnSuspend(void);
         bit, in a word write operation.
 
  *******************************************************************/
-#define USBClearInterruptFlag(reg_name, if_flag_offset)	(reg_name = (1 << if_flag_offset))
+#define USBClearInterruptFlag(reg_name, if_flag_offset) (reg_name = (1 << if_flag_offset))
 
 /********************************************************************
     Function:
@@ -572,8 +572,8 @@ BOOL USBSleepOnSuspend(void);
         extern USB_VOLATILE IN_PIPE inPipes[1];
         extern USB_VOLATILE OUT_PIPE outPipes[1];
     #endif
-	extern volatile BDT_ENTRY* pBDTEntryOut[USB_MAX_EP_NUMBER+1];
-	extern volatile BDT_ENTRY* pBDTEntryIn[USB_MAX_EP_NUMBER+1];
+    extern volatile BDT_ENTRY* pBDTEntryOut[USB_MAX_EP_NUMBER+1];
+    extern volatile BDT_ENTRY* pBDTEntryIn[USB_MAX_EP_NUMBER+1];
 #endif
 
 #endif //USB_HAL_PIC24F_H

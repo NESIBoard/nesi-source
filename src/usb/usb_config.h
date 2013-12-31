@@ -1,16 +1,16 @@
 /********************************************************************
- FileName:     	usb_config.h
- Dependencies: 	Always: GenericTypeDefs.h, usb_device.h
-               	Situational: usb_function_hid.h, usb_function_cdc.h, usb_function_msd.h, etc.
- Processor:		PIC18 or PIC24 USB Microcontrollers
- Hardware:		The code is natively intended to be used on the following
- 				hardware platforms: PICDEM™ FS USB Demo Board,
- 				PIC18F87J50 FS USB Plug-In Module, or
- 				Explorer 16 + PIC24 USB PIM.  The firmware may be
- 				modified for use on other USB platforms by editing the
- 				HardwareProfile.h file.
- Complier:  	Microchip C18 (for PIC18) or C30 (for PIC24)
- Company:		Microchip Technology, Inc.
+ FileName:      usb_config.h
+ Dependencies:  Always: GenericTypeDefs.h, usb_device.h
+                Situational: usb_function_hid.h, usb_function_cdc.h, usb_function_msd.h, etc.
+ Processor:     PIC18 or PIC24 USB Microcontrollers
+ Hardware:      The code is natively intended to be used on the following
+                hardware platforms: PICDEM™ FS USB Demo Board,
+                PIC18F87J50 FS USB Plug-In Module, or
+                Explorer 16 + PIC24 USB PIM.  The firmware may be
+                modified for use on other USB platforms by editing the
+                HardwareProfile.h file.
+ Complier:      Microchip C18 (for PIC18) or C30 (for PIC24)
+ Company:       Microchip Technology, Inc.
 
  Software License Agreement:
 
@@ -50,16 +50,16 @@
 #define USBCFG_H
 
 /** DEFINITIONS ****************************************************/
-#define USB_EP0_BUFF_SIZE		8	// Valid Options: 8, 16, 32, or 64 bytes.
-								// Using larger options take more SRAM, but
-								// does not provide much advantage in most types
-								// of applications.  Exceptions to this, are applications
-								// that use EP0 IN or OUT for sending large amounts of
-								// application related data.
+#define USB_EP0_BUFF_SIZE   8 // Valid Options: 8, 16, 32, or 64 bytes.
+                              // Using larger options take more SRAM, but
+                              // does not provide much advantage in most types
+                              // of applications.  Exceptions to this, are applications
+                              // that use EP0 IN or OUT for sending large amounts of
+                              // application related data.
 
 // 1 interface for MSD, 2 for CDC
-#define USB_MAX_NUM_INT     	3   // Number of interface descriptors in the device (used for tracking Alternate Setting)
-#define USB_MAX_EP_NUMBER	    3   // Maximum endpoint number used in the device
+#define USB_MAX_NUM_INT       3   // Number of interface descriptors in the device (used for tracking Alternate Setting)
+#define USB_MAX_EP_NUMBER     3   // Maximum endpoint number used in the device
 
 //Device descriptor - if these two definitions are not defined then
 //  a ROM USB_DEVICE_DESCRIPTOR variable by the exact name of device_dsc
@@ -77,7 +77,7 @@
 //#define USB_PING_PONG_MODE USB_PING_PONG__NO_PING_PONG
 #define USB_PING_PONG_MODE USB_PING_PONG__FULL_PING_PONG
 //#define USB_PING_PONG_MODE USB_PING_PONG__EP0_OUT_ONLY
-//#define USB_PING_PONG_MODE USB_PING_PONG__ALL_BUT_EP0		//NOTE: This mode is not supported in PIC18F4550 family rev A3 devices
+//#define USB_PING_PONG_MODE USB_PING_PONG__ALL_BUT_EP0   //NOTE: This mode is not supported in PIC18F4550 family rev A3 devices
 
 //#define USB_POLLING
 #define USB_INTERRUPT

@@ -582,8 +582,8 @@ This is used in the descriptors.
 #define _DEFAULT    (0x01<<7)       //Default Value (Bit 7 is set)
 #define _SELF       (0x01<<6)       //Self-powered (Supports if set)
 #define _RWU        (0x01<<5)       //Remote Wakeup (Supports if set)
-#define _HNP	    (0x01 << 1)     //HNP (Supports if set)
-#define _SRP	  	(0x01)		    //SRP (Supports if set)
+#define _HNP        (0x01 << 1)     //HNP (Supports if set)
+#define _SRP        (0x01)          //SRP (Supports if set)
 
 /* Endpoint Transfer Type */
 #define _CTRL       0x00            //Control Transfer

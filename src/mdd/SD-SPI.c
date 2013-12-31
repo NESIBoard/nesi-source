@@ -98,7 +98,7 @@ static ASYNC_IO ioInfo; //Declared global context, for fast/code efficient acces
     // cmd                      crc     response
     {cmdGO_IDLE_STATE,          0x95,   R1,     NODATA},
     {cmdSEND_OP_COND,           0xF9,   R1,     NODATA},
-    {cmdSEND_IF_COND,      	    0x87,   R7,     NODATA},
+    {cmdSEND_IF_COND,           0x87,   R7,     NODATA},
     {cmdSEND_CSD,               0xAF,   R1,     MOREDATA},
     {cmdSEND_CID,               0x1B,   R1,     MOREDATA},
     {cmdSTOP_TRANSMISSION,      0xC3,   R1b,    NODATA},
@@ -250,23 +250,23 @@ BYTE MDD_SDSPI_MediaDetect (void)
 #ifndef MEDIA_SOFT_DETECT
     return(!SD_CD);
 #else
-	MMC_RESPONSE    response;
+  MMC_RESPONSE    response;
 
     //First check if SPI module is enabled or not.
-	if (SPIENABLE == 0)
-	{
+  if (SPIENABLE == 0)
+  {
         unsigned char timeout;
 
-		//If the SPI module is not enabled, then the media has evidently not
-		//been initialized.  Try to send CMD0 and CMD13 to reset the device and
-		//get it into SPI mode (if present), and then request the status of
-		//the media.  If this times out, then the card is presumably not physically
-		//present.
+    //If the SPI module is not enabled, then the media has evidently not
+    //been initialized.  Try to send CMD0 and CMD13 to reset the device and
+    //get it into SPI mode (if present), and then request the status of
+    //the media.  If this times out, then the card is presumably not physically
+    //present.
 
-		InitSPISlowMode();
+    InitSPISlowMode();
 
         //Send CMD0 to reset the media
-	    //If the card is physically present, then we should get a valid response.
+      //If the card is physically present, then we should get a valid response.
         timeout = 4;
         do
         {
@@ -286,65 +286,65 @@ BYTE MDD_SDSPI_MediaDetect (void)
             response = SendMediaSlowCmd(GO_IDLE_STATE, 0x0);
         } while((response.r1._byte != 0x01) && (timeout != 0));
 
-	    //Check if response was invalid (R1 response byte should be = 0x01 after GO_IDLE_STATE)
-	    if(response.r1._byte != 0x01)
-	    {
-	        CloseSPIM();
-	        return FALSE;
-	    }
-	    else
-	    {
-    	    //Card is presumably present.  The SDI pin should have a pull up resistor on
-    	    //it, so the odds of SDI "floating" to 0x01 after sending CMD0 is very
-    	    //remote, unless the media is genuinely present.  Therefore, we should
-    	    //try to perform a full card initialization sequence now.
-    		MDD_SDSPI_MediaInitialize();    //Can block and take a long time to execute.
-    		if(mediaInformation.errorCode == MEDIA_NO_ERROR)
-    		{
-    			/* if the card was initialized correctly, it means it is present */
-    			return TRUE;
-    		}
-    		else
-    		{
-        		CloseSPIM();
-    			return FALSE;
-    		}
-
-    	}
-	}//if (SPIENABLE == 0)
-	else
-	{
-    	//The SPI module was already enabled.  This most likely means the media is
-    	//present and has already been initialized.  However, it is possible that
-    	//the user could have unplugged the media, in which case it is no longer
-    	//present.  We should send it a command, to check the status.
-    	response = SendMMCCmd(SEND_STATUS,0x0);
-    	if((response.r2._word & 0xEC0C) != 0x0000)
-	    {
-    	    //The card didn't respond with the expected result.  This probably
-    	    //means it is no longer present.  We can try to re-initialized it,
-    	    //just to be doubly sure.
-    		CloseSPIM();
-    		MDD_SDSPI_MediaInitialize();    //Can block and take a long time to execute.
-    		if(mediaInformation.errorCode == MEDIA_NO_ERROR)
-    		{
-    			/* if the card was initialized correctly, it means it is present */
-    			return TRUE;
-    		}
-    		else
-    		{
-        		CloseSPIM();
-    			return FALSE;
-    		}
-    	}
-    	else
-    	{
-        	//The CMD13 response to SEND_STATUS was valid.  This presumably
-        	//means the card is present and working normally.
-        	return TRUE;
+      //Check if response was invalid (R1 response byte should be = 0x01 after GO_IDLE_STATE)
+      if(response.r1._byte != 0x01)
+      {
+          CloseSPIM();
+          return FALSE;
+      }
+      else
+      {
+          //Card is presumably present.  The SDI pin should have a pull up resistor on
+          //it, so the odds of SDI "floating" to 0x01 after sending CMD0 is very
+          //remote, unless the media is genuinely present.  Therefore, we should
+          //try to perform a full card initialization sequence now.
+        MDD_SDSPI_MediaInitialize();    //Can block and take a long time to execute.
+        if(mediaInformation.errorCode == MEDIA_NO_ERROR)
+        {
+          /* if the card was initialized correctly, it means it is present */
+          return TRUE;
+        }
+        else
+        {
+            CloseSPIM();
+          return FALSE;
         }
 
-	}
+      }
+  }//if (SPIENABLE == 0)
+  else
+  {
+      //The SPI module was already enabled.  This most likely means the media is
+      //present and has already been initialized.  However, it is possible that
+      //the user could have unplugged the media, in which case it is no longer
+      //present.  We should send it a command, to check the status.
+      response = SendMMCCmd(SEND_STATUS,0x0);
+      if((response.r2._word & 0xEC0C) != 0x0000)
+      {
+          //The card didn't respond with the expected result.  This probably
+          //means it is no longer present.  We can try to re-initialized it,
+          //just to be doubly sure.
+        CloseSPIM();
+        MDD_SDSPI_MediaInitialize();    //Can block and take a long time to execute.
+        if(mediaInformation.errorCode == MEDIA_NO_ERROR)
+        {
+          /* if the card was initialized correctly, it means it is present */
+          return TRUE;
+        }
+        else
+        {
+            CloseSPIM();
+          return FALSE;
+        }
+      }
+      else
+      {
+          //The CMD13 response to SEND_STATUS was valid.  This presumably
+          //means the card is present and working normally.
+          return TRUE;
+        }
+
+  }
 
     //Should theoretically never execute to here.  All pathways should have
     //already returned with the status.
@@ -438,7 +438,7 @@ void MDD_SDSPI_InitIO (void)
     SD_CS_TRIS = OUTPUT;           //Card Select - output
     SD_WE_TRIS = INPUT;            //Write Protect - input
 
-#if defined	(__dsPIC33E__) || defined (__PIC24E__)
+#if defined (__dsPIC33E__) || defined (__PIC24E__)
     SD_CS_ANSEL = 0;
     SD_SCK_ANSEL = 0;
     SD_SDI_ANSEL = 0;
@@ -1020,9 +1020,9 @@ BYTE MDD_SDSPI_AsyncReadTasks(ASYNC_IO* info)
                 //Re-update local copy of pointer and number of bytes to read in this
                 //call.  These parameters are allowed to change between packets.
                 ioInfo.wNumBytes = info->wNumBytes;
-           	    ioInfo.pBuffer = info->pBuffer;
+                ioInfo.pBuffer = info->pBuffer;
 
-           	    //Update counters for state tracking and loop exit condition tracking.
+                //Update counters for state tracking and loop exit condition tracking.
                 ioInfo.dwBytesRemaining -= ioInfo.wNumBytes;
                 blockCounter -= ioInfo.wNumBytes;
 
@@ -1031,7 +1031,7 @@ BYTE MDD_SDSPI_AsyncReadTasks(ASYNC_IO* info)
                 //This operation directly dictates data throughput in the
                 //application, therefore optimized code should be used for each
                 //processor type.
-            	#if defined __C30__ || defined __C32__
+              #if defined __C30__ || defined __C32__
                 {
                     //PIC24/dsPIC/PIC32 architecture is efficient with pointers.
                     //Therefore, this code can provide good SPI bus utilization,
@@ -1059,7 +1059,7 @@ BYTE MDD_SDSPI_AsyncReadTasks(ASYNC_IO* info)
                 }
                 #elif defined __18CXX
                     PIC18_Optimized_SPI_Read_Packet();
-            	#endif
+              #endif
 
                 //Check if we have received a multiple of the media block
                 //size (ex: 512 bytes).  If so, the next two bytes are going to
@@ -1459,7 +1459,7 @@ BYTE MDD_SDSPI_AsyncWriteTasks(ASYNC_IO* info)
             //Now send a packet of raw data bytes to the media, over SPI.
             //This code directly impacts data throughput in a significant way.
             //Special care should be used to make sure this code is speed optimized.
-        	#if defined __C30__ || defined __C32__
+          #if defined __C30__ || defined __C32__
             {
                 //PIC24/dsPIC/PIC32 architecture is efficient with pointers and
                 //local variables due to the large number of WREGs available.
@@ -2068,21 +2068,21 @@ unsigned char WriteSPIManual(unsigned char data_out)
     SPICLOCK = OUTPUT;
     SPIOUT = OUTPUT;
 
-	//Loop to send out 8 bits of SDO data and associated SCK clock.
-	for(i = 0; i < 8; i++)
-	{
-		SPICLOCKLAT = 0;
-		if(data_out & 0x80)
-			SPIOUTLAT = 1;
-		else
-			SPIOUTLAT = 0;
-		data_out = data_out << 1;				//Bit shift, so next bit to send is in MSb position
-    	clock = MANUAL_SPI_CLOCK_VALUE;
-    	while (clock--);
-    	SPICLOCKLAT = 1;
-    	clock = MANUAL_SPI_CLOCK_VALUE;
-    	while (clock--);
-	}
+  //Loop to send out 8 bits of SDO data and associated SCK clock.
+  for(i = 0; i < 8; i++)
+  {
+    SPICLOCKLAT = 0;
+    if(data_out & 0x80)
+      SPIOUTLAT = 1;
+    else
+      SPIOUTLAT = 0;
+    data_out = data_out << 1;       //Bit shift, so next bit to send is in MSb position
+      clock = MANUAL_SPI_CLOCK_VALUE;
+      while (clock--);
+      SPICLOCKLAT = 1;
+      clock = MANUAL_SPI_CLOCK_VALUE;
+      while (clock--);
+  }
     SPICLOCKLAT = 0;
 
     return 0;
@@ -2123,19 +2123,19 @@ BYTE ReadMediaManual (void)
     SPICLOCKLAT = 0;
     SPICLOCK = OUTPUT;
 
- 	//Loop to send 8 clock pulses and read in the returned bits of data. Data "sent" will be = 0xFF
-	for(i = 0; i < 8u; i++)
-	{
-		SPICLOCKLAT = 0;
-    	clock = MANUAL_SPI_CLOCK_VALUE;
-    	while (clock--);
-    	SPICLOCKLAT = 1;
-    	clock = MANUAL_SPI_CLOCK_VALUE;
-    	while (clock--);
-		result = result << 1;	//Bit shift the previous result.  We receive the byte MSb first. This operation makes LSb = 0.
-    	if(SPIINPORT)
-    		result++;			//Set the LSb if we detected a '1' on the SPIINPORT pin, otherwise leave as 0.
-	}
+  //Loop to send 8 clock pulses and read in the returned bits of data. Data "sent" will be = 0xFF
+  for(i = 0; i < 8u; i++)
+  {
+    SPICLOCKLAT = 0;
+      clock = MANUAL_SPI_CLOCK_VALUE;
+      while (clock--);
+      SPICLOCKLAT = 1;
+      clock = MANUAL_SPI_CLOCK_VALUE;
+      while (clock--);
+    result = result << 1; //Bit shift the previous result.  We receive the byte MSb first. This operation makes LSb = 0.
+      if(SPIINPORT)
+        result++;     //Set the LSb if we detected a '1' on the SPIINPORT pin, otherwise leave as 0.
+  }
     SPICLOCKLAT = 0;
 
     return result;
@@ -2168,42 +2168,42 @@ BYTE ReadMediaManual (void)
 void InitSPISlowMode(void)
 {
     #if defined __C30__ || defined __C32__
-    	#ifdef __PIC32MX__
-    		OpenSPI(SPI_START_CFG_1, SPI_START_CFG_2);
-    	    SPIBRG = SPICalutateBRG(GetPeripheralClock(), 400000);
-    	#else //else C30 = PIC24/dsPIC devices
-    		WORD spiconvalue = 0x0003;
+      #ifdef __PIC32MX__
+        OpenSPI(SPI_START_CFG_1, SPI_START_CFG_2);
+          SPIBRG = SPICalutateBRG(GetPeripheralClock(), 400000);
+      #else //else C30 = PIC24/dsPIC devices
+        WORD spiconvalue = 0x0003;
             WORD timeout;
-    	    // Calculate the prescaler needed for the clock
-    	    timeout = GetSystemClock() / 400000;
-    	    // if timeout is less than 400k and greater than 100k use a 1:1 prescaler
-    	    if (timeout == 0)
-    	    {
-    	        OpenSPIM (MASTER_ENABLE_ON | PRI_PRESCAL_1_1 | SEC_PRESCAL_1_1);
-    	    }
-    	    else
-    	    {
-    	        while (timeout != 0)
-    	        {
-    	            if (timeout > 8)
-    	            {
-    	                spiconvalue--;
-    	                // round up
-    	                if ((timeout % 4) != 0)
-    	                    timeout += 4;
-    	                timeout /= 4;
-    	            }
-    	            else
-    	            {
-    	                break;
-    	            }
-    	        }
+          // Calculate the prescaler needed for the clock
+          timeout = GetSystemClock() / 400000;
+          // if timeout is less than 400k and greater than 100k use a 1:1 prescaler
+          if (timeout == 0)
+          {
+              OpenSPIM (MASTER_ENABLE_ON | PRI_PRESCAL_1_1 | SEC_PRESCAL_1_1);
+          }
+          else
+          {
+              while (timeout != 0)
+              {
+                  if (timeout > 8)
+                  {
+                      spiconvalue--;
+                      // round up
+                      if ((timeout % 4) != 0)
+                          timeout += 4;
+                      timeout /= 4;
+                  }
+                  else
+                  {
+                      break;
+                  }
+              }
 
-    	        timeout--;
+              timeout--;
 
-    	        OpenSPIM (MASTER_ENABLE_ON | spiconvalue | ((~(timeout << 2)) & 0x1C));
-    	    }
-    	#endif   //#ifdef __PIC32MX__ (and corresponding #else)
+              OpenSPIM (MASTER_ENABLE_ON | spiconvalue | ((~(timeout << 2)) & 0x1C));
+          }
+      #endif   //#ifdef __PIC32MX__ (and corresponding #else)
     #else //must be PIC18 device
         //Make sure the SPI module doesn't control the bus, will use
         //bit-banged SPI instead, for slow mode initialization operation
@@ -2279,21 +2279,21 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
 {
     WORD timeout;
     MMC_RESPONSE response;
-	BYTE CSDResponse[20];
-	BYTE count, index;
-	DWORD c_size;
-	BYTE c_size_mult;
-	BYTE block_len;
+  BYTE CSDResponse[20];
+  BYTE count, index;
+  DWORD c_size;
+  BYTE c_size_mult;
+  BYTE block_len;
 
-	#ifdef __DEBUG_UART
-	InitUART();
-	#endif
+  #ifdef __DEBUG_UART
+  InitUART();
+  #endif
 
     //Initialize global variables.  Will get updated later with valid data once
     //the data is known.
     mediaInformation.errorCode = MEDIA_NO_ERROR;
     mediaInformation.validityFlags.value = 0;
-    MDD_SDSPI_finalLBA = 0x00000000;	//Will compute a valid size later, from the CSD register values we get from the card
+    MDD_SDSPI_finalLBA = 0x00000000;  //Will compute a valid size later, from the CSD register values we get from the card
     gSDMode = SD_MODE_NORMAL;           //Will get updated later with real value, once we know based on initialization flow.
 
     SD_CS = 1;               //Initialize Chip Select line (1 = card not selected)
@@ -2405,7 +2405,7 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
     //to CMD8.
     response = SendMediaSlowCmd(SEND_IF_COND, 0x1AA);   //Note: If changing "0x1AA", CRC value in table must also change.
     if(((response.r7.bytewise.argument._returnVal & 0xFFF) == 0x1AA) && (!response.r7.bitwise.bits.ILLEGAL_CMD))
-   	{
+    {
         //If we get to here, the device supported the CMD8 command and didn't complain about our host
         //voltage range.
         //Most likely this means it is either a v2.0 spec standard or high capacity SD card (SDHC)
@@ -2415,8 +2415,8 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
         UARTSendLineFeedCarriageReturn();
         #endif
 
-		//Send CMD58 (Read OCR [operating conditions register]).  Response type is R3, which has 5 bytes.
-		//Byte 4 = normal R1 response byte, Bytes 3-0 are = OCR register value.
+    //Send CMD58 (Read OCR [operating conditions register]).  Response type is R3, which has 5 bytes.
+    //Byte 4 = normal R1 response byte, Bytes 3-0 are = OCR register value.
         #ifdef __DEBUG_UART
         PrintROMASCIIStringUART("Sending CMD58.\r\n");
         #endif
@@ -2426,36 +2426,36 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
         //If our host circuitry has variable power supply capability, it could
         //theoretically adjust the SD card Vdd to the minimum of the OCR to save power.
 
-		//Now send CMD55/ACMD41 in a loop, until the card is finished with its internal initialization.
-		//Note: SD card specs recommend >= 1 second timeout while waiting for ACMD41 to signal non-busy.
-		for(timeout = 0; timeout < 0xFFFF; timeout++)
-		{
-			//Send CMD55 (lets SD card know that the next command is application specific (going to be ACMD41)).
-			SendMediaSlowCmd(APP_CMD, 0x00000000);
+    //Now send CMD55/ACMD41 in a loop, until the card is finished with its internal initialization.
+    //Note: SD card specs recommend >= 1 second timeout while waiting for ACMD41 to signal non-busy.
+    for(timeout = 0; timeout < 0xFFFF; timeout++)
+    {
+      //Send CMD55 (lets SD card know that the next command is application specific (going to be ACMD41)).
+      SendMediaSlowCmd(APP_CMD, 0x00000000);
 
-			//Send ACMD41.  This is to check if the SD card is finished booting up/ready for full frequency and all
-			//further commands.  Response is R3 type (6 bytes/48 bits, middle four bytes contain potentially useful data).
+      //Send ACMD41.  This is to check if the SD card is finished booting up/ready for full frequency and all
+      //further commands.  Response is R3 type (6 bytes/48 bits, middle four bytes contain potentially useful data).
             //Note: When sending ACMD41, the HCS bit is bit 30, and must be = 1 to tell SD card the host supports SDHC
-			response = SendMediaSlowCmd(SD_SEND_OP_COND,0x40000000); //bit 30 set
+      response = SendMediaSlowCmd(SD_SEND_OP_COND,0x40000000); //bit 30 set
 
-			//The R1 response should be = 0x00, meaning the card is now in the "standby" state, instead of
-			//the "idle" state (which is the default initialization state after CMD0 reset is issued).  Once
-			//in the "standby" state, the SD card is finished with basic initialization and is ready
-			//for read/write and other commands.
-			if(response.r1._byte == 0)
-			{
-    		    #ifdef __DEBUG_UART
+      //The R1 response should be = 0x00, meaning the card is now in the "standby" state, instead of
+      //the "idle" state (which is the default initialization state after CMD0 reset is issued).  Once
+      //in the "standby" state, the SD card is finished with basic initialization and is ready
+      //for read/write and other commands.
+      if(response.r1._byte == 0)
+      {
+            #ifdef __DEBUG_UART
                 PrintROMASCIIStringUART("Media successfully processed CMD55/ACMD41 and is no longer busy.\r\n");
-				#endif
-				break;  //Break out of for() loop.  Card is finished initializing.
+        #endif
+        break;  //Break out of for() loop.  Card is finished initializing.
             }
-		}
-		if(timeout >= 0xFFFF)
-		{
+    }
+    if(timeout >= 0xFFFF)
+    {
             #ifdef __DEBUG_UART
             PrintROMASCIIStringUART("Media Timeout on CMD55/ACMD41.\r\n");
             #endif
-    		mediaInformation.errorCode = MEDIA_CANNOT_INITIALIZE;
+        mediaInformation.errorCode = MEDIA_CANNOT_INITIALIZE;
         }
 
 
@@ -2463,13 +2463,13 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
         //info we will want to know about the card (ex: standard capacity vs. SDHC).
         response = SendMediaSlowCmd(READ_OCR, 0x0);
 
-		//Now check the CCS bit (OCR bit 30) in the OCR register, which is in our response packet.
-		//This will tell us if it is a SD high capacity (SDHC) or standard capacity device.
-		if(response.r7.bytewise.argument._returnVal & 0x40000000)    //Note the HCS bit is only valid when the busy bit is also set (indicating device ready).
-		{
-			gSDMode = SD_MODE_HC;
+    //Now check the CCS bit (OCR bit 30) in the OCR register, which is in our response packet.
+    //This will tell us if it is a SD high capacity (SDHC) or standard capacity device.
+    if(response.r7.bytewise.argument._returnVal & 0x40000000)    //Note the HCS bit is only valid when the busy bit is also set (indicating device ready).
+    {
+      gSDMode = SD_MODE_HC;
 
-		    #ifdef __DEBUG_UART
+        #ifdef __DEBUG_UART
             PrintROMASCIIStringUART("Media successfully processed CMD58: SD card is SDHC v2.0 (or later) physical spec type.\r\n");
             #endif
         }
@@ -2484,9 +2484,9 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
         //SD Card should now be finished with initialization sequence.  Device should be ready
         //for read/write commands.
 
-	}//if(((response.r7.bytewise._returnVal & 0xFFF) == 0x1AA) && (!response.r7.bitwise.bits.ILLEGAL_CMD))
+  }//if(((response.r7.bytewise._returnVal & 0xFFF) == 0x1AA) && (!response.r7.bitwise.bits.ILLEGAL_CMD))
     else
-	{
+  {
         //The CMD8 wasn't supported.  This means the card is not a v2.0 card.
         //Presumably the card is v1.x device, standard capacity (not SDHC).
 
@@ -2501,8 +2501,8 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
 
         //The CMD8 wasn't supported.  This means the card is definitely not a v2.0 SDHC card.
         gSDMode = SD_MODE_NORMAL;
-    	// According to the spec CMD1 must be repeated until the card is fully initialized
-    	timeout = 0x1FFF;
+      // According to the spec CMD1 must be repeated until the card is fully initialized
+      timeout = 0x1FFF;
         do
         {
             //Send CMD1 to initialize the media.
@@ -2532,7 +2532,7 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
             //response = SendMediaSlowCmd(SET_BLOCKLEN, 0x00000200);    //Set read/write block length to 512 bytes
         }
 
-	}
+  }
 
 
     //Temporarily deselect device
@@ -2545,14 +2545,14 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
     //SD cards would typically operate at up to 25Mbps or higher SPI speeds.
     OpenSPIM(SYNC_MODE_FAST);
 
-	SD_CS = 0;
+  SD_CS = 0;
 
-	/* Send the CMD9 to read the CSD register */
+  /* Send the CMD9 to read the CSD register */
     timeout = NCR_TIMEOUT;
     do
     {
         //Send CMD9: Read CSD data structure.
-		response = SendMMCCmd(SEND_CSD, 0x00);
+    response = SendMMCCmd(SEND_CSD, 0x00);
         timeout--;
     }while((response.r1._byte != 0x00) && (timeout != 0));
     if(timeout != 0x00)
@@ -2576,22 +2576,22 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
         return &mediaInformation;
     }
 
-	/* According to the simplified spec, section 7.2.6, the card will respond
-	with a standard response token, followed by a data block of 16 bytes
-	suffixed with a 16-bit CRC.*/
-	index = 0;
-	for (count = 0; count < 20u; count ++)
-	{
-		CSDResponse[index] = MDD_SDSPI_ReadMedia();
-		index++;
-		/* Hopefully the first byte is the data token, however, some cards do
-		not send the response token before the CSD register.*/
-		if((count == 0) && (CSDResponse[0] == DATA_START_TOKEN))
-		{
-			/* As the first byte was the data token, we can drop it. */
-			index = 0;
-		}
-	}
+  /* According to the simplified spec, section 7.2.6, the card will respond
+  with a standard response token, followed by a data block of 16 bytes
+  suffixed with a 16-bit CRC.*/
+  index = 0;
+  for (count = 0; count < 20u; count ++)
+  {
+    CSDResponse[index] = MDD_SDSPI_ReadMedia();
+    index++;
+    /* Hopefully the first byte is the data token, however, some cards do
+    not send the response token before the CSD register.*/
+    if((count == 0) && (CSDResponse[0] == DATA_START_TOKEN))
+    {
+      /* As the first byte was the data token, we can drop it. */
+      index = 0;
+    }
+  }
 
     #ifdef __DEBUG_UART
     PrintROMASCIIStringUART("CSD data structure contains: ");
@@ -2601,68 +2601,68 @@ MEDIA_INFORMATION *  MDD_SDSPI_MediaInitialize(void)
 
 
 
-	//Extract some fields from the response for computing the card capacity.
-	//Note: The structure format depends on if it is a CSD V1 or V2 device.
-	//Therefore, need to first determine version of the specs that the card
-	//is designed for, before interpreting the individual fields.
+  //Extract some fields from the response for computing the card capacity.
+  //Note: The structure format depends on if it is a CSD V1 or V2 device.
+  //Therefore, need to first determine version of the specs that the card
+  //is designed for, before interpreting the individual fields.
 
-	//-------------------------------------------------------------
-	//READ_BL_LEN: CSD Structure v1 cards always support 512 byte
-	//read and write block lengths.  Some v1 cards may optionally report
-	//READ_BL_LEN = 1024 or 2048 bytes (and therefore WRITE_BL_LEN also
-	//1024 or 2048).  However, even on these cards, 512 byte partial reads
-	//and 512 byte write are required to be supported.
-	//On CSD structure v2 cards, it is always required that READ_BL_LEN
-	//(and therefore WRITE_BL_LEN) be 512 bytes, and partial reads and
-	//writes are not allowed.
-	//Therefore, all cards support 512 byte reads/writes, but only a subset
-	//of cards support other sizes.  For best compatibility with all cards,
-	//and the simplest firmware design, it is therefore preferable to
-	//simply ignore the READ_BL_LEN and WRITE_BL_LEN values altogether,
-	//and simply hardcode the read/write block size as 512 bytes.
-	//-------------------------------------------------------------
-	gMediaSectorSize = 512u;
-	//mediaInformation.sectorSize = gMediaSectorSize;
-	mediaInformation.sectorSize = 512u;
-	mediaInformation.validityFlags.bits.sectorSize = TRUE;
-	//-------------------------------------------------------------
+  //-------------------------------------------------------------
+  //READ_BL_LEN: CSD Structure v1 cards always support 512 byte
+  //read and write block lengths.  Some v1 cards may optionally report
+  //READ_BL_LEN = 1024 or 2048 bytes (and therefore WRITE_BL_LEN also
+  //1024 or 2048).  However, even on these cards, 512 byte partial reads
+  //and 512 byte write are required to be supported.
+  //On CSD structure v2 cards, it is always required that READ_BL_LEN
+  //(and therefore WRITE_BL_LEN) be 512 bytes, and partial reads and
+  //writes are not allowed.
+  //Therefore, all cards support 512 byte reads/writes, but only a subset
+  //of cards support other sizes.  For best compatibility with all cards,
+  //and the simplest firmware design, it is therefore preferable to
+  //simply ignore the READ_BL_LEN and WRITE_BL_LEN values altogether,
+  //and simply hardcode the read/write block size as 512 bytes.
+  //-------------------------------------------------------------
+  gMediaSectorSize = 512u;
+  //mediaInformation.sectorSize = gMediaSectorSize;
+  mediaInformation.sectorSize = 512u;
+  mediaInformation.validityFlags.bits.sectorSize = TRUE;
+  //-------------------------------------------------------------
 
-	//Calculate the MDD_SDSPI_finalLBA (see SD card physical layer simplified spec 2.0, section 5.3.2).
-	//In USB mass storage applications, we will need this information to
-	//correctly respond to SCSI get capacity requests.  Note: method of computing
-	//MDD_SDSPI_finalLBA depends on CSD structure spec version (either v1 or v2).
-	if(CSDResponse[0] & 0xC0)	//Check CSD_STRUCTURE field for v2+ struct device
-	{
-		//Must be a v2 device (or a reserved higher version, that doesn't currently exist)
+  //Calculate the MDD_SDSPI_finalLBA (see SD card physical layer simplified spec 2.0, section 5.3.2).
+  //In USB mass storage applications, we will need this information to
+  //correctly respond to SCSI get capacity requests.  Note: method of computing
+  //MDD_SDSPI_finalLBA depends on CSD structure spec version (either v1 or v2).
+  if(CSDResponse[0] & 0xC0) //Check CSD_STRUCTURE field for v2+ struct device
+  {
+    //Must be a v2 device (or a reserved higher version, that doesn't currently exist)
 
-		//Extract the C_SIZE field from the response.  It is a 22-bit number in bit position 69:48.  This is different from v1.
-		//It spans bytes 7, 8, and 9 of the response.
-		c_size = (((DWORD)CSDResponse[7] & 0x3F) << 16) | ((WORD)CSDResponse[8] << 8) | CSDResponse[9];
+    //Extract the C_SIZE field from the response.  It is a 22-bit number in bit position 69:48.  This is different from v1.
+    //It spans bytes 7, 8, and 9 of the response.
+    c_size = (((DWORD)CSDResponse[7] & 0x3F) << 16) | ((WORD)CSDResponse[8] << 8) | CSDResponse[9];
 
-		MDD_SDSPI_finalLBA = ((DWORD)(c_size + 1) * (WORD)(1024u)) - 1; //-1 on end is correction factor, since LBA = 0 is valid.
-	}
-	else //if(CSDResponse[0] & 0xC0)	//Check CSD_STRUCTURE field for v1 struct device
-	{
-		//Must be a v1 device.
-		//Extract the C_SIZE field from the response.  It is a 12-bit number in bit position 73:62.
-		//Although it is only a 12-bit number, it spans bytes 6, 7, and 8, since it isn't byte aligned.
-		c_size = ((DWORD)CSDResponse[6] << 16) | ((WORD)CSDResponse[7] << 8) | CSDResponse[8];	//Get the bytes in the correct positions
-		c_size &= 0x0003FFC0;	//Clear all bits that aren't part of the C_SIZE
-		c_size = c_size >> 6;	//Shift value down, so the 12-bit C_SIZE is properly right justified in the DWORD.
+    MDD_SDSPI_finalLBA = ((DWORD)(c_size + 1) * (WORD)(1024u)) - 1; //-1 on end is correction factor, since LBA = 0 is valid.
+  }
+  else //if(CSDResponse[0] & 0xC0)  //Check CSD_STRUCTURE field for v1 struct device
+  {
+    //Must be a v1 device.
+    //Extract the C_SIZE field from the response.  It is a 12-bit number in bit position 73:62.
+    //Although it is only a 12-bit number, it spans bytes 6, 7, and 8, since it isn't byte aligned.
+    c_size = ((DWORD)CSDResponse[6] << 16) | ((WORD)CSDResponse[7] << 8) | CSDResponse[8];  //Get the bytes in the correct positions
+    c_size &= 0x0003FFC0; //Clear all bits that aren't part of the C_SIZE
+    c_size = c_size >> 6; //Shift value down, so the 12-bit C_SIZE is properly right justified in the DWORD.
 
-		//Extract the C_SIZE_MULT field from the response.  It is a 3-bit number in bit position 49:47.
-		c_size_mult = ((WORD)((CSDResponse[9] & 0x03) << 1)) | ((WORD)((CSDResponse[10] & 0x80) >> 7));
+    //Extract the C_SIZE_MULT field from the response.  It is a 3-bit number in bit position 49:47.
+    c_size_mult = ((WORD)((CSDResponse[9] & 0x03) << 1)) | ((WORD)((CSDResponse[10] & 0x80) >> 7));
 
         //Extract the BLOCK_LEN field from the response. It is a 4-bit number in bit position 83:80.
         block_len = CSDResponse[5] & 0x0F;
 
         block_len = 1 << (block_len - 9); //-9 because we report the size in sectors of 512 bytes each
 
-		//Calculate the MDD_SDSPI_finalLBA (see SD card physical layer simplified spec 2.0, section 5.3.2).
-		//In USB mass storage applications, we will need this information to
-		//correctly respond to SCSI get capacity requests (which will cause MDD_SDSPI_ReadCapacity() to get called).
-		MDD_SDSPI_finalLBA = ((DWORD)(c_size + 1) * (WORD)((WORD)1 << (c_size_mult + 2)) * block_len) - 1;	//-1 on end is correction factor, since LBA = 0 is valid.
-	}
+    //Calculate the MDD_SDSPI_finalLBA (see SD card physical layer simplified spec 2.0, section 5.3.2).
+    //In USB mass storage applications, we will need this information to
+    //correctly respond to SCSI get capacity requests (which will cause MDD_SDSPI_ReadCapacity() to get called).
+    MDD_SDSPI_finalLBA = ((DWORD)(c_size + 1) * (WORD)((WORD)1 << (c_size_mult + 2)) * block_len) - 1;  //-1 on end is correction factor, since LBA = 0 is valid.
+  }
 
     //Turn off CRC7 if we can, might be an invalid cmd on some cards (CMD59)
     //Note: POR default for the media is normally with CRC checking off in SPI
