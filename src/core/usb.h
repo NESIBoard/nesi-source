@@ -16,6 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 12/31/2013 - Mickie Byrd
+ *   Added several members to usb module:
+ *     .state() - returns current state of USB stack state machine
+ *     .read() - read data from USB communications port
+ *     .write() - write data to USB communications port
+ *     .print() - print a string to USB communications port
+ *     .debug() - print a string to USB communications port
+ */
+
 #ifndef USB_H
 #define USB_H
 
@@ -69,6 +81,26 @@ typedef struct {
      * Process pending requests and data transfers.
      */
     void (*process)(void);
+    /**
+     * Gets current state of USB state machine.
+     */
+    Byte (*state)(void);
+    /**
+     * Read data from USB com port.
+     */
+    Uint8 (*read)(String dataBuffer, Uint8 maxBytesToRead);
+    /**
+     * Write data to USB com port.
+     */
+    Boolean (*write)(String dataBuffer, Uint8 bytesToWrite);
+    /**
+     * Print a string to USB com port.
+     */
+    Boolean (*print)(String data);
+    /**
+     * Print a string to USB com port.
+     */
+    Boolean (*debug)(String data);
 } Usb;
 
 extern const Usb usb;
