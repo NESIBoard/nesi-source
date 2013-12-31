@@ -31,6 +31,7 @@
  *     - USBCheckCDCRequest() added to USBCBCheckOtherReq()
  *     - CDCTxService() added to ProcessIO()
  *     - including usb_function_cdc library
+ *   Added .printf() member to output formatted text
  */
 
 #include "usb.h"
@@ -38,6 +39,8 @@
 #include "../usb/usb_function_msd.h"
 #include "../usb/usb_function_cdc.h"
 #include "../mdd/SD-SPI.h"
+#include <stdio.h>
+#include <stdarg.h>
 
 //The LUN variable definition is critical to the MSD function driver.  This
 //  array is a structure of function pointers that are the functions that
@@ -649,6 +652,22 @@ static Boolean printUSB(String data)
     return TRUE;
 }
 
+static Int printfUSB(const String format, ...)
+{
+    if(USBUSARTIsTxTrfReady())
+    {
+        static char message[128] = {""}; // static so it is not put on stack
+        va_list argptr;
+        va_start(argptr, format);
+        int count = vsprintf(message, format, argptr);
+        va_end(argptr);
+        putsUSBUSART(message);
+        return count;
+    }
+    else
+        return FALSE;
+}
+
 static Boolean debugPrintUSB(String data)
 {
     //return TRUE; // uncomment to disable debug printing
@@ -684,5 +703,6 @@ const Usb usb = {
     .read       = getsUSBUSART,
     .write      = putUSB,
     .print      = printUSB,
+    .printf     = printfUSB,
     .debug      = debugPrintUSB
 };

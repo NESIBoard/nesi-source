@@ -26,6 +26,8 @@
  *     .write() - write data to USB communications port
  *     .print() - print a string to USB communications port
  *     .debug() - print a string to USB communications port
+ *   Added .printf() to print formatted string to USB com port
+ *   Updated comments with return information
  */
 
 #ifndef USB_H
@@ -83,22 +85,32 @@ typedef struct {
     void (*process)(void);
     /**
      * Gets current state of USB state machine.
+     * @return USB state
      */
     Byte (*state)(void);
     /**
-     * Read data from USB com port.
+     * Read data from the USB com port.
+     * @return number of bytes read
      */
     Uint8 (*read)(String dataBuffer, Uint8 maxBytesToRead);
     /**
-     * Write data to USB com port.
+     * Write data to the USB com port.
+     * @return whether or not write was successful
      */
     Boolean (*write)(String dataBuffer, Uint8 bytesToWrite);
     /**
      * Print a string to USB com port.
+     * @return whether or not print was successful
      */
     Boolean (*print)(String data);
     /**
-     * Print a string to USB com port.
+     * Print a formatted string to the USB com port.
+     * @return number of characters printed
+     */
+    int (*printf)(const String format, ...);
+    /**
+     * Print a string to the USB com port.
+     * @return whether or not print was successful
      */
     Boolean (*debug)(String data);
 } Usb;
