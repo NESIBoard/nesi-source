@@ -33,11 +33,14 @@
  *   Added .add() and .sub() to be used to add and subtract DateAndTime
  *       objects.
  *   Refactored .compare() to .cmp() for consistency.
- * 12/27/2013
+ * 12/27/2013 - Mickie Byrd
  *   Modified .new() to newDateAndTime() which creates DateAndTime without
  *       normalizing value.
  *   Added .to() which does what .new() used to do.
  *   Modified dateAndTimeToStamp() to convert without normalization.
+ * 12/30/2013 - Mickie Byrd
+ *   Commented out setSystemClock(), setSystemCalendar(), toCalendarAndClock(),
+ *       and toTimeStamp() to suppress compiler warnings.
  */
 
 #include "system.h"
@@ -842,7 +845,7 @@ static inline void setRTCCRegister(RTCCRegister newRTCC)
 
 } // setRTCCRegister end
 
-
+#if 0 /* unused functions - to suppress compiler warnings and save some space */
 /* Sets the system time to that of the passed Clock value */
 // only updates the time if it's valid, invalid times are ignored
 static void setSystemClock(Clock newClock)
@@ -892,6 +895,8 @@ static void setSystemCalendar(Calendar newCalendar)
     lockRealTimeClockRegister();
 
 } // setCalendar end
+
+#endif
 
 /* Sets the system time to that of the passed CalendarAndClock value */
 // only updates the time if it's valid, invalid times are ignored
@@ -1276,6 +1281,8 @@ static String getTimeStamp(void)
     return stamp;
 }
 
+#if 0 /* unused functions - to suppress compiler warnings and save some space */
+
 static String toTimeStamp(CalendarAndClock cc)
 {
     static char stamp[] = {"00.01.01-00:00:00"};
@@ -1317,6 +1324,8 @@ static CalendarAndClock toCalendarAndClock(DateAndTime dt)
 
     return simplifyCalendarAndClock(cc);
 }
+
+#endif
 
 static String dateAndTimeToTimeStamp(DateAndTime dt)
 {

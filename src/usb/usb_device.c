@@ -785,12 +785,12 @@ void USBDeviceTasks(void)
 
         if(!USBSE0Event)
         {
-            USBClearInterruptRegister(U1IR);// Clear all USB interrupts
+            USBClearInterruptRegister(U1IR); // Clear all USB interrupts
             #if defined(USB_POLLING)
-                U1IE=0;                        // Mask all USB interrupts
+                U1IE=0;                      // Mask all USB interrupts
             #endif
-            USBResetIE = 1;             // Unmask RESET interrupt
-            USBIdleIE = 1;             // Unmask IDLE interrupt
+            USBResetIE = 1;                  // Unmask RESET interrupt
+            USBIdleIE = 1;                   // Unmask IDLE interrupt
             USBDeviceState = POWERED_STATE;
         }
     }
@@ -1587,10 +1587,10 @@ void USBCtrlEPAllowStatusStage(void)
     //USBCtrlEPAllowStatusStage() can be called twice simultaneously (ex: once
     //in main loop context, while simultaneously getting an interrupt which
     //tries to call USBCtrlEPAllowStatusStage() again, at the same time).
-    if(USBStatusStageEnabledFlag1 == FALSE)
+    if(USBStatusStageEnabledFlag1 == 0) //FALSE) - to suppress compiler warning
     {
         USBStatusStageEnabledFlag1 = TRUE;
-        if(USBStatusStageEnabledFlag2 == FALSE)
+        if(USBStatusStageEnabledFlag2 == 0) //FALSE) - to suppress compiler warning
         {
             USBStatusStageEnabledFlag2 = TRUE;
 
@@ -1611,7 +1611,7 @@ void USBCtrlEPAllowStatusStage(void)
         		pBDTEntryEP0OutCurrent->CNT = USB_EP0_BUFF_SIZE;
         		pBDTEntryEP0OutCurrent->ADR = ConvertToPhysicalAddress(&SetupPkt);
         		pBDTEntryEP0OutCurrent->STAT.Val = _USIE|_BSTALL; //Prepare endpoint to accept a SETUP transaction
-        		BothEP0OutUOWNsSet = TRUE;	//Indicator flag used in USBCtrlTrfOutHandler()
+        		BothEP0OutUOWNsSet = TRUE; //Indicator flag used in USBCtrlTrfOutHandler()
         		#endif
 
                 //This EP0 OUT buffer receives the 0-byte OUT status stage packet.
@@ -1803,7 +1803,7 @@ static void USBCtrlEPServiceComplete(void)
             //   RAM buffer wasn't available yet) by calling USBDeferDataStage().
             //   If it did so, it is then responsible for calling USBCtrlEPAllowDataStage(),
             //   once it is ready to begin receiving the data.
-            if(USBDeferOUTDataStagePackets == FALSE)
+            if(USBDeferOUTDataStagePackets == 0) //FALSE) - to suppress compiler warning
             {
                 USBCtrlEPAllowDataStage();
             }
@@ -1843,7 +1843,7 @@ static void USBCtrlEPServiceComplete(void)
 			 *    is ready to begin sending the data, it should then call the
 			 *    USBCtrlEPAllowDataStage() function to start the data stage.
 			 */
-			if(USBDeferINDataStagePackets == FALSE)
+			if(USBDeferINDataStagePackets == 0) //FALSE) - to suppress compiler warning
             {
                 USBCtrlEPAllowDataStage();
 			}
@@ -1870,7 +1870,7 @@ static void USBCtrlEPServiceComplete(void)
             //    data that needs to be sent to the host, it should instead use the USBDeferDataStage() function.
             USBStatusStageEnabledFlag2 = FALSE;
             USBStatusStageEnabledFlag1 = FALSE;
-            if(USBDeferStatusStagePacket == FALSE)
+            if(USBDeferStatusStagePacket == 0) //FALSE) - to suppress compiler warning
             {
                 USBCtrlEPAllowStatusStage();
             }
@@ -1897,7 +1897,7 @@ static void USBCtrlEPServiceComplete(void)
 			//2. Prepare for IN status stage of the control transfer
             USBStatusStageEnabledFlag2 = FALSE;
             USBStatusStageEnabledFlag1 = FALSE;
-			if(USBDeferStatusStagePacket == FALSE)
+			if(USBDeferStatusStagePacket == 0) //FALSE) - to suppress compiler warning
             {
                 USBCtrlEPAllowStatusStage();
             }
@@ -2086,7 +2086,7 @@ static void USBCtrlTrfRxService(void)
         //means either 50ms, 500ms, or 5 seconds, depending on the type of
         //control transfer.  See the USB 2.0 specification section 9.2.6 for
         //more details.
-        if(USBDeferStatusStagePacket == FALSE)
+        if(USBDeferStatusStagePacket == 0) //FALSE) - to suppress compiler warning
         {
             USBCtrlEPAllowStatusStage();
         }
@@ -2273,7 +2273,7 @@ static void USBStdGetStatusHandler(void)
                 CtrlTrfData[0]|=0x01;
             }
 
-            if(RemoteWakeup == TRUE)
+            if(RemoteWakeup == 1) //TRUE) - to suppress compiler warning
             {
                 CtrlTrfData[0]|=0x02;
             }
@@ -2684,7 +2684,7 @@ static void USBCtrlTrfOutHandler(void)
 	    //and the last control transfer was of direction: device to host, see
 	    //USBCtrlEPServiceComplete().  If it was already prepared, do not want
 	    //to do anything to the BDT.
-		if(BothEP0OutUOWNsSet == FALSE)
+		if(BothEP0OutUOWNsSet == 0) //FALSE) - to suppress compiler warning
 		{
 	        pBDTEntryEP0OutNext->CNT = USB_EP0_BUFF_SIZE;
 	        pBDTEntryEP0OutNext->ADR = ConvertToPhysicalAddress(&SetupPkt);

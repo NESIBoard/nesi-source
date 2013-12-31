@@ -16,6 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 12/30/2013 - Mickie Byrd
+ *   Modified openX() to use isOpenX() to check file status in order to
+ *       suppress compiler warnings.
+ */
+
 #include "file.h"
 
 /*------------------------------------ 1 ------------------------------------*/
@@ -58,7 +66,8 @@ static int open1(const String fileName)
 {
     if(!fileptr1)                           // if file not yet created
         fileptr1 = FSfopen(fileName, "a+"); // open in r/w append mode
-    return NullPtr == fileptr1;             // file null upon failure
+    //return NullPtr == fileptr1;             // file null upon failure
+    return !isOpen1(); // primarily to suppress compiler warning
 }
 
 /**
@@ -172,7 +181,8 @@ static int open2(const String fileName)
 {
     if(!fileptr2)                           // if file not yet created
         fileptr2 = FSfopen(fileName, "a+"); // open in r/w append mode
-    return NullPtr == fileptr2;             // file null upon failure
+    //return NullPtr == fileptr2;             // file null upon failure
+    return !isOpen2(); // primarily to suppress compiler warning
 }
 
 /**
@@ -286,7 +296,8 @@ static int open3(const String fileName)
 {
     if(!fileptr3)                           // if file not yet created
         fileptr3 = FSfopen(fileName, "a+"); // open in r/w append mode
-    return NullPtr == fileptr3;             // file null upon failure
+    //return NullPtr == fileptr3;             // file null upon failure
+    return !isOpen3(); // primarily to suppress compiler warning
 }
 
 /**

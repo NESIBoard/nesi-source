@@ -16,6 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 12/30/2013 - Mickie Byrd
+ *   Added type casts to suppress compiler warnings.
+ */
+
 #include "datalog.h"
 #include "file.h"
 
@@ -61,7 +68,7 @@ static void logValue(String label, Uint16 value)
     }
 
     // write label
-    dataFile.write(label, size);
+    dataFile.write((Byte*)label, size); // to suppress compiler warning
 
     // convert value
     char dataString[8] = {"0x0000\n"};
@@ -73,7 +80,7 @@ static void logValue(String label, Uint16 value)
     dataString[5] = toHex[(value & 0x000F)];
 
     // write value
-    dataFile.write(dataString, 7);
+    dataFile.write((Byte*)dataString, 7); // to suppress compiler warning
 
     // close file
     dataFile.close();

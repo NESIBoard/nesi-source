@@ -290,7 +290,7 @@ typedef union __BDT
     {
         struct
         {
-            BYTE CNT         __attribute__ ((packed));
+            BYTE CNT;//__attribute__ ((packed)); - to suppress compiler warning
             BD_STAT     STAT __attribute__ ((packed));
         };
         struct
