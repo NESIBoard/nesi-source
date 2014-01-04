@@ -32,6 +32,7 @@
         <itemPath>../../src/app/main-pix_on_button.c</itemPath>
         <itemPath>../../src/app/main-usb_print_time.c</itemPath>
         <itemPath>../../src/app/main-usb_echo.c</itemPath>
+        <itemPath>../../src/app/main-usb_debugPrint.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="core" projectFiles="true">
         <itemPath>../../src/core/button.c</itemPath>
@@ -188,6 +189,16 @@
         </C30Global>
       </item>
       <item path="../../src/app/main-pix_on_button.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="../../src/app/main-usb_echo.c" ex="true" overriding="false">
         <C30>
         </C30>
         <C30-AS>

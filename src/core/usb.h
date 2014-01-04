@@ -109,10 +109,14 @@ typedef struct {
      */
     int (*printf)(const String format, ...);
     /**
-     * Print a string to the USB com port.
-     * @return whether or not print was successful
+     * Enable or Disable the printing of debug messages (controls @debugPrint)
      */
-    Boolean (*debug)(String data);
+    void (*setDebug)(Boolean state);
+    /**
+     * Print a formatted string to the USB com port when debugging is enabled.
+     * @return number of characters printed
+     */
+    int (*debugPrint)(const String format, ...);
 } Usb;
 
 extern const Usb usb;

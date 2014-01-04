@@ -668,11 +668,27 @@ static Int printfUSB(const String format, ...)
         return FALSE;
 }
 
-static Boolean debugPrintUSB(String data)
+static Boolean debugPrintEnable = YES;
+
+static void setDebugPrintState(Boolean state)
 {
-    //return TRUE; // uncomment to disable debug printing
-    while(!printUSB(data));
-    return TRUE;
+    debugPrintEnable = !!state;
+}
+
+static Int debugPrintfUSB(const String format, ...)
+{
+    if(debugPrintEnable && USBUSARTIsTxTrfReady())
+    {
+        static char message[128] = {""}; // static so it is not put on stack
+        va_list argptr;
+        va_start(argptr, format);
+        int count = vsprintf(message, format, argptr);
+        va_end(argptr);
+        putsUSBUSART(message);
+        return count;
+    }
+    else
+        return FALSE;
 }
 
 /**
@@ -704,5 +720,6 @@ const Usb usb = {
     .write      = putUSB,
     .print      = printUSB,
     .printf     = printfUSB,
-    .debug      = debugPrintUSB
+    .setDebug   = setDebugPrintState,
+    .debugPrint = debugPrintfUSB
 };
