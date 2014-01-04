@@ -1,13 +1,6 @@
 build/*/build/
 build/*/dist/
-build/*/nbproject/private
-*.o
-*.o.d
-Makefile-default.mk
-Makefile-genesis.properties
-Makefile-impl.mk
-Makefile-local-default.mk
-Makefile-variables.mk
-Package-default.bash
-project.properties
+build/*/nbproject/
+.gitignore
 _SYNCAPP/
+src/app/*/

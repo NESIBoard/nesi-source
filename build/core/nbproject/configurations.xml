@@ -2,15 +2,19 @@
 <configurationDescriptor version="62">
   <logicalFolder name="root" displayName="root" projectFiles="true">
     <logicalFolder name="f1" displayName="Documents" projectFiles="true">
-      <itemPath>../../src/COPYING</itemPath>
-      <itemPath>../../src/LICENSE</itemPath>
-      <itemPath>../../src/TODO</itemPath>
-      <itemPath>../../src/doc/PIC24 Data Sheet.pdf</itemPath>
-      <itemPath>../../src/doc/MDDFS Library Help.pdf</itemPath>
-      <itemPath>../../src/doc/C329 user manual.pdf</itemPath>
-      <itemPath>../../src/doc/C329 data sheet.pdf</itemPath>
-      <itemPath>../../src/doc/ASCII table.pdf</itemPath>
-      <itemPath>../../src/doc/NESI v1.3 Schematic.pdf</itemPath>
+      <logicalFolder name="f2" displayName="Data Sheets" projectFiles="true">
+        <itemPath>../../src/doc/data/PIC24 microcontroller data sheet.pdf</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Other" projectFiles="true">
+        <itemPath>../../src/COPYING</itemPath>
+        <itemPath>../../src/LICENSE</itemPath>
+        <itemPath>../../src/TODO</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="Reference" projectFiles="true">
+        <itemPath>../../src/doc/ref/ASCII table.pdf</itemPath>
+        <itemPath>../../src/doc/ref/MDDFS library user manual.pdf</itemPath>
+        <itemPath>../../src/doc/ref/NESI v1.3 schematic.pdf</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
