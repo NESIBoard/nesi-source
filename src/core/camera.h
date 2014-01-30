@@ -16,6 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 01/29/2014 - Mickie Byrd
+ *   Added CameraError for more descriptive error information.
+ *   .getPix() now returns CameraError.
+ */
+
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -40,6 +48,21 @@
 #include "system.h"
 
 /**
+ * CamerError used to report type of failure that occurs with camera driver.
+ */
+ typedef enum {
+    NO_ERROR,
+    NO_FILE,
+    NO_HANDSHAKE,
+    NO_SYNC,
+    NO_INITIAL,
+    NO_QUALITY,
+    NO_GET_PIC,
+    NO_DATA,
+    LOST_DATA,
+} CameraError;
+
+/**
  * Wrapper for the C329-UART camera
  */
 typedef struct {
@@ -47,7 +70,7 @@ typedef struct {
      * Takes a picture and saves it to the SD card using the passed filename
      * @param filename - as a <code>String</code> to store the image as
      */
-    int (*getPix)(String filename);
+    CameraError (*getPix)(String filename);
     //int (*getPix)(void);
     /**
      * Initializes the Camera software module

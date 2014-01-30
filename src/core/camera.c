@@ -29,6 +29,8 @@
  *   Refactored imageFile from FileStream to FSFILE*.
  *   Increased syncLimit to increase success rate.
  *   Increased power up wait time so that camera is fully ready.
+ * 01/29/2014 - Mickie Byrd
+ *   Changed retrievePic() and getPicture() to return CameraError.
  */
 
 #include "camera.h"
@@ -98,7 +100,6 @@ typedef enum CmdToken {
     QUALITY   = 0x10
 } CmdToken;
 
-
 static CameraPacket newCameraPacket(void)
 {
     static const CameraPacket emptyPacket = {{0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00}};
@@ -142,7 +143,7 @@ static Int32 bytesToGet = 0;
 static Int32 picsize = 0;
 static CameraPacket toCam, fromCam;
 
-static Sint getPicture(void)
+static CameraError getPicture(void)
 {
     toCam = newCameraPacket(),
     fromCam = newCameraPacket();
@@ -151,7 +152,7 @@ static Sint getPicture(void)
 
     //if(!imageFile.open)
     if(!imageFile)
-        return 1;
+        return NO_FILE;
 
     /* try and get sync with camera */
     while(!(fromCam.cmdToken == ACK && fromCam.parameter1 == SYNC)) // until ACK received
@@ -166,7 +167,7 @@ static Sint getPicture(void)
         if(syncTries < 7)
             ++syncTries;
         else
-            return 2;
+            return NO_HANDSHAKE;
     }
 
     /* acknowledge camera's sync request */
@@ -174,8 +175,16 @@ static Sint getPicture(void)
     toCam.cmdToken = ACK;      // acknowledge
     toCam.parameter1 = SYNC;   // the sync
 
+    syncTries = 0;
     while(!(fromCam.cmdToken == SYNC)) // wait for camera SYNC request
+    {
         fromCam = getPacket();
+
+        if(syncTries < 7)
+            ++syncTries;
+        else
+            return NO_SYNC;
+    }
 
     sendPacket(toCam);
 
@@ -191,7 +200,7 @@ static Sint getPicture(void)
     /* if camera acknowledges changes, change the UART baud rate */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == INITIAL))
-        return 3;// if reconfiguration was not successful
+        return NO_INITIAL;// if reconfiguration was not successful
 
     cameraComPort.baudrate(115200); // change UART baud rate
 
@@ -204,7 +213,7 @@ static Sint getPicture(void)
     /* if camera acknowledges change, then get an image */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == QUALITY))
-        return 4;// if reconfiguration was not successful
+        return NO_QUALITY;// if reconfiguration was not successful
 
     /* get an image */
     toCam = newCameraPacket(); // initialize packet
@@ -215,12 +224,12 @@ static Sint getPicture(void)
     /* if camera acknowledges request, then retrieve image data */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == ACK && fromCam.parameter1 == GET_PIC))
-        return 5; // if request was not successful
+        return NO_GET_PIC; // if request was not successful
 
     /* get image size */
     fromCam = getPacket();
     if(!(fromCam.cmdToken == DATA))
-        return 6; // if request was not successful
+        return NO_DATA; // if request was not successful
 
     /* read data size */
     picsize = bytesToGet = fromCam.parameter2 + fromCam.parameter3 * 0x100LL + fromCam.parameter4 * 0x10000LL;
@@ -235,6 +244,7 @@ static Sint getPicture(void)
         FSfwrite(tempBuffer, sizeof(char), tempSize, imageFile);
         bytesToGet -= tempSize; // update bytes remaining
 
+        // watch dog counter - bytes are sometimes lost...so loop will hang
         cnt = tempSize ? 0: cnt + 1;
 
         if(cnt > 200)
@@ -242,13 +252,18 @@ static Sint getPicture(void)
     }
 
     /* acknowledge that data was received */
-    toCam = newCameraPacket(); // initialize packet
-    toCam.cmdToken = ACK;      // notify the camera of successful
-    toCam.parameter1 = DATA;   // data retrieval
-    /* not needed */
+    /* NOT NEEDED */
+    //toCam = newCameraPacket(); // initialize packet
+    //toCam.cmdToken = ACK;      // notify the camera of successful
+    //toCam.parameter1 = DATA;   // data retrieval
     //sendPacket(toCam);
+
     pause(30);
-    return FALSE; // successful
+
+    if(bytesToGet)
+        return LOST_DATA; // not all camera data was gathered
+    else
+        return NO_ERROR; // successful
 
 }
 
@@ -275,7 +290,7 @@ static void initialize(void)
     imageFile = NullPtr;
 }
 
-static int retrievePic(String imgName)
+static CameraError retrievePic(String imgName)
 {
     setPowerOutput(ON);
     /**
@@ -291,7 +306,7 @@ static int retrievePic(String imgName)
     cameraComPort.baudrate(14400);
     //imageFile = getFileStream();
     imageFile = FSfopen(imgName, "w");
-    int error = -1;
+    CameraError error = NO_FILE;
 
     //if(imageFile.open)
     if(imageFile)
@@ -318,9 +333,9 @@ Boolean getStatus(void)
 }
 
 const Camera camera = {
-    getPix:retrievePic,
-    on:turnOn,
-    off:turnOff,
-    init:initialize,
-    isOk:getStatus
+    .getPix = retrievePic,
+    .on     = turnOn,
+    .off    = turnOff,
+    .init   = initialize,
+    .isOk   = getStatus
 };
