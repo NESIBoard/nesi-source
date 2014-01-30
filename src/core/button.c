@@ -16,6 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Change Log
+ *
+ * 01/30/2014 - Mickie Byrd
+ *   Changed KeyStroke capture to report number of key presses.
+ */
+
 #include "system.h"
 #include "button.h"
 
@@ -279,8 +286,11 @@ _ISR_ _T5Interrupt(void)
         case 1:
             latestKeystroke = KEYSTROKE_SINGLE;
             break;
-        case 2: default:
+        case 2: 
             latestKeystroke = KEYSTROKE_DOUBLE;
+            break;
+        default:
+            latestKeystroke = pressCount;
             break;
     }
 
