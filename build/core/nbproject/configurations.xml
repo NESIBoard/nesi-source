@@ -33,6 +33,7 @@
         <itemPath>../../src/app/main-usb_print_time.c</itemPath>
         <itemPath>../../src/app/main-usb_echo.c</itemPath>
         <itemPath>../../src/app/main-usb_debugPrint.c</itemPath>
+        <itemPath>../../src/app/main-expansion_DO.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="core" projectFiles="true">
         <itemPath>../../src/core/button.c</itemPath>
@@ -68,6 +69,8 @@
         <itemPath>../../src/core/uart2.h</itemPath>
         <itemPath>../../src/core/uart3.c</itemPath>
         <itemPath>../../src/core/uart3.h</itemPath>
+        <itemPath>../../src/core/expansion.c</itemPath>
+        <itemPath>../../src/core/expansion.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="dev" projectFiles="true">
         <itemPath>../../src/dev/Compiler.h</itemPath>
@@ -197,6 +200,8 @@
         </C30-LD>
         <C30Global>
         </C30Global>
+      </item>
+      <item path="../../src/app/main-usb_debugPrint.c" ex="true" overriding="false">
       </item>
       <item path="../../src/app/main-usb_echo.c" ex="true" overriding="false">
         <C30>

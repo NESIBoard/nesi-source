@@ -27,6 +27,7 @@
 #include "dataLog.h"
 #include "camera.h"
 #include "dateTime.h"
+#include "expansion.h"
 
 /**
  * nesi Information
